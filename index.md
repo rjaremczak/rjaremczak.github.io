@@ -1,4 +1,3 @@
-mindpart.com
 Artykuły i projekty z przeszłości i o przeszłości, wcześniej publikowane lub nie :-)
 
 # Artykuły
