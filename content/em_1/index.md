@@ -4,85 +4,62 @@ Z perspektywy współczesnych 64-bitowych, wielordzeniowych mikroprocesorów naw
 ## Kontekst
 Istnieje znany podział rozwoju techniki komputerowej, który choć arbitralny, pozwala w pewien usystematyzowany sposób zaprezentować etapy rozwoju technologii. Jest to podział na tzw. „generacje komputerów”. Te, które poprzedzają powstanie mikroprocesora Intel 4004, podano poniżej wraz z przypisanym do każdej z nich orientacyjnym zakresem dat:
 
-- zerowa generacja (do około 1942) – maszyny liczące oparte na elementach mechanicznych (np. koła zębate, przekładnie) lub elektromechanicznych (np. przekaźniki). Nie były to w sensie ścisłym komputery, lecz konstrukcje „przed komputerowe”; zalicza się do nich np. „Maszyna Różnicowa” Charlesa Babbage’a.
+- **zerowa generacja** (do około 1942) – maszyny liczące oparte na elementach mechanicznych (np. koła zębate, przekładnie) lub elektromechanicznych (np. przekaźniki). Nie były to w sensie ścisłym komputery, lecz konstrukcje „przed komputerowe”; zalicza się do nich np. „Maszyna Różnicowa” Charlesa Babbage’a.
 
-- pierwsza generacja (1942–1955) – komputery oparte na lampach elektronowych, jak np. ENIAC (uruchomienie 1945) czy UNIVAC I (1951).
+- **pierwsza generacja** (1942–1955) – komputery oparte na lampach elektronowych, jak np. ENIAC (uruchomienie 1945) czy UNIVAC I (1951).
 
-- druga generacja (1956–1964) – komputery oparte na tranzystorach. Wprowadzenie tranzystorów spowodowało bardzo szybkie wyparcie lamp elektronowych z konstrukcji komputerów. Umożliwiło to między innymi zmniejszenie ich wymiarów, poboru mocy oraz ceny przy jednoczesnym zwiększeniu szybkości. Przykładowe konstrukcje drugiej generacji to IBM 1401(1959) czy polski ZAM-41 (1961).
+- **druga generacja** (1956–1964) – komputery oparte na tranzystorach. Wprowadzenie tranzystorów spowodowało bardzo szybkie wyparcie lamp elektronowych z konstrukcji komputerów. Umożliwiło to między innymi zmniejszenie ich wymiarów, poboru mocy oraz ceny przy jednoczesnym zwiększeniu szybkości. Przykładowe konstrukcje drugiej generacji to IBM 1401(1959) czy polski ZAM-41 (1961).
 
-- trzecia generacja (1964–1970) – okres układów scalonych, czyli IC (ang. Integrated Circuit). Procesory i całe komputery są budowane z indywidualnych układów scalonych, najczęściej bipolarnych w technologii TTL (ang. *Transistor Transistor Logic* – logika tranzystorowo-tranzystorowa), są to tak zwane „minikomputery”. Znanym minikomputerem tamtych czasów jest PDP-8 firmy DEC, z 12-bitowym słowem, pamięcią ferrytową i prędkością około 0.33 MIPS (ang. *Million Instruction Per Second* – milion instrukcji na sekundę). Inną znaną konstrukcją końca trzeciej generacji jest 8-bitowy Datapoint 2200. Architektura procesora użytego w tym komputerze, wykonanego z dyskretnych układów TTL, stała się punktem wyjścia dla późniejszego mikroprocesora Intel 8008, który był z nią niemal w pełni kompatybilny.
+- **trzecia generacja** (1964–1970) – okres układów scalonych, czyli IC (ang. *Integrated Circuit*). Procesory i całe komputery są budowane z indywidualnych układów scalonych, najczęściej bipolarnych w technologii TTL (ang. *Transistor Transistor Logic* – logika tranzystorowo-tranzystorowa), są to tak zwane „minikomputery”. Znanym minikomputerem tamtych czasów jest PDP-8 firmy DEC, z 12-bitowym słowem, pamięcią ferrytową i prędkością około 0.33 MIPS (ang. *Million Instruction Per Second* – milion instrukcji na sekundę). Inną znaną konstrukcją końca trzeciej generacji jest 8-bitowy Datapoint 2200. Architektura procesora użytego w tym komputerze, wykonanego z dyskretnych układów TTL, stała się punktem wyjścia dla późniejszego mikroprocesora Intel 8008, który był z nią niemal w pełni kompatybilny.
 
+Za początek czwartej generacji uznaje się powstanie pierwszego mikroprocesora, gdyż to właśnie integracja wszystkich elementów procesora w jednej półprzewodnikowej mikrostrukturze decyduje o przynależności do tej generacji. Przyjmuje się, że pełnoprawne CPU (ang. *Central Processing Unit* – centralna jednostka obliczeniowa) składa się z ALU (ang. *Arithmetic Logic Unit* – jednostka arytmetyczno-logiczna), zestawu rejestrów, dekodera rozkazów oraz logiki sterującej koordynującej taktowanie, komunikację z pamięcią i układami I/O (ang. *Input/Output* – wejście/wyjście). Do tego czasu nie udało się umieścić w jednym układzie scalonym wszystkich tych komponentów.
 
-Za początek czwartej generacji uznaje się powstanie pierwszego mikroprocesora, gdyż to właśnie integracja wszystkich elementów procesora w jednej półprzewodnikowej mikrostrukturze decyduje o przynależności do tej generacji. Przyjmuje się, że pełnoprawne CPU (ang. Central Processing Unit – centralna jednostka obliczeniowa) składa się z ALU (ang. *Arithmetic Logic Unit* – jednostka arytmetyczno-logiczna), zestawu rejestrów, dekodera rozkazów oraz logiki sterującej koordynującej taktowanie, komunikację z pamięcią i układami I/O (ang. Input/Output – wejście/wyjście). Do tego czasu nie udało się umieścić w jednym układzie scalonym wszystkich tych komponentów.
+Zwiększenie gęstości upakowania tranzystorów bipolarnych napotykało na kilka technologicznych barier, jedną z nich było odprowadzanie ciepła. Układy typu MOS (ang. *Metal Oxide Semiconductor* – metal-tlenek-półprzewodnik) dzięki niskiemu poborowi mocy pozwalały ominąć ten problem, były jednak wówczas zbyt wolne. Wprowadzenie metody SGT (ang. *Silicon Gate Technology* – technologia bramki krzemowej) umożliwiło wytwarzanie gęściej upakowanych, tańszych i szybszych układów MOS. Skutkiem tego było powstanie układów o dużym stopniu scalenia, czyli LSI (ang. *Large Scale of Integration*).
 
-Zwiększenie gęstości upakowania tranzystorów bipolarnych napotykało na kilka technologicznych barier, jedną z nich było odprowadzanie ciepła. Układy typu MOS (ang. *Metal Oxide Semiconductor* – metal-tlenek-półprzewodnik) dzięki niskiemu poborowi mocy pozwalały ominąć ten problem, były jednak wówczas zbyt wolne. Wprowadzenie metody SGT (ang. *Silicon Gate Technology* – technologia bramki krzemowej) umożliwiło wytwarzanie gęściej upakowanych, tańszych i szybszych układów MOS. Skutkiem tego było powstanie układów o dużym stopniu scalenia, czyli LSI (ang. Large Scale of Integration).
-
-Oficjalnie Intel 4004 jest uznawany za pierwszy komercyjnie dostępny mikroprocesor, pozostały jednak w tej kwestii pewne kontrowersje. Istniała wcześniejsza, bardziej zaawansowana konstrukcja MP944, będąca pełnoprawnym mikroprocesorem, wykonanym w technologii MOS. Był to jednak element wojskowego projektu, całkowicie utajniony, wykorzystywany w systemie awioniki (CADC – ang. Central Air Data Computer) myśliwca F-14 Tomcat. Nie był to więc produkt komercyjny. Innym pretendentem do pierwszego miejsca był układ AL1 firmy Four-Phase Systems. Nie był to jednak CPU w pełnym tego słowa znaczeniu, zawierał tylko ALU i zestaw rejestrów, nie zawierał natomiast logiki sterującej. Nie można zapomnieć też o TMS0100 (później przemianowanym na TMS1802NC) firmy Texas Instruments. Był to w zasadzie tzw. kalkulator w jednym układzie (ang. *Calculator on a Chip*), był on też znacznie mniej wszechstronną konstrukcją od Intel 4004, a jego komercyjny debiut miał miejsce kilka miesięcy później.
+Oficjalnie Intel 4004 jest uznawany za pierwszy komercyjnie dostępny mikroprocesor, pozostały jednak w tej kwestii pewne kontrowersje. Istniała wcześniejsza, bardziej zaawansowana konstrukcja MP944, będąca pełnoprawnym mikroprocesorem, wykonanym w technologii MOS. Był to jednak element wojskowego projektu, całkowicie utajniony, wykorzystywany w systemie awioniki (CADC – ang. *Central Air Data Computer*) myśliwca F-14 Tomcat. Nie był to więc produkt komercyjny. Innym pretendentem do pierwszego miejsca był układ AL1 firmy Four-Phase Systems. Nie był to jednak CPU w pełnym tego słowa znaczeniu, zawierał tylko ALU i zestaw rejestrów, nie zawierał natomiast logiki sterującej. Nie można zapomnieć też o TMS0100 (później przemianowanym na TMS1802NC) firmy Texas Instruments. Był to w zasadzie tzw. kalkulator w jednym układzie (ang. *Calculator on a Chip*), był on też znacznie mniej wszechstronną konstrukcją od Intel 4004, a jego komercyjny debiut miał miejsce kilka miesięcy później.
 
 ## Czwarta generacja
 Autorem projektu układu mikroprocesora Intel 4004 był Federico Faggin, zatrudniony w firmie Intel w kwietniu 1970 jako projektant i kierownik zespołu. W strukturze pierwszych serii tych mikroprocesorów, jako podpis, umieścił on swoje inicjały. W pełni funkcjonalny produkt został przekazany do produkcji w marcu 1971 roku. 
 
-Początkowo Intel 4004 miał być „sercem” kalkulatora programowalnego Busicom model 141-PF; był to produkt japońskiej firmy o tej samej nazwie. Firma Intel nie zamierzała projektować mikroprocesora ogólnego przeznaczenia, miał to być projekt „skrojony” pod konkretnego kontrahenta i konkretną linię produktów. Oryginalny projekt firmy Busicom opierał się na układzie logicznym złożonym z bramek i prostych bloków funkcjonalnych, jak liczniki, zatrzaski itd. (ang. random logic). Był to, używając współczesnej terminologii, projekt zdefiniowany sprzętowo. Składał się z kilku układów scalonych w dużych obudowach z 36 lub 40 wyprowadzeniami, zawierających od 3000 do 5000 tranzystorów każdy. Dla porównania Intel 4004 miał 16 wyprowadzeń i składał się z około 2300 tranzystorów. 
-
+Początkowo Intel 4004 miał być „sercem” kalkulatora programowalnego Busicom model 141-PF; był to produkt japońskiej firmy o tej samej nazwie. Firma Intel nie zamierzała projektować mikroprocesora ogólnego przeznaczenia, miał to być projekt „skrojony” pod konkretnego kontrahenta i konkretną linię produktów. Oryginalny projekt firmy Busicom opierał się na układzie logicznym złożonym z bramek i prostych bloków funkcjonalnych, jak liczniki, zatrzaski itd. (ang. *random logic*). Był to, używając współczesnej terminologii, projekt zdefiniowany sprzętowo. Składał się z kilku układów scalonych w dużych obudowach z 36 lub 40 wyprowadzeniami, zawierających od 3000 do 5000 tranzystorów każdy. Dla porównania Intel 4004 miał 16 wyprowadzeń i składał się z około 2300 tranzystorów. 
 
 ![Wersja OEM kalkulatora Busicom 141-PF](Unicom_141P_Calculator_3.jpg)
 Rysunek 1. Wersja OEM kalkulatora Busicom 141-PF
 
 
-Faggin był, jak sam później przyznał, porażony poziomem komplikacji projektu opracowanego w firmie Busicom, postanowił więc przedstawić własne rozwiązanie. Pomimo tego, że projekt został zaakceptowany, firma Intel nie dostrzegła potencjału i elastyczności, jaką dawało oparcie się na oprogramowaniu, które można modyfikować bez konieczności zmian w sprzęcie. Faggin prowadził swojego rodzaju krucjatę wewnątrz firmy Intel, która ostatecznie zakończyła się sukcesem – Intel odkupił prawa do wykorzystania mikroprocesora od firmy Busicom i tak powstała 4-bitowa rodzina układów MCS-4 (ang. Micro-Computer Set - 4). Była to pierwsza komercyjna alternatywa dla projektów opartych na logice zdefiniowanej sprzętowo.
+Faggin był, jak sam później przyznał, porażony poziomem komplikacji projektu opracowanego w firmie Busicom, postanowił więc przedstawić własne rozwiązanie. Pomimo tego, że projekt został zaakceptowany, firma Intel nie dostrzegła potencjału i elastyczności, jaką dawało oparcie się na oprogramowaniu, które można modyfikować bez konieczności zmian w sprzęcie. Faggin prowadził swojego rodzaju krucjatę wewnątrz firmy Intel, która ostatecznie zakończyła się sukcesem – Intel odkupił prawa do wykorzystania mikroprocesora od firmy Busicom i tak powstała 4-bitowa rodzina układów MCS-4 (ang. *Micro-Computer Set - 4*). Była to pierwsza komercyjna alternatywa dla projektów opartych na logice zdefiniowanej sprzętowo.
 
 ## Model programowy i mikroarchitektura
-
 Należy z całą stanowczością podkreślić, że pomimo 4-bitowej architektury Intel 4004 był kompletnym mikroprocesorem, nie mającym w sobie nic z zabawki. W dalszym ciągu tego artykułu, po bardziej szczegółowym opisaniu mikroarchitektury, modelu programowego i omówieniu listy rozkazów, wszechstronny charakter tej konstrukcji stanie się widoczny. 
-Pierwotnym zastosowaniem Intel 4004 miał być kalkulator wraz z całym ekosystemem i peryferiami, w związku z tym jego architektura była zorientowana na przetwarzanie pojedynczych cyfr dziesiętnych. Do tego celu doskonale nadaje się kodowanie BCD (ang. Binary Coded Decimal – binarnie zakodowane liczby dziesiętne), gdzie każdej cyfrze dziesiętnej odpowiada 4-bitowa liczba dwójkowa, czyli tzw. nibble – półbajt. Dlatego podstawowa porcja danych w tej architekturze ma rozmiar 4 bitów. Słowo natomiast jest zdefiniowane jako 8 bitów, czyli jeden bajt. Podstawowa charakterystyka Intel 4004 wygląda następująco:
+Pierwotnym zastosowaniem Intel 4004 miał być kalkulator wraz z całym ekosystemem i peryferiami, w związku z tym jego architektura była zorientowana na przetwarzanie pojedynczych cyfr dziesiętnych. Do tego celu doskonale nadaje się kodowanie BCD (ang. *Binary Coded Decimal* – binarnie zakodowane liczby dziesiętne), gdzie każdej cyfrze dziesiętnej odpowiada 4-bitowa liczba dwójkowa, czyli tzw. nibble – półbajt. Dlatego podstawowa porcja danych w tej architekturze ma rozmiar 4 bitów. Słowo natomiast jest zdefiniowane jako 8 bitów, czyli jeden bajt. Podstawowa charakterystyka Intel 4004 wygląda następująco:
 
-data wprowadzenia do produkcji
-1971.11.15
-ilość tranzystorów
-2300
-technologia
-10 μm
-częstotliwość taktowania
-0.740 MHz
-cykl maszynowy
-10.8 μs ( 8 cykli zegarowych)
-indeks prędkości
-0.095 MIPS
-dodawanie 64-bitowe
-613 operacje / s
-rozmiar danych
-4 bity
-rozmiar instrukcji
-8 lub 16 bitów
-licznik programu
-12 bitów
-stos adresowy
-3 x 12 bitów (bufor cykliczny)
-rejestry ogólnego przeznaczenia
-16 rejestrów 4-bitowych
-akumulator
-4 bity
-flagi
-C – przeniesienie
-pamięć programu
-4 KiB (12-bitowy adres)
-pamięć RAM
-620 B (1280 x 4b) – bezpośrednio
-1240 B (2560 x 4b) – z zew. dekoderem
-porty wyjściowe
-64 bity – bezpośrednio
-128 bitów – z zew. dekoderem
-porty wejścia/wyjścia
-64 bity
-całkowita liczba instrukcji
-46
-architektura
-oddzielna pamięć danych i programu (Harwardzka) z multipleksowaną szyną danych i programu
+|                                |             |
+| ------------------------------ | ----------: |
+| data wprowadzenia do produkcji | 1971.11.15 |
+| ilość tranzystorów | 2300 |
+| technologia | 10 μm |
+| częstotliwość taktowania | 0.740 MHz |
+| cykl maszynowy | 10.8 μs (8 cykli zegara) |
+| indeks prędkości |0.095 MIPS |
+| dodawanie 64-bitowe | 613 op/s |
+| rozmiar danych | 4 bity |
+| rozmiar instrukcji | 8 lub 16 bitów |
+| licznik programu |12 bitów |
+| stos adresowy | 3 x 12 bitów (bufor cykliczny) |
+| rejestry ogólnego przeznaczenia | 16 rejestrów 4-bitowych |
+| akumulator | 4 bity |
+| flagi | C – przeniesienie |
+| pamięć programu | 4 KiB (12-bitowy adres) |
+| pamięć RAM | 620 B (1280 x 4b) – bezpośrednio, 1240 B (2560 x 4b) – z zew. dekoderem |
+| porty wyjściowe | 64 bity – bezpośrednio, 128 bitów – z zew. dekoderem |
+| porty wejścia/wyjścia | 64 bity |
+| całkowita liczba instrukcji | 46 |
+| architektura | oddzielna pamięć danych i programu (Harwardzka) z multipleksowaną szyną danych i programu |
+| | |
 
-Parametry ilościowe, jak np. indeks prędkości, są podane orientacyjnie lub prezentują wartości maksymalne. Porównywanie ilościowe różnorakiego rodzaju mikroprocesorów zawsze nastręcza trudności, ma charakter przybliżony i mocno zależy od konkretnych przypadków użycia. 
+Parametry ilościowe, jak np. indeks prędkości, są podane orientacyjnie lub prezentują wartości maksymalne. Porównywanie ilościowe różnorakiego rodzaju mikroprocesorów zawsze nastręcza trudności, ma charakter przybliżony i mocno zależy od konkretnych przypadków użycia. Poglądowy schemat architektury wewnętrznej zaprezentowano na Rysunku 2. 
 
-Poglądowy schemat architektury wewnętrznej zaprezentowano na Rysunku 2. 
-
+![Intel 4004 cpu](intel_4004_cpu.png)
 Rysunek 2. Schemat blokowy architektury mikroprocesora Intel 4004
 
 Do stworzenia kompletnego, uniwersalnego systemu komputerowego, oprócz mikroprocesora, potrzebne są jeszcze układy zewnętrzne, takie jak pamięć danych, pamięć programu oraz układy wejścia/wyjścia. W związku z tym powstała rodzina układów pod wspólną nazwą MCS-4. Składała się ona z następujących elementów:
