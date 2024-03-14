@@ -1,5 +1,5 @@
-# Artykuły
-Artykuły publikowane w prasie.
+# Artykuły i projekty
+Projekty oraz artykuły - również publikowane w prasie.
 
 ## Intel 4004 -  początek czwartej generacji
 Z perspektywy współczesnych 64-bitowych, wielordzeniowych mikroprocesorów nawet konstrukcje 16-bitowe wydają się archaiczne. Komputery 8-bitowe lat 70-tych i 80-tych XX wieku wyglądają jak zabawki, mające tylko wartość sentymentalną. Przy nich Intel 4004, konstrukcja 4-bitowa, prezentuje się już tylko groteskowo i prymitywnie. Jednak przy przetwarzaniu liczb dziesiętnych podstawową porcją danych jest pojedyncza cyfra, a ta daje się doskonale zapisać właśnie na 4 bitach.
@@ -26,14 +26,7 @@ Języki programowania wywodzące się od C mają w dalszym ciągu wielu zwolenni
 ## Sprzęgacz kierunkowy - jak i dlaczego to działa
 W trakcie prac nad uniwersalnym urządzeniem pomiarowym „radiotester”, opisanym we wcześniejszych numerach ŚR, zetknąłem się z problemem pomiaru współczynnika dopasowania VSWR. Jednym z głównych elementów układu pomiarowego jest sprzęgacz kierunkowy. Było dla mnie zagadką, jak prosty układ zawierający dwa transformatory, jest w stanie wydzielić z sygnału falę padającą i falę odbitą.
 
-# Projekty
-Projekty, w większości open-source.
+## Radio-4 - transceiver LoRa sterowany przez interface szeregowy
 
-## mo65x - emulator 6502/6510 napisany w C++ z wykorzystaniem Qt
-Emulator opisywany w artykule *"Mikroprocesor w stylu retro"* z GUI zrealizowanym za pomocą biblioteki Qt.
-
-## mo65x-rs - emulator procesora 6502/6510 napisany w języku Rust
-Emulator o podobnej funkcjonalności jak **mo65x** zaimplementowany w języku Rust z interface-em tekstowym.
-
-## Radiotester - uniwersalne urządzenie pomiarowe
+## Radio-3 - Radiotester, uniwersalne urządzenie pomiarowe
 Uniwersalne urządzenie pomiarowe typu wobuloskop z kilkoma sondami pomiarowymi wraz z oprogramowaniem na komputer osobisty.
