@@ -26,36 +26,35 @@ Początkowo Intel 4004 miał być „sercem” kalkulatora programowalnego Busic
 ![Wersja OEM kalkulatora Busicom 141-PF](Unicom_141P_Calculator_3.jpg)
 Rysunek 1. Wersja OEM kalkulatora Busicom 141-PF
 
-
 Faggin był, jak sam później przyznał, porażony poziomem komplikacji projektu opracowanego w firmie Busicom, postanowił więc przedstawić własne rozwiązanie. Pomimo tego, że projekt został zaakceptowany, firma Intel nie dostrzegła potencjału i elastyczności, jaką dawało oparcie się na oprogramowaniu, które można modyfikować bez konieczności zmian w sprzęcie. Faggin prowadził swojego rodzaju krucjatę wewnątrz firmy Intel, która ostatecznie zakończyła się sukcesem – Intel odkupił prawa do wykorzystania mikroprocesora od firmy Busicom i tak powstała 4-bitowa rodzina układów MCS-4 (ang. *Micro-Computer Set - 4*). Była to pierwsza komercyjna alternatywa dla projektów opartych na logice zdefiniowanej sprzętowo.
 
 ## Model programowy i mikroarchitektura
 Należy z całą stanowczością podkreślić, że pomimo 4-bitowej architektury Intel 4004 był kompletnym mikroprocesorem, nie mającym w sobie nic z zabawki. W dalszym ciągu tego artykułu, po bardziej szczegółowym opisaniu mikroarchitektury, modelu programowego i omówieniu listy rozkazów, wszechstronny charakter tej konstrukcji stanie się widoczny. 
 Pierwotnym zastosowaniem Intel 4004 miał być kalkulator wraz z całym ekosystemem i peryferiami, w związku z tym jego architektura była zorientowana na przetwarzanie pojedynczych cyfr dziesiętnych. Do tego celu doskonale nadaje się kodowanie BCD (ang. *Binary Coded Decimal* – binarnie zakodowane liczby dziesiętne), gdzie każdej cyfrze dziesiętnej odpowiada 4-bitowa liczba dwójkowa, czyli tzw. nibble – półbajt. Dlatego podstawowa porcja danych w tej architekturze ma rozmiar 4 bitów. Słowo natomiast jest zdefiniowane jako 8 bitów, czyli jeden bajt. Podstawowa charakterystyka Intel 4004 wygląda następująco:
 
-|                                |             |
-| ------------------------------ | ----------: |
-| data wprowadzenia do produkcji | 1971.11.15 |
-| ilość tranzystorów | 2300 |
-| technologia | 10 μm |
-| częstotliwość taktowania | 0.740 MHz |
-| cykl maszynowy | 10.8 μs (8 cykli zegara) |
-| indeks prędkości |0.095 MIPS |
-| dodawanie 64-bitowe | 613 op/s |
-| rozmiar danych | 4 bity |
-| rozmiar instrukcji | 8 lub 16 bitów |
-| licznik programu |12 bitów |
-| stos adresowy | 3 x 12 bitów (bufor cykliczny) |
-| rejestry ogólnego przeznaczenia | 16 rejestrów 4-bitowych |
-| akumulator | 4 bity |
-| flagi | C – przeniesienie |
-| pamięć programu | 4 KiB (12-bitowy adres) |
-| pamięć RAM | 620 B (1280 x 4b) – bezpośrednio, 1240 B (2560 x 4b) – z zew. dekoderem |
-| porty wyjściowe | 64 bity – bezpośrednio, 128 bitów – z zew. dekoderem |
-| porty wejścia/wyjścia | 64 bity |
-| całkowita liczba instrukcji | 46 |
-| architektura | oddzielna pamięć danych i programu (Harwardzka) z multipleksowaną szyną danych i programu |
-| | |
+|                                 |                                                                                           |
+| ------------------------------- | ----------------------------------------------------------------------------------------: |
+| data wprowadzenia do produkcji  |                                                                                1971.11.15 |
+| ilość tranzystorów              |                                                                                      2300 |
+| technologia                     |                                                                                     10 μm |
+| częstotliwość taktowania        |                                                                                 0.740 MHz |
+| cykl maszynowy                  |                                                                  10.8 μs (8 cykli zegara) |
+| indeks prędkości                |                                                                                0.095 MIPS |
+| dodawanie 64-bitowe             |                                                                                  613 op/s |
+| rozmiar danych                  |                                                                                    4 bity |
+| rozmiar instrukcji              |                                                                            8 lub 16 bitów |
+| licznik programu                |                                                                                  12 bitów |
+| stos adresowy                   |                                                            3 x 12 bitów (bufor cykliczny) |
+| rejestry ogólnego przeznaczenia |                                                                   16 rejestrów 4-bitowych |
+| akumulator                      |                                                                                    4 bity |
+| flagi                           |                                                                         C – przeniesienie |
+| pamięć programu                 |                                                                   4 KiB (12-bitowy adres) |
+| pamięć RAM                      |                   620 B (1280 x 4b) – bezpośrednio, 1240 B (2560 x 4b) – z zew. dekoderem |
+| porty wyjściowe                 |                                      64 bity – bezpośrednio, 128 bitów – z zew. dekoderem |
+| porty wejścia/wyjścia           |                                                                                   64 bity |
+| całkowita liczba instrukcji     |                                                                                        46 |
+| architektura                    | oddzielna pamięć danych i programu (Harwardzka) z multipleksowaną szyną danych i programu |
+|                                 |                                                                                           |
 
 Parametry ilościowe, jak np. indeks prędkości, są podane orientacyjnie lub prezentują wartości maksymalne. Porównywanie ilościowe różnorakiego rodzaju mikroprocesorów zawsze nastręcza trudności, ma charakter przybliżony i mocno zależy od konkretnych przypadków użycia. Poglądowy schemat architektury wewnętrznej zaprezentowano na Rysunku 2. 
 
@@ -78,21 +77,19 @@ Standardowym rozmiarem instrukcji jest 8-bitów, dlatego w przypadku ROM komórk
 
 O ile pamięć programu (ROM) jest adresowana w jednolity sposób, za pomocą 12-bitowego adresu, to dostęp do pamięci danych (RAM) oraz portów zewnętrznych jest realizowany w sposób dużo bardziej skomplikowany. Pojedyncze moduły pamięci są logicznie pogrupowane w tzw. banki – każdy bank zawiera 4 układy. Cały system może zawierać maksymalnie 8 takich banków. Jednak do osiągnięcia maksymalnej liczby banków konieczne jest wykorzystanie układów pomocniczych, samodzielnie Intel 4004 może obsłużyć do 4 banków. 
 
-Struktura pamięci RAM pokazana jest na Rysunku 3.
-
-
+![Architektura pamieci](architektura_pamieci.png)
 Rysunek 3. Struktura pamięci danych (RAM) w systemie MCS-4
 
 Adresowanie pamięci podzielone jest na etapy. W pierwszej kolejności numer banku wystawiany jest za pomocą instrukcji DCL na zewnętrzne linie CM-RAM0..3, co bezpośrednio umożliwia wybranie jednego z czterech układów Intel 4002.
 
-Jak pokazano na Rysunku 3, pojedynczy układ pamięci RAM podzielony jest logicznie na cztery rejestry. Pojedynczy rejestr jest natomiast zaprojektowany tak, by dało się w nim zapamiętać wielocyfrową, dziesiętną liczbę w kodzie BCD. Zgodnie z pierwotnymi założeniami projektu podstawową funkcjonalnością miało być dokonywanie obliczeń na liczbach dziesiętnych, całkowitych i zmiennoprzecinkowych. Te ostatnie nie są realizowane sprzętowo, jednak układ pamięci jest zaprojektowany tak, by ułatwić ich programową implementację. Przykładowe wykorzystanie rejestru w tym celu pokazane jest na Rysunku 4.
+Jak pokazano na Rysunku 3, pojedynczy układ pamięci RAM podzielony jest logicznie na cztery rejestry. Pojedynczy rejestr jest natomiast zaprojektowany tak, by dało się w nim zapamiętać wielocyfrową, dziesiętną liczbę w kodzie BCD. Zgodnie z pierwotnymi założeniami projektu podstawową funkcjonalnością miało być dokonywanie obliczeń na liczbach dziesiętnych, całkowitych i zmiennoprzecinkowych. Te ostatnie nie są realizowane sprzętowo, jednak układ pamięci jest zaprojektowany tak, by ułatwić ich programową implementację.
 
-
+![Struktura rejestru danych](struktura_rejestru_danych.png)
 Rysunek 4. Struktura rejestru danych i przykład jej wykorzystania do przechowywania liczby zmiennoprzecinkowej ze znakiem
 
+Porty wejścia/wyjścia są zintegrowane z układami pamięci RAM i ROM. Każdy z nich ma jeden 4-bitowy port: w przypadku RAM (Intel 4002) jest to port wyjściowy, w przypadku ROM (Intel 4001) jest to port wejścia/wyjścia. Do zaadresowania portu w pamięci RAM wystarczy więc wybranie banku i układu, natomiast w przypadku ROM tylko samego układu.
 
-Porty wejścia/wyjścia są zintegrowane z układami pamięci RAM i ROM. Każdy z nich ma jeden 4-bitowy port: w przypadku RAM (Intel 4002) jest to port wyjściowy, w przypadku ROM (Intel 4001) jest to port wejścia/wyjścia. Do zaadresowania portu w pamięci RAM wystarczy więc wybranie banku i układu, natomiast w przypadku ROM tylko samego układu. Schemat adresowania pokazany jest na Rysunku 5.
-
+![Sposoby adresowania](sposoby_adresowania.png)
 Rysunek 5. Sposoby adresowania komórek danych i statusu w pamięci RAM oraz portów zintegrowanych z modułami pamięci RAM i ROM
 
 Sam model programowy ISA (ang. Instruction Set Architecture) nie jest bardzo rozbudowany, jest jednak na tyle złożony, że można by, zdaniem autora, zaliczyć go do klasy CISC (ang. Complex Instruction Set Computing – złożony zestaw instrukcji przetwarzania). Jest tak między innymi dlatego, że występują w nim instrukcje operujące bezpośrednio na komórkach pamięci (a nie tylko rejestrach) oraz instrukcje złożone, realizujące więcej niż jedną funkcjonalność. 
@@ -117,10 +114,12 @@ wybrany adres pamięci RAM, ROM lub portu I/O – 8-bitowy adres, którego inter
 
 Instrukcje mają rozmiar 8 lub 16 bitów, pobranie jednego bajtu z pamięci ROM i jego przetworzenie zabiera jeden pełny cykl maszynowy. Dlatego czas wykonania instrukcji 8-bitowych wynosi jeden cykl maszynowy, a 16-bitowych dwa. Format instrukcji pokazany jest na Rysunku 6.
 
+![Format instrukcji](format_instrukcji.png)
 Rysunek 6. Format instrukcji 8-bitowych i 16-bitowych
 
 Korzystając z faktu, że Intel 4004 jest konstrukcją prostą i dobrze udokumentowaną, a przy tym w pełni funkcjonalną, można się pokusić o zaprezentowanie szczegółów podstawowego cyklu maszynowego (patrz Rysunek 7).
 
+![Cykl maszynowy](cykl_maszynowy.png)
 Rysunek 7. Pojedynczy cykl maszynowy Intel 4004 i jego składowe podcykle
 
 Cykl maszynowy składa się z ośmiu podcykli, każdy z nich trwa dokładnie jeden cykl zegarowy, czyli około 1.35 µs dla zegara 0.74 MHz. 
@@ -234,18 +233,18 @@ SBM – odejmij od akumulatora zawartość komórki pamięci danych RAM wraz z p
 Ostatnią instrukcją jest wspierana chyba przez każdy istniejący procesor instrukcja NOP, która nie wykonuje żadnej operacji (ang. no operation) i służy zazwyczaj do generowania precyzyjnych opóźnień czasowych.
 
 Na zakończenie omawiania instrukcji krótki fragment kodu, który pokazuje sekwencję dostępu do pamięci danych RAM:
-
-LDM 2		; załaduj do akumulatora wartość 2
-DCL 		; wybierz bank pamięci RAM numer 2
-FIM 0P 180	; ładuj liczbę 180 do pary rejestrów 0,1
-	SRC 0P 	; ustaw adres na wartość pary 0,1 
-; dla pamięci RAM oznacza to:
-;   numer układu RAM: 2,
-;   adres rejestru: 3, 
-;   adres komórki: 4
-	LDM 12 	; wpisz do akumulatora wartość 12
-	WRM 		; wpisz wartość akumulatora do wybranej komórki RAM
-
+```asm
+LDM 2			; załaduj do akumulatora wartość 2
+DCL 			; wybierz bank pamięci RAM numer 2
+FIM 0P 180		; ładuj liczbę 180 do pary rejestrów 0,1
+SRC 0P 			; ustaw adres na wartość pary 0,1 
+				; dla pamięci RAM oznacza to:
+				;   numer układu RAM: 2,
+				;   adres rejestru: 3, 
+				;   adres komórki: 4
+LDM 12 			; wpisz do akumulatora wartość 12
+WRM 			; wpisz wartość akumulatora do wybranej komórki RAM
+```
 Jak widać, dostęp do pamięci ROM, RAM i portów I/O musi być każdorazowo poprzedzony ustawieniem odpowiedniego banku pamięci (w przypadku RAM) za pomocą instrukcji DCL oraz 8-bitowego adresu za pomocą instrukcji SRC. 
 
 ## Prosty benchmark
@@ -254,20 +253,21 @@ W celu porównania wydajności różnego rodzaju procesorów i całych systemów
 
 Na potrzeby tego artykułu została wybrana procedura dodająca liczby binarne składające się z szesnastu półbajtów. Realizuje więc operację pojedynczego, 64 bitowego, binarnego dodawania. Przed wywołaniem argumenty muszą być umieszczone w pamięci RAM pod adresami 0x00 i 0x10. Wynik zostanie umieszczony pod adresem 0x10. Para rejestrów 2P zawiera wskaźnik do aktualnie dodawanego półbajtu pierwszego argumentu, a 3P do drugiego.
 
-FIM 2P 0	; para 2 <- adr. początku pierwszego argumentu
-FIM 3P 16	; para 3 <- adr. początku drugiego argumentu
-CLB		; wyzeruj akumulator i znacznik przeniesienia
-XCH 8		; wyzeruj rejestr 8 - licznik półbajtów
-NAST	SRC 2P	; wybierz adres półbajtu pierwszego argumentu
-RDM		; załaduj wybrany półbajt do akumulatora
-SRC 3P	; wybierz adres półbajtu drugiego argumentu
-ADM		; dodaj wybrany półbajt do akumulatora
-WRM		; zapisz wynik w miejsce półbajtu drugiego argumentu
-INC 5		; zwiększ adres półbajtu pierwszego argumentu
-INC 7		; zwiększ adres półbajtu drugiego argumentu
-ISZ 8 NAST	; zwiększ licznik półbajtów, jeśli < 16 skocz do NAST
-BBL 0		; powrót z podprogramu z kodem 0
-
+```asm
+FIM 2P 0		; para 2 <- adr. początku pierwszego argumentu
+FIM 3P 16		; para 3 <- adr. początku drugiego argumentu
+CLB				; wyzeruj akumulator i znacznik przeniesienia
+XCH 8			; wyzeruj rejestr 8 - licznik półbajtów
+NAST SRC 2P		; wybierz adres półbajtu pierwszego argumentu
+RDM				; załaduj wybrany półbajt do akumulatora
+SRC 3P			; wybierz adres półbajtu drugiego argumentu
+ADM				; dodaj wybrany półbajt do akumulatora
+WRM				; zapisz wynik w miejsce półbajtu drugiego argumentu
+INC 5			; zwiększ adres półbajtu pierwszego argumentu
+INC 7			; zwiększ adres półbajtu drugiego argumentu
+ISZ 8 NAST		; zwiększ licznik półbajtów, jeśli < 16 skocz do NAST
+BBL 0			; powrót z podprogramu z kodem 0
+```
 Sumaryczny czas wykonania to, jak można obliczyć, 2 + 2 + 1 + 1 + 16 x (1 + 1 + 1 + 1 + 1 + 1 + 1 + 2) + 1 = 151 cykli maszynowych. Daje to około 613 dodawań 64-bitowych na sekundę.
 
 ## Następcy
