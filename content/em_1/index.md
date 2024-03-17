@@ -234,16 +234,16 @@ Ostatnią instrukcją jest wspierana chyba przez każdy istniejący procesor ins
 
 Na zakończenie omawiania instrukcji krótki fragment kodu, który pokazuje sekwencję dostępu do pamięci danych RAM:
 ```asm
-LDM 2			; załaduj do akumulatora wartość 2
-DCL 			; wybierz bank pamięci RAM numer 2
-FIM 0P 180		; ładuj liczbę 180 do pary rejestrów 0,1
-SRC 0P 			; ustaw adres na wartość pary 0,1 
-				; dla pamięci RAM oznacza to:
-				;   numer układu RAM: 2,
-				;   adres rejestru: 3, 
-				;   adres komórki: 4
-LDM 12 			; wpisz do akumulatora wartość 12
-WRM 			; wpisz wartość akumulatora do wybranej komórki RAM
+		LDM 2			; załaduj do akumulatora wartość 2
+		DCL 			; wybierz bank pamięci RAM numer 2
+		FIM 0P 180		; ładuj liczbę 180 do pary rejestrów 0,1
+		SRC 0P 			; ustaw adres na wartość pary 0,1 
+						; dla pamięci RAM oznacza to:
+						;   numer układu RAM: 2,
+						;   adres rejestru: 3, 
+						;   adres komórki: 4
+		LDM 12 			; wpisz do akumulatora wartość 12
+		WRM 			; wpisz wartość akumulatora do wybranej komórki RAM
 ```
 Jak widać, dostęp do pamięci ROM, RAM i portów I/O musi być każdorazowo poprzedzony ustawieniem odpowiedniego banku pamięci (w przypadku RAM) za pomocą instrukcji DCL oraz 8-bitowego adresu za pomocą instrukcji SRC. 
 
@@ -254,19 +254,19 @@ W celu porównania wydajności różnego rodzaju procesorów i całych systemów
 Na potrzeby tego artykułu została wybrana procedura dodająca liczby binarne składające się z szesnastu półbajtów. Realizuje więc operację pojedynczego, 64 bitowego, binarnego dodawania. Przed wywołaniem argumenty muszą być umieszczone w pamięci RAM pod adresami 0x00 i 0x10. Wynik zostanie umieszczony pod adresem 0x10. Para rejestrów 2P zawiera wskaźnik do aktualnie dodawanego półbajtu pierwszego argumentu, a 3P do drugiego.
 
 ```asm
-FIM 2P 0		; para 2 <- adr. początku pierwszego argumentu
-FIM 3P 16		; para 3 <- adr. początku drugiego argumentu
-CLB				; wyzeruj akumulator i znacznik przeniesienia
-XCH 8			; wyzeruj rejestr 8 - licznik półbajtów
-NAST SRC 2P		; wybierz adres półbajtu pierwszego argumentu
-RDM				; załaduj wybrany półbajt do akumulatora
-SRC 3P			; wybierz adres półbajtu drugiego argumentu
-ADM				; dodaj wybrany półbajt do akumulatora
-WRM				; zapisz wynik w miejsce półbajtu drugiego argumentu
-INC 5			; zwiększ adres półbajtu pierwszego argumentu
-INC 7			; zwiększ adres półbajtu drugiego argumentu
-ISZ 8 NAST		; zwiększ licznik półbajtów, jeśli < 16 skocz do NAST
-BBL 0			; powrót z podprogramu z kodem 0
+		FIM 2P 0		; para 2 <- adr. początku pierwszego argumentu
+		FIM 3P 16		; para 3 <- adr. początku drugiego argumentu
+		CLB				; wyzeruj akumulator i znacznik przeniesienia
+		XCH 8			; wyzeruj rejestr 8 - licznik półbajtów
+NAST 	SRC 2P			; wybierz adres półbajtu pierwszego argumentu
+		RDM				; załaduj wybrany półbajt do akumulatora
+		SRC 3P			; wybierz adres półbajtu drugiego argumentu
+		ADM				; dodaj wybrany półbajt do akumulatora
+		WRM				; zapisz wynik w miejsce półbajtu drugiego argumentu
+		INC 5			; zwiększ adres półbajtu pierwszego argumentu
+		INC 7			; zwiększ adres półbajtu drugiego argumentu
+		ISZ 8 NAST		; zwiększ licznik półbajtów, jeśli < 16 skocz do NAST
+		BBL 0			; powrót z podprogramu z kodem 0
 ```
 Sumaryczny czas wykonania to, jak można obliczyć, 2 + 2 + 1 + 1 + 16 x (1 + 1 + 1 + 1 + 1 + 1 + 1 + 2) + 1 = 151 cykli maszynowych. Daje to około 613 dodawań 64-bitowych na sekundę.
 
