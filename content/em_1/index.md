@@ -233,7 +233,7 @@ SBM – odejmij od akumulatora zawartość komórki pamięci danych RAM wraz z p
 Ostatnią instrukcją jest wspierana chyba przez każdy istniejący procesor instrukcja NOP, która nie wykonuje żadnej operacji (ang. no operation) i służy zazwyczaj do generowania precyzyjnych opóźnień czasowych.
 
 Na zakończenie omawiania instrukcji krótki fragment kodu, który pokazuje sekwencję dostępu do pamięci danych RAM:
-```asm
+```assembly
 		LDM 2			; załaduj do akumulatora wartość 2
 		DCL 			; wybierz bank pamięci RAM numer 2
 		FIM 0P 180		; ładuj liczbę 180 do pary rejestrów 0,1
@@ -253,7 +253,7 @@ W celu porównania wydajności różnego rodzaju procesorów i całych systemów
 
 Na potrzeby tego artykułu została wybrana procedura dodająca liczby binarne składające się z szesnastu półbajtów. Realizuje więc operację pojedynczego, 64 bitowego, binarnego dodawania. Przed wywołaniem argumenty muszą być umieszczone w pamięci RAM pod adresami 0x00 i 0x10. Wynik zostanie umieszczony pod adresem 0x10. Para rejestrów 2P zawiera wskaźnik do aktualnie dodawanego półbajtu pierwszego argumentu, a 3P do drugiego.
 
-```asm
+```assembly
 		FIM 2P 0		; para 2 <- adr. początku pierwszego argumentu
 		FIM 3P 16		; para 3 <- adr. początku drugiego argumentu
 		CLB				; wyzeruj akumulator i znacznik przeniesienia
