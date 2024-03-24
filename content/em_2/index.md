@@ -129,50 +129,28 @@ Sama obsługa przerwań została również znacznie rozbudowana, lecz jej potenc
 
 Podstawowa specyfikacja i8080 przedstawiona jest poniżej.
 
-|                               |                                    |
-| ----------------------------- | ---------------------------------- |
-| rok wprowadzenia do produkcji | 1974                               |
-| ilość tranzystorów            | 6000                               |
-| częstotliwość taktowania      | 2.0 MHz (cykl zegarowy: 0.5 μs)    |
-| cykl instrukcji               | 2 - 9 μs (4 - 18 cykli zegarowych) |
-| indeks prędkości              | 0.5 MIPS                           |
-dodawanie 64-bitowe
-5012 / s
-efektywność architektury
-835
-rozmiar danych
-1 bajt (8 bitów)
-rozmiar instrukcji
-1,2 lub 3 bajty
-licznik programu
-16 bitów
-stos
-16-bitowy wskaźnik stosu
-rejestry
-7 rejestrów 8-bitowych ogólnego przeznaczenia
-akumulator
-8-bitowy
-znaczniki
-C - przeniesienie
-P - parzystość
-Z - zero
-S - znak
-AC - przeniesienie pomocnicze
-adresowanie pamięci
-64 KiB (16-bitowy adres)
-adresowanie portów
-wejście/wyjście: 256 x 8 bitów
-przerwania
-maskowalne
-tryby adresowania
-domyślne
-natychmiastowe (8, 16 bitów)
-rejestrowe
-pośrednie rejestrowe
-bezpośrednie
-architektura
-wspólna przestrzeń adresowa dla programu i danych (von Neumanna)
-
+|                               |                                                                           |
+| ----------------------------- | ------------------------------------------------------------------------- |
+| rok wprowadzenia do produkcji | 1974                                                                      |
+| ilość tranzystorów            | 6000                                                                      |
+| częstotliwość taktowania      | 2.0 MHz (cykl zegarowy: 0.5 μs)                                           |
+| cykl instrukcji               | 2 - 9 μs (4 - 18 cykli zegarowych)                                        |
+| indeks prędkości              | 0.5 MIPS                                                                  |
+| dodawanie 64-bitowe           | 5012 / s                                                                  |
+| efektywność architektury      | 835                                                                       |
+| rozmiar danych                | 1 bajt (8 bitów)                                                          |
+| rozmiar instrukcji            | 1,2 lub 3 bajty                                                           |
+| licznik programu              | 16 bitów                                                                  |
+| stos                          | 16-bitowy wskaźnik stosu                                                  |
+| rejestry                      | 7 rejestrów 8-bit. ogólnego przeznaczenia                                 |
+| akumulator                    | 8-bitowy                                                                  |
+| znaczniki                     | C, P, Z, S, AC                                                            |
+| adresowanie pamięci           | 64 KiB (16-bitowy adres)                                                  |
+| adresowanie portów            | wejście/wyjście: 256 x 8 bitów                                            |
+| przerwania                    | maskowalne                                                                |
+| tryby adresowania             | domyślne,  natychmiastowe (8/16 bit), rejestrowe, rejestr.pośr., bezpośr. |
+| architektura                  | wspólna przestrzeń adresowa dla programu i danych (von Neumanna)          |
+|                               |                                                                           |
 
 Rozbudowanie zestawu instrukcji i modelu programowego pozwoliło na tworzenie znacznie bardziej zwartego i wydajnego kodu niż było to możliwe w przypadku poprzedniego i8008. Widać to wyraźnie na przykładzie naszego benchmarku, czyli procedury dodającej dwie 64-bitowe liczby binarne.
 
