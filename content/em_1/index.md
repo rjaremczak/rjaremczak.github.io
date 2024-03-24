@@ -33,26 +33,26 @@ Należy z całą stanowczością podkreślić, że pomimo 4-bitowej architektury
 Pierwotnym zastosowaniem Intel 4004 miał być kalkulator wraz z całym ekosystemem i peryferiami, w związku z tym jego architektura była zorientowana na przetwarzanie pojedynczych cyfr dziesiętnych. Do tego celu doskonale nadaje się kodowanie BCD (ang. *Binary Coded Decimal* - binarnie zakodowane liczby dziesiętne), gdzie każdej cyfrze dziesiętnej odpowiada 4-bitowa liczba dwójkowa, czyli tzw. nibble - półbajt. Dlatego podstawowa porcja danych w tej architekturze ma rozmiar 4 bitów. Słowo natomiast jest zdefiniowane jako 8 bitów, czyli jeden bajt. Podstawowa charakterystyka Intel 4004 wygląda następująco:
 
 |                                 |                                                                                           |
-| ------------------------------- | ----------------------------------------------------------------------------------------: |
-| data wprowadzenia do produkcji  |                                                                                1971.11.15 |
-| ilość tranzystorów              |                                                                                      2300 |
-| technologia                     |                                                                                     10 μm |
-| częstotliwość taktowania        |                                                                                 0.740 MHz |
-| cykl maszynowy                  |                                                                  10.8 μs (8 cykli zegara) |
-| indeks prędkości                |                                                                                0.095 MIPS |
-| dodawanie 64-bitowe             |                                                                                  613 op/s |
-| rozmiar danych                  |                                                                                    4 bity |
-| rozmiar instrukcji              |                                                                            8 lub 16 bitów |
-| licznik programu                |                                                                                  12 bitów |
-| stos adresowy                   |                                                            3 x 12 bitów (bufor cykliczny) |
-| rejestry ogólnego przeznaczenia |                                                                   16 rejestrów 4-bitowych |
-| akumulator                      |                                                                                    4 bity |
-| flagi                           |                                                                         C - przeniesienie |
-| pamięć programu                 |                                                                   4 KiB (12-bitowy adres) |
-| pamięć RAM                      |                   620 B (1280 x 4b) - bezpośrednio, 1240 B (2560 x 4b) - z zew. dekoderem |
-| porty wyjściowe                 |                                      64 bity - bezpośrednio, 128 bitów - z zew. dekoderem |
-| porty wejścia/wyjścia           |                                                                                   64 bity |
-| całkowita liczba instrukcji     |                                                                                        46 |
+| ------------------------------- | ----------------------------------------------------------------------------------------- |
+| data wprowadzenia do produkcji  | 1971.11.15                                                                                |
+| ilość tranzystorów              | 2300                                                                                      |
+| technologia                     | 10 μm                                                                                     |
+| częstotliwość taktowania        | 0.740 MHz                                                                                 |
+| cykl maszynowy                  | 10.8 μs (8 cykli zegara)                                                                  |
+| indeks prędkości                | 0.095 MIPS                                                                                |
+| dodawanie 64-bitowe             | 613 op/s                                                                                  |
+| rozmiar danych                  | 4 bity                                                                                    |
+| rozmiar instrukcji              | 8 lub 16 bitów                                                                            |
+| licznik programu                | 12 bitów                                                                                  |
+| stos adresowy                   | 3 x 12 bitów (bufor cykliczny)                                                            |
+| rejestry ogólnego przeznaczenia | 16 rejestrów 4-bitowych                                                                   |
+| akumulator                      | 4 bity                                                                                    |
+| flagi                           | C - przeniesienie                                                                         |
+| pamięć programu                 | 4 KiB (12-bitowy adres)                                                                   |
+| pamięć RAM                      | 620 B (1280 x 4b) - bezpośrednio, 1240 B (2560 x 4b) - z zew. dekoderem                   |
+| porty wyjściowe                 | 64 bity - bezpośrednio, 128 bitów - z zew. dekoderem                                      |
+| porty wejścia/wyjścia           | 64 bity                                                                                   |
+| całkowita liczba instrukcji     | 46                                                                                        |
 | architektura                    | oddzielna pamięć danych i programu (Harwardzka) z multipleksowaną szyną danych i programu |
 |                                 |                                                                                           |
 

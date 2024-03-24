@@ -1,28 +1,25 @@
-8-bitów: Intel, Motorola i inni ...
+# 8-bitów: Intel, Motorola i inni ...
 Wprowadzenie mikroprocesorów na rynek komercyjny na początku lat 70-tych XX wieku  zaowocowało powstaniem najrozmaitszych systemów komputerowych, oferowanych przez wielkie firmy, jak i „garażowych”, niszowych hobbystów. Szczególnie konstrukcje 8-bitowe, jako stosunkowo proste i tanie, wyzwoliły twórczy potencjał konstruktorów. Rozgrzały także rywalizację o rynek wśród producentów mikroprocesorów.
 
-Korzenie
+## Korzenie
 
 Często dzieje się tak, że decyzje podjęte w początkowej fazie projektu, jeśli nie są skorygowane w krótkim czasie, powodują dalekosiężne i nie dające się usunąć konsekwencje. To stwierdzenie jest szczególnie prawdziwe w odniesieniu do wszelkiego rodzaju projektów IT, zwłaszcza gdy w grę wchodzi również komponent sprzętowy. Ewolucja mikroprocesorów jest tego dobrym przykładem.
 
 Podejście taktyczne, zdominowane przez chęć szybkiego poradzenia sobie z aktualnymi problemami w sposób najbardziej efektywny biznesowo, prowadzi do wytworzenia poręcznych i efektywnych rozwiązań, które można wykorzystać niemal od razu do rozwiązywania praktycznych zadań. Takie podejście zdominowało projekty mikroprocesorów firmy Intel, począwszy od pierwszego z nich, czyli i4004. Owocem takiego podejścia jest osiągnięcie w krótkim terminie przewagi na konkurencyjnym rynku. Sytuacja jednak ciągle podlega zmianom, a rozwiązania tworzone dla specyficznych potrzeb zazwyczaj trudno jest dostosować, a na pewno trudno jest zrobić to bez stopniowej degradacji pierwotnego zamysłu. Chcąc utrzymywać zgodność z istniejącymi, stworzonymi ad-hoc rozwiązaniami, trzeba dźwigać brzemię poprzednich decyzji projektowych. To, co było skuteczne przy rozwiązywaniu konkretnych problemów z przeszłości, może stać się zbędnym balastem przy opracowywaniu nowych projektów. Z czasem kolejne aktualizacje zawierają coraz więcej „protez” i „obejść” pozwalających sprostać oczekiwaniom, jednak w sposób coraz mniej efektywny i przejrzysty. Dodawane są nowe funkcje, lecz stare wciąż są dostępne, zwiększając bardzo poziom komplikacji projektu. Wskutek wzrostu złożoności wzrasta szansa wystąpienia błędów, które nie zostaną w porę wykryte. Rośnie też koszt utrzymania i konserwacji, a w przypadku mikroprocesorów wzrasta ilość tranzystorów, pobór mocy, a tym samym maleje  maksymalna częstotliwość taktowania.
 
-Alternatywna metoda to podejście, które można by nazwać bardziej „strategicznym” czy długofalowym. To sposób na generalizację i dostarczenie elastycznego rozwiązania dla pewnej klasy problemów, bez konieczności tworzenia narzędzi i metodologii specyficznych tylko dla konkretnego przypadku. Takie podejście wymaga więcej planowania, zajmuje więcej czasu i w związku z tym pojawia się później, dając się wyprzedzić innym, bardziej praktycznym i szybszym w implementacji rozwiązaniom. W długim okresie jednak zazwyczaj wygrywa elastycznością podejścia i bardziej eleganckim charakterem rozwiązania. To jest droga, którą zdaniem autora wybrali projektanci firmy Motorola. Elegancja nie jest tylko pojęciem z dziedziny mody, jest określeniem projektu, który jest czytelny, ma dobrze zdefiniowaną strukturę oraz przyporządkowanie funkcjonalności swoim komponentom. Taki projekt najczęściej jest względnie łatwo rozszerzalny, tani w utrzymaniu oraz adaptacji do różnych, czasem nieoczekiwanych potrzeb. Najczęściej jeż też mniej skomplikowany, a co za tym – idzie mniej podatny na błędy wynikające z samej  złożoności.
+Alternatywna metoda to podejście, które można by nazwać bardziej „strategicznym” czy długofalowym. To sposób na generalizację i dostarczenie elastycznego rozwiązania dla pewnej klasy problemów, bez konieczności tworzenia narzędzi i metodologii specyficznych tylko dla konkretnego przypadku. Takie podejście wymaga więcej planowania, zajmuje więcej czasu i w związku z tym pojawia się później, dając się wyprzedzić innym, bardziej praktycznym i szybszym w implementacji rozwiązaniom. W długim okresie jednak zazwyczaj wygrywa elastycznością podejścia i bardziej eleganckim charakterem rozwiązania. To jest droga, którą zdaniem autora wybrali projektanci firmy Motorola. Elegancja nie jest tylko pojęciem z dziedziny mody, jest określeniem projektu, który jest czytelny, ma dobrze zdefiniowaną strukturę oraz przyporządkowanie funkcjonalności swoim komponentom. Taki projekt najczęściej jest względnie łatwo rozszerzalny, tani w utrzymaniu oraz adaptacji do różnych, czasem nieoczekiwanych potrzeb. Najczęściej jeż też mniej skomplikowany, a co za tym - idzie mniej podatny na błędy wynikające z samej  złożoności.
 
 Wiele zależy też od przypadku i od tego, kto i w jakim czasie rozpoczął proces projektowania. Wybór prototypu na którym, z wyboru czy z konieczności, projektanci oparli swoją koncepcję ma również duże znaczenie.
 
 Aby móc w jakiś sposób ocenić liczbowo efektywność danej architektury, zaproponowano wprowadzenie autorskiego współczynnika o tej właśnie nazwie. Jest on zdefiniowany w następujący sposób:
-efektywność architektury =
-ilość 64-bitowych dodawań na sekundę
 
-ilość tranzystorów w tysiącach
-
+$$\text{efektywność architektury} = \frac{\text{ilość 64-bitowych dodawań na sekundę}}{\text{ilość tranzystorów w tysiącach}}$$
 
 Jego wartość zostanie podana w specyfikacji każdego omawianego mikroprocesora. 
 
 W specyfikacjach, przy podawaniu dostępnych trybów adresowania, nie dokonano rozróżnienia dla trybów z adresem 8- i 16-bitowym, co na potrzeby niniejszego artykułu uznano za niepotrzebną komplikację. 
 
-Droga Intela
+## Droga Intela
 
 Firma Intel zaprezentowała pierwszy, komercyjnie dostępny mikroprocesor: model i4004. Było to w 1971 roku i jego projekt był odpowiedzią na konkretny biznesowy problem, mianowicie na konieczność zastąpienia skomplikowanej i drogiej logiki kalkulatora Busicom czymś, co byłoby tańsze i jednocześnie mogące podlegać modyfikacjom w przyszłości. Architektura i4004 była zorientowana na przetwarzanie cyfr, co miało odbicie w wielu aspektach projektu. 
 
@@ -30,23 +27,20 @@ Jednocześnie w firmie Intel opracowywano projekt bardziej zaawansowanego mikrop
 
 Temu właśnie miał służyć projekt Intel 8008, nie został jednak dostarczony na czas i okazał się ostatecznie zbyt wolny. Istniejąca jednostka centralna Datapoint oferowała większą wydajność niż  i8008, projekt został więc odrzucony. Firma Datapoint (wcześniej CTC) do 1979 roku oferowała w dalszym ciągu swój model 2200 oparty na układach scalonych TTL. W ten sposób Intel pozostał właścicielem projektu  i8008, który nie zarobił na siebie ani dolara, ale mógł być teraz zaoferowany na rynku jako produkt komercyjny. 
 
-Historia początków mikroprocesorów Intela to udana próba uczynienia technologii rodem ze świata kalkulatorów i terminali technologią uniwersalnych komputerów osobistych. Przypadek i8008 pokazał, że można stworzyć mikrokomputer  uniwersalny i tani na tyle, że będzie mógł pełnić samodzielnie pewne funkcje i stać się czymś więcej niż tylko terminalem dla maszyn o większej mocy obliczeniowej. Architektura i8008 zaprezentowana została na Rysunku 1.
+Historia początków mikroprocesorów Intela to udana próba uczynienia technologii rodem ze świata kalkulatorów i terminali technologią uniwersalnych komputerów osobistych. Przypadek i8008 pokazał, że można stworzyć mikrokomputer  uniwersalny i tani na tyle, że będzie mógł pełnić samodzielnie pewne funkcje i stać się czymś więcej niż tylko terminalem dla maszyn o większej mocy obliczeniowej.
 
-
+![i8008 - Schemat blokowy](i8008_schemat_blokowy.png)
 Rysunek 1. Schemat blokowy mikroprocesora Intel i8008
 
 Jest to konstrukcja praktycznie w 100% zgodna z jednostką centralną komputera/terminala Datapoint 2200. Architektura tej jednostki centralnej, w wersji wykorzystanej jako baza dla i8008, wyglądała następująco:
 
-rejestr A – 8-bitowy akumulator i rejestr dedykowany do transferów między jednostką centralną a pamięcią zewnętrzną lub portami wejścia/wyjścia.
+`rejestr A` - 8-bitowy akumulator i rejestr dedykowany do transferów między jednostką centralną a pamięcią zewnętrzną lub portami wejścia/wyjścia.
 
+`rejestry H, L` - dwa 8-bitowe rejestry, których głównym przeznaczeniem jest adresowanie pamięci i portów, w tym celu występują jako para, a adresowana przez nie komórka pamięci jako wirtualny rejestr M. Mogą być także używane, również osobno, jako rejestry ogólnego przeznaczenia.
 
-rejestry H, L – dwa 8-bitowe rejestry, których głównym przeznaczeniem jest adresowanie pamięci i portów, w tym celu występują jako para, a adresowana przez nie komórka pamięci jako wirtualny rejestr M. Mogą być także używane, również osobno, jako rejestry ogólnego przeznaczenia.
+`rejestry B, C, D, E` - rejestry ogólnego przeznaczenia.
 
-
-rejestry B, C, D, E – rejestry ogólnego przeznaczenia.
-
-
-rejestr P – 13-bitowy licznik programu.
+`rejestr P` - 13-bitowy licznik programu.
 
 Widzimy tutaj uderzające podobieństwo do i8008 i jego zestawu rejestrów. Jak zobaczymy w dalszej części artykułu, ten model architektury jest charakterystyczną cechą rodziny mikroprocesorów firmy Intel i pozostał z nami do dzisiaj. 
 
@@ -54,128 +48,80 @@ Intel 8008 był konstrukcją hybrydową, z jednej strony obciążoną wymaganiam
 
 Koncepcja komputera osobistego ogólnego przeznaczenia, opartego na mikroprocesorach Intel, z trudem znajdowała drogę do umysłów zarządzających tą korporacją. Specyfikacja i8008, przedstawiona poniżej, pozwalała jednak, pomimo swoich braków, na zbudowanie  wszechstronnego systemu.
 
-Intel 8008
-rok wprowadzenia do produkcji
-1972
-ilość tranzystorów
-3500
-częstotliwość taktowania
-0.5 MHz (cykl zegarowy: 2 μs)
-cykl instrukcji
-20 – 44 μs (10–22 cykli zegarowych)
-indeks prędkości
-0.050 MIPS
-dodawanie 64-bitowe
-285 / s
-efektywność architektury
-81
-rozmiar danych
-1 bajt (8 bitów)
-rozmiar instrukcji
-1,2 lub 3 bajty
-licznik programu
-14 bitów
-stos
-wbudowany bufor cykliczny dla 7 adresów (7 x 14 bitów)
-rejestry
-7 rejestrów 8-bitowych ogólnego przeznaczenia
-akumulator
-8-bitowy
-znaczniki
-C – przeniesienie
-P – parzystość
-Z – zero
-S – znak
-adresowanie pamięci
-16 KiB (14-bitowy adres)
-adresowanie portów
-wejściowe: 8 x 8 bitów
-wyjściowe: 24 x 8 bitów
-przerwania
-niemaskowalne
-tryby adresowania
-domyślne
-natychmiastowe
-rejestrowe
-pośrednie rejestrowe (tylko HL)
-architektura
-wspólna przestrzeń adresowa dla programu i danych (von Neumanna) z multipleksowaną szyną danych i programu
+|                               |                                                                             |
+| ----------------------------- | --------------------------------------------------------------------------- |
+| rok wprowadzenia do produkcji | 1972                                                                        |
+| ilość tranzystorów            | 3500                                                                        |
+| częstotliwość taktowania      | 0.5 MHz (cykl zegarowy: 2 μs)                                               |
+| cykl instrukcji               | 20 - 44 μs (10–22 cykli zegarowych)                                         |
+| indeks prędkości              | 0.050 MIPS                                                                  |
+| dodawanie 64-bitowe           | 285 / s                                                                     |
+| efektywność architektury      | 81                                                                          |
+| rozmiar danych                | 1 bajt (8 bitów)                                                            |
+| rozmiar instrukcji            | 1..3 bajty                                                                  |
+| licznik programu              | 14 bitów                                                                    |
+| stos                          | wbudowany bufor cykliczny dla 7 adresów (7 x 14 bitów)                      |
+| rejestry                      | 7 rejestrów 8-bitowych ogólnego przeznaczenia                               |
+| akumulator                    | 8-bitowy                                                                    |
+| znaczniki                     | C - przeniesienie<br>P - parzystość<br>Z - zero<br>S - znak                 |
+| adresowanie pamięci           | 16 KiB (14-bitowy adres)                                                    |
+| adresowanie portów            | we: 8x8 bitów, wy: 24x8 bitów                                               |
+| przerwania                    | niemaskowalne                                                               |
+| tryby adresowania             | domyślne<br>natychmiastowe<br>rejestrowe<br>pośrednie rejestrowe (tylko HL) |
+| architektura                  | von Neumanna z multipleksowaną szyną danych i programu                      |
 
 
 Potencjał tego mikroprocesora został wykorzystany przez niezależnych projektantów i konstruktorów. Komputer ogólnego przeznaczenia oparty na i8008 powstał w 1973 roku. Był to projekt MICRAL, którego twórcą był Thi T. Truong, imigrant z Wietnamu, który we Francji otworzył firmę zajmującą się elektroniką. Była to jak na owe czasy dobrze przemyślana i uniwersalna konstrukcja, stanowiąca kompletny system wyposażony w gniazda rozszerzeń. W założeniu miała zastępować minikomputery w prostszych systemach kontroli i sterowania. Kolejnym przykład to komputer zaprojektowany przez hobbystę, był to Mark-8 z 1974 roku. Prawdopodobnie pojawienie się MICRAL-a i konstrukcji w rodzaju Mark-8 zainspirowało (lub zmusiło) kierownictwo Intela do dostrzeżenia innych, bardziej uniwersalnych zastosowań mikroprocesorów. 
 
 W celu porównania wydajności z innymi mikroprocesorami oraz zaprezentowania modelu programowego poniżej przedstawiono krótki program dodający dwie liczby 64-bitowe. Podobny program zostanie pokazany dla każdego omawianego dalej mikroprocesora. W prawej kolumnie, obok każdego wiersza kodu, podana jest liczba cykli zegara, która potrzebna jest do jej wykonania. Pozwala to w pewien sposób ocenić cechy danej architektury, choć nie można z samej tylko liczby cykli zegara wyciągać zbyt daleko idących wniosków. Zegar może być wykorzystywany przez mikroarchitekturę w różny sposób, co przekłada się na jego maksymalną częstotliwość dla danej konstrukcji. Liczby te jednak, w połączeniu z ogólnym wyglądem kodu, pozwalają wyrobić sobie pewne pojęcie na temat cech charakterystycznych danego mikroprocesora.
 
+```assembly
 ; Intel 8008 (i8008)
 ; dodawanie dwóch liczb 64-bitowych
 ; ARGH - bardziej znaczący bajt adresu buforów
 ; ARGL0,1 - mniej znaczące bajty adresu buforów argumentów
 ; Dla uproszczenia kodu bufory muszą mieć takie same bardziej znaczące adresy
 ; oraz nie przekraczać granicy pełnych 256 bajtów.
-	MOV H, ARGH		; ładuj ARGH do rejestru H
-XRA			; zeruj akumulator
-	MOV C, A		; zeruj rejestr C (indeks bajtu)
-MOV E, A		; zeruj rejestr E (przeniesienie)
-MVI D, 8		; ładuj do D długość argumentów w bajtach
+; Liczby w nawiasach, w komentarzu, oznaczają ilość cykli na daną instrukcję.
+
+  MOV H, ARGH	; (16) ładuj ARGH do rejestru H
+  XRA			; (10) zeruj akumulator
+  MOV C, A		; (10) zeruj rejestr C (indeks bajtu)
+  MOV E, A		; (10) zeruj rejestr E (przeniesienie)
+  MVI D, 8		; (16) ładuj do D długość argumentów w bajtach
 NAST: 
-MVI A, ARGL0	; ładuj do akumulatora LSB argumentu 0
-ADD A, C		; dodaj do A aktualny indeks bajtu
-MOV L, C		; H,L zawiera adres bieżącego bajtu argumentu 0
-MOV B, M		; ładuj do B bieżący bajt argumentu 0
-MVI A, ARGL1	; ładuj do akumulatora LSB argumentu 1
-ADD A, C		; dodaj do A aktualny indeks bajtu
-MOV L, C		; H,L zawiera adres bieżącego bajtu argumentu 1
-MOV A, E		; odtwórz aktualną wartość przeniesienia (bit 0)
-RAR			; wpisz tą wartość do znacznika C
-MOV A, M		; ładuj do akumulator bieżący bajt argumentu 1
-ADC B			; i wreszcie dodaj oba bajty z przeniesieniem
-MOV M, B	      ; rezultat zapisz w miejsce bajtu argumentu 1
-RAL			; wpisz wartość znacznika C do bitu 0 akumulatora
-MOV E, A		; zachowaj wartość przeniesienia w rejestrze E
-INR C			; zwiększ licznik bajtów o 1
-DCR D			; zmniejsz licznik długości o 1
-JNZ NAST		; jeśli nie wszystkie bajty, kontynuuj
-16
-10
-10
-10
-16
+  MVI A, ARGL0	; (16) ładuj do akumulatora LSB argumentu 0
+  ADD A, C		; (10) dodaj do A aktualny indeks bajtu
+  MOV L, C		; (10) H,L zawiera adres bieżącego bajtu argumentu 0
+  MOV B, M		; (16) ładuj do B bieżący bajt argumentu 0
+  MVI A, ARGL1	; (16) ładuj do akumulatora LSB argumentu 1
+  ADD A, C		; (10) dodaj do A aktualny indeks bajtu
+  MOV L, C		; (10) H,L zawiera adres bieżącego bajtu argumentu 1
+  MOV A, E		; (10) odtwórz aktualną wartość przeniesienia (bit 0)
+  RAR			; (10) wpisz tą wartość do znacznika C
+  MOV A, M		; (16) ładuj do akumulator bieżący bajt argumentu 1
+  ADC B		; (10) i wreszcie dodaj oba bajty z przeniesieniem
+  MOV M, B	      ; (16) rezultat zapisz w miejsce bajtu argumentu 1
+  RAL			; (10) wpisz wartość znacznika C do bitu 0 akumulatora
+  MOV E, A		; (10) zachowaj wartość przeniesienia w rejestrze E
+  INR C		; (10) zwiększ licznik bajtów o 1
+  DCR D		; (10) zmniejsz licznik długości o 1
+  JNZ NAST		; (22) jeśli nie wszystkie bajty, kontynuuj
+```
+Zliczając czasy wykonania wszystkich instrukcji, mamy 62 + 8 x 212 - 4 (ostatni skok warunkowy nie zachodzi) = **1754** cykli zegara. Ostatecznie więc czas wykonania to około 3.5 ms, co daje około 285 takich operacji na sekundę. 
 
-16
-10
-10
-16
-16
-10
-10
-10
-10
-16
-10
-16
-10
-10
-10
-10
-22
-
-
-Zliczając czasy wykonania wszystkich instrukcji, mamy 62 + 8 x 212 - 4 (ostatni skok warunkowy nie zachodzi) = 1754 cykli zegara. Ostatecznie więc czas wykonania to około 3.5 ms, co daje około 285 takich operacji na sekundę. 
-
-Brak adresowania z indeksem, adresowanie pośrednie ograniczone tylko do wykorzystania pary rejestrów HL powoduje, że kod tak prostej operacji jest wyjątkowo skomplikowany i długi. Operacje arytmetyczne na adresie przeplatają się z właściwym dodawaniem, wymusza to konieczność każdorazowego zapisania i odczytania wartości przeniesienia, a to wydłuża i komplikuje kod jeszcze bardziej. Z tych powodów – oraz stosunkowo wolnego zegara – proste 64-bitowe dodawanie trwa ponad dwukrotnie wolniej niż przy użyciu 4-bitowego mikroprocesora Intel 4004 !!! Liczona według podanej wcześniej metodologii „efektywność architektury” dla i4004 wynosi 266, więc jest ponad trzykrotnie większa (a więc lepsza) od i8008.
+Brak adresowania z indeksem, adresowanie pośrednie ograniczone tylko do wykorzystania pary rejestrów HL powoduje, że kod tak prostej operacji jest wyjątkowo skomplikowany i długi. Operacje arytmetyczne na adresie przeplatają się z właściwym dodawaniem, wymusza to konieczność każdorazowego zapisania i odczytania wartości przeniesienia, a to wydłuża i komplikuje kod jeszcze bardziej. Z tych powodów - oraz stosunkowo wolnego zegara - proste 64-bitowe dodawanie trwa ponad dwukrotnie wolniej niż przy użyciu 4-bitowego mikroprocesora Intel 4004 !!! Liczona według podanej wcześniej metodologii „efektywność architektury” dla i4004 wynosi 266, więc jest ponad trzykrotnie większa (a więc lepsza) od i8008.
 
 Prezentowane fragmenty kodu, wykorzystywane jako benchmark, mogłyby, być może, zostać napisane w sposób nieco bardziej wydajny. Na przykład przez wyeliminowanie pętli i licznika bajtów, powielając po prostu dodawanie wymaganą ilość razy. Nieprzypadkowo tego rodzaju techniki “optymalizacji” nie zostały użyte. Kod napisany w sposób regularny, przy użyciu pętli, pozwala lepiej oddać cechy dostępnego modelu programowego. Do obliczenia czasu wykonania wykorzystano maksymalną częstotliwość zegara jaką oferował podstawowy model danego procesora. Zazwyczaj już podczas debiutu, lub tuż po nim, oferowane były modele o podwyższonych parametrach, jednak dla ujednolicenia wyników zdecydowano się nie brać ich pod uwagę.
 
 Rynek mikroprocesorów otworzył nowe możliwości budowy tanich i w miarę wydajnych mikrokomputerów osobistych. Intel przyjął drogę rozwoju swoich projektów poprzez rozszerzanie i rozbudowywanie rozwiązań prostych i wyspecjalizowanych. Nie inaczej było z kolejną konstrukcją, i8080, która tym razem stała się rynkowym przebojem. Zachowano w niej koncepcyjną zgodność z poprzednikiem, przy zachowaniu niemal całkowitej zgodności modelu programowego, jednak bez kompatybilności binarnej. 
 
-Architekturę mikroprocesora Intel 8080 przedstawiono na Rysunku 2.
-
-
+![i8080 - Schemat blokowy](i8080_schemat_blokowy.png)
 Rysunek 2. Schemat blokowy mikroprocesora Intel i8080
 
 Rejestry, które mogą być łączone w pary w celu osiągnięcia większej długości słowa, zostały na schematach blokowych ustawione w poziomie, obok siebie. Jak widać, pomimo zachowania praktycznie identycznego zestawu rejestrów ich funkcjonalność została znacznie rozszerzona. Nie tylko rejestry H i L ale również B, C i D, E mogą być łączone w pary. Takie 16-bitowe pary mogą być w ograniczonym zakresie wykorzystywane jako pojedynczy rejestr. W ten sposób można za pomocą jednej instrukcji załadować 16-bitową wartość w trybie natychmiastowym, można też dokonać inkrementacji i dekrementacji takiej pary. Istnieje również instrukcja DAD realizująca 16-bitowe dodawanie, gdzie rolę akumulatora spełnia para HL, a drugiego operandu para BC, DE lub wskaźnik stosu SP.
 
-Rejestr znaczników został wzbogacony o tak zwane przeniesienie pomocnicze, czyli przeniesienie z mniej znaczącego półbajtu (ang. nibble – czterobitowe słowo). Pozwala to na uproszczenie procedur operujących na liczbach dziesiętnych kodowanych binarnie (ang. Binary Coded Decimal – BCD).
+Rejestr znaczników został wzbogacony o tak zwane przeniesienie pomocnicze, czyli przeniesienie z mniej znaczącego półbajtu (ang. nibble - czterobitowe słowo). Pozwala to na uproszczenie procedur operujących na liczbach dziesiętnych kodowanych binarnie (ang. Binary Coded Decimal - BCD).
 
 W pełni 16-bitowy rejestr PC, czyli licznik programu, pozwalał w końcu na zaadresowanie pełnych 64 KiB pamięci. Na uwagę zasługuje usunięcie z rdzenia cyklicznego bufora rejestrów adresowych, spełniającego rolę stosu. Zamiast tego dodany został wskaźnik stosu SP zawierający adres jego wierzchołka. Stos mógł być więc umieszczony gdziekolwiek w pamięci, można było też przez zmianę wartości SP utworzyć wiele niezależnych stosów. W połączeniu z instrukcjami PUSH i POP znacznie łatwiejsze było jego wykorzystanie w obsłudze wywołań podprogramów czy procedurach obsługi przerwań.
 
@@ -183,18 +129,13 @@ Sama obsługa przerwań została również znacznie rozbudowana, lecz jej potenc
 
 Podstawowa specyfikacja i8080 przedstawiona jest poniżej.
 
-
-Intel 8080
-rok wprowadzenia do produkcji
-1974
-ilość tranzystorów
-6000
-częstotliwość taktowania
-2.0 MHz (cykl zegarowy: 0.5 μs)
-cykl instrukcji
-2 – 9 μs (4 – 18 cykli zegarowych)
-indeks prędkości
-0.5 MIPS
+|                               |                                    |
+| ----------------------------- | ---------------------------------- |
+| rok wprowadzenia do produkcji | 1974                               |
+| ilość tranzystorów            | 6000                               |
+| częstotliwość taktowania      | 2.0 MHz (cykl zegarowy: 0.5 μs)    |
+| cykl instrukcji               | 2 - 9 μs (4 - 18 cykli zegarowych) |
+| indeks prędkości              | 0.5 MIPS                           |
 dodawanie 64-bitowe
 5012 / s
 efektywność architektury
@@ -212,11 +153,11 @@ rejestry
 akumulator
 8-bitowy
 znaczniki
-C – przeniesienie
-P – parzystość
-Z – zero
-S – znak
-AC – przeniesienie pomocnicze
+C - przeniesienie
+P - parzystość
+Z - zero
+S - znak
+AC - przeniesienie pomocnicze
 adresowanie pamięci
 64 KiB (16-bitowy adres)
 adresowanie portów
@@ -287,9 +228,9 @@ Rysunek 3. Schemat blokowy mikroprocesora Motorola M6800
 
 Na przykładzie programu dodającego liczby mogliśmy zaobserwować, jak dostępność elastycznych, indeksowanych trybów adresowania wpływa na zwartość, czystość i wydajność kodu. Powyższa architektura już na pierwszy rzut oka różni się od tych przedstawionych wcześniej.
 
-Pierwsza różnica to dwa niezależne 8-bitowe akumulatory, rozwiązanie rzadko spotykane w prostych konstrukcjach, lecz często widziane w bardziej złożonych, gdzie akumulatorem może być praktycznie każdy rejestr. Daje to bardzo dużą swobodę w wykonywaniu operacji arytmetyczno-logicznych. Operacje takie w większości mogły być również wykonywane bezpośrednio na komórkach pamięci, co rekompensowało brak rejestrów ogólnego przeznaczenia w samym procesorze. Dodatkowym udogodnieniem w operacjach arytmetycznych jest znacznik O (ang. overflow – przepełnienie), który w odróżnieniu od C (ang. carry – przeniesienie) poprawnie sygnalizuje fakt, że wynik operacji na liczbach ze znakiem nie mieści się w docelowych 8-miu bitach. Dostępny jest również znacznik AC, czyli przeniesienie pomocnicze (ang. auxiliary carry).
+Pierwsza różnica to dwa niezależne 8-bitowe akumulatory, rozwiązanie rzadko spotykane w prostych konstrukcjach, lecz często widziane w bardziej złożonych, gdzie akumulatorem może być praktycznie każdy rejestr. Daje to bardzo dużą swobodę w wykonywaniu operacji arytmetyczno-logicznych. Operacje takie w większości mogły być również wykonywane bezpośrednio na komórkach pamięci, co rekompensowało brak rejestrów ogólnego przeznaczenia w samym procesorze. Dodatkowym udogodnieniem w operacjach arytmetycznych jest znacznik O (ang. overflow - przepełnienie), który w odróżnieniu od C (ang. carry - przeniesienie) poprawnie sygnalizuje fakt, że wynik operacji na liczbach ze znakiem nie mieści się w docelowych 8-miu bitach. Dostępny jest również znacznik AC, czyli przeniesienie pomocnicze (ang. auxiliary carry).
 
-Widzimy też obecność 16-bitowego rejestru indeksowego IX oraz niemultipleksowaną szynę adresową oraz danych. Rejestr programu PC ma pełne 16 bitów, dostępny jest też niezależny wskaźnik stosu pozwalający na umieszczenie go w dowolnym miejscu przestrzeni adresowej. Charakterystyczną cechą architektury M6800 jest szybki dostęp do tzw. strony zerowej pamięci (ang. zero page), czyli obszaru 0x00 – 0xFF. Daje to wydajny dostęp do 256 quasi-rejestrów ogólnego przeznaczenia. 
+Widzimy też obecność 16-bitowego rejestru indeksowego IX oraz niemultipleksowaną szynę adresową oraz danych. Rejestr programu PC ma pełne 16 bitów, dostępny jest też niezależny wskaźnik stosu pozwalający na umieszczenie go w dowolnym miejscu przestrzeni adresowej. Charakterystyczną cechą architektury M6800 jest szybki dostęp do tzw. strony zerowej pamięci (ang. zero page), czyli obszaru 0x00 - 0xFF. Daje to wydajny dostęp do 256 quasi-rejestrów ogólnego przeznaczenia. 
 
 Sam rdzeń jest, jak widać, prosty, co przekłada się na intuicyjny model programowy i regularną listę rozkazów. W M6800 dodatkowym uproszczeniem jest rezygnacja z osobnej przestrzeni dla portów wejścia/wyjścia, muszą one być umieszczone w przestrzeni adresowej pamięci. Wadą takiego rozwiązania jest najczęściej konieczność stosowania zewnętrznych układów dekodujących adres i ewentualnego wprowadzania dodatkowych cykli oczekiwania na informację z portów.
 
@@ -303,7 +244,7 @@ ilość tranzystorów
 częstotliwość taktowania
 1.0 MHz (cykl zegarowy: 1 μs)
 cykl instrukcji
-2 – 12 μs (2–12 cykli zegarowych)
+2 - 12 μs (2–12 cykli zegarowych)
 indeks prędkości
 0.5 MIPS
 dodawanie 64-bitowe
@@ -323,12 +264,12 @@ rejestry
 akumulator
 dwa 8-bitowe akumulatory
 znaczniki
-H – przeniesienie pomocnicze
-I – maska przerwania
-N – znak
-Z – zero
-O – przepełnienie
-C – przeniesienie
+H - przeniesienie pomocnicze
+I - maska przerwania
+N - znak
+Z - zero
+O - przepełnienie
+C - przeniesienie
 adresowanie pamięci
 64 KiB (16-bitowy adres)
 adresowanie portów
@@ -347,7 +288,7 @@ architektura
 wspólna przestrzeń adresowa dla programu i danych (von Neumanna)
 
 
-Kod dla procesora M6800 jest przejrzysty i zwięzły, co widać  na przykładzie poniższego benchmarku. Prosty model programowy (ang. Instruction Set Architecture – ISA) wymusza w pewien sposób styl programowania. Dodatkowym atutem są instrukcje skoków warunkowych (ang. branch), które operują 8-bitowym adresem względnym, przez co są krótsze i szybsze w wykonaniu.
+Kod dla procesora M6800 jest przejrzysty i zwięzły, co widać  na przykładzie poniższego benchmarku. Prosty model programowy (ang. Instruction Set Architecture - ISA) wymusza w pewien sposób styl programowania. Dodatkowym atutem są instrukcje skoków warunkowych (ang. branch), które operują 8-bitowym adresem względnym, przez co są krótsze i szybsze w wykonaniu.
 
 ; Motorola 6800 (M6800)
 ; dodawanie dwóch liczb 64-bitowych
@@ -384,14 +325,14 @@ W ewolucji gatunków, pod naporem środowiska powstaje konieczność dostosowawc
 
 I tak Federico Faggin, człowiek stojący za projektem i4004, pierwszego mikroprocesora, odszedł z firmy Intel i założył start-up, firmę Zilog. Efektem pracy jego grupy był projekt Z80, który był naprawdę udanym i wszechstronnym mikroprocesorem, a do tego w pełni binarnie kompatybilnym z i8080. Pomimo wszystkich obciążeń pochodzących od poprzednich projektów, wymuszonych wymogiem wstecznej kompatybilności, była to konstrukcja warta uwagi.
 
-Przede wszystkim zadbano o wygodę i komfort projektantów systemów komputerowych i umieszczono układ odświeżania pamięci dynamicznej (ang. Dynamic Random Access Memory – DRAM) wewnątrz struktury mikroprocesora. Mikroprocesor wymagał do zasilania tylko jednego napięcia oraz podania jednofazowego sygnału zegara. Gdy Intel 8080 wymagał do pracy minimum dwóch dodatkowych układów wspomagających (i8224 oraz i8228), Z80 był pod tym względem samowystarczalny. Wewnętrzna architektura została wzbogacona o dodatkowy zestaw rejestrów ogólnego przeznaczenia, a lista instrukcji bardzo znacznie rozszerzona. Dodatkowy zestaw rejestrów był często wykorzystywany w procedurach obsługi przerwań, można było w ten sposób uniknąć konieczności zachowywania wartości rejestrów na stosie. Dla lepszej obsługi przerwań dodano rejestr I, zawierający bardziej znaczący bajt adresu procedury obsługi przerwania, mniej znaczący bajt adresu dostarczało urządzenie zgłaszające przerwanie. Sam tryb obsługi przerwań miał trzy różne tryby pracy.
+Przede wszystkim zadbano o wygodę i komfort projektantów systemów komputerowych i umieszczono układ odświeżania pamięci dynamicznej (ang. Dynamic Random Access Memory - DRAM) wewnątrz struktury mikroprocesora. Mikroprocesor wymagał do zasilania tylko jednego napięcia oraz podania jednofazowego sygnału zegara. Gdy Intel 8080 wymagał do pracy minimum dwóch dodatkowych układów wspomagających (i8224 oraz i8228), Z80 był pod tym względem samowystarczalny. Wewnętrzna architektura została wzbogacona o dodatkowy zestaw rejestrów ogólnego przeznaczenia, a lista instrukcji bardzo znacznie rozszerzona. Dodatkowy zestaw rejestrów był często wykorzystywany w procedurach obsługi przerwań, można było w ten sposób uniknąć konieczności zachowywania wartości rejestrów na stosie. Dla lepszej obsługi przerwań dodano rejestr I, zawierający bardziej znaczący bajt adresu procedury obsługi przerwania, mniej znaczący bajt adresu dostarczało urządzenie zgłaszające przerwanie. Sam tryb obsługi przerwań miał trzy różne tryby pracy.
 
 Schemat blokowy Z80 przedstawiono na Rysunku 4.
 
 
 Rysunek 4. Schemat blokowy mikroprocesora Zilog Z80
 
-Częstym zarzutem pod adresem architektur bazujących na i8080 jest nieoptymalne wykorzystanie cykli zegara, co powoduje, że czasy wykonania instrukcji mierzone w cyklach są zazwyczaj dłuższe niż u konkurencji. Zarzut ten nie jest do końca uzasadniony, a w przypadku Z80 stał się nawet atutem. Szyny danych i adresowa nie w każdym cyklu są wykorzystywane przez procesor i mogą w tym czasie być przejęte przez inne komponenty systemu, jak np. układy DMA (ang. direct memory access – bezpośredni dostęp do pamięci). Dzięki buforowaniu szyny adresowej i danych oraz wyprowadzeniu sygnałów BUSREQ i BUSACK dostęp do szyn mógł być dodatkowo precyzyjnie koordynowany przy bardziej czasochłonnych zadaniach wymagających chwilowego wstrzymania pracy mikroprocesora.
+Częstym zarzutem pod adresem architektur bazujących na i8080 jest nieoptymalne wykorzystanie cykli zegara, co powoduje, że czasy wykonania instrukcji mierzone w cyklach są zazwyczaj dłuższe niż u konkurencji. Zarzut ten nie jest do końca uzasadniony, a w przypadku Z80 stał się nawet atutem. Szyny danych i adresowa nie w każdym cyklu są wykorzystywane przez procesor i mogą w tym czasie być przejęte przez inne komponenty systemu, jak np. układy DMA (ang. direct memory access - bezpośredni dostęp do pamięci). Dzięki buforowaniu szyny adresowej i danych oraz wyprowadzeniu sygnałów BUSREQ i BUSACK dostęp do szyn mógł być dodatkowo precyzyjnie koordynowany przy bardziej czasochłonnych zadaniach wymagających chwilowego wstrzymania pracy mikroprocesora.
 
 Model programowy został wzbogacony o instrukcje arytmetyczno-logiczne operujące bezpośrednio na komórkach pamięci. Dodano również instrukcje przesyłające całe bloki danych lub wyszukujące w nich bajt o zadanej wartości. Dodano warunkowe instrukcje skoku do podprogramu oraz warunkowe instrukcje powrotu. Nowe rejestry indeksowe IX i IY pozwalały dodatkowo zwiększyć już i tak elastyczne możliwości adresowania.
 
@@ -405,7 +346,7 @@ ilość tranzystorów
 częstotliwość taktowania
 2.5 MHz (cykl zegarowy: 0.4 μs)
 cykl instrukcji
-1.6 – 9.2 μs (4–23 cykli zegarowych)
+1.6 - 9.2 μs (4–23 cykli zegarowych)
 indeks prędkości
 0.625 MIPS
 dodawanie 64-bitowe
@@ -430,11 +371,11 @@ dwa 8-bitowe akumulatory
 znaczniki
 dwa niezależne zestawy znaczników:
 
-S – znak
-Z – zero
-H – przeniesienie pomocnicze
-P/V – parzystość/przepełnienie
-C – przeniesienie
+S - znak
+Z - zero
+H - przeniesienie pomocnicze
+P/V - parzystość/przepełnienie
+C - przeniesienie
 adresowanie pamięci
 64 KiB (16-bitowy adres)
 adresowanie portów
@@ -505,7 +446,7 @@ Widać tutaj wyraźnie wpływ koncepcji mikroprocesora M6800, jednak w procesie 
 
 Po analizie istniejącego kodu i potrzeb programistów stwierdzono, że należy skupić się na obsłudze struktur danych o wielkości do 256 B. W związku z tym zamiast jednego, 16-bitowego rejestru indeksowego wprowadzono dwa 8-bitowe. W ten sposób łatwo jest realizować różnego rodzaju transfery danych, jest to również szybsze. Zachowano zoptymalizowany dostęp do tak zwanej „strony zerowej”, czyli obszaru pamięci od 0x00 do 0xFF. Adresy ze strony zerowej mogły być też wykorzystywane do przechowywania adresu przy adresowaniu pośrednim, również w połączeniu z indeksowaniem za pomocą rejestrów. Dało to bardzo dużą swobodę w dostępie do pamięci. Zrezygnowano również z dwóch akumulatorów na rzecz jednego. Nie był to problem, ponieważ wiele rozkazów arytmetyczno-logicznych mogło operować bezpośrednio na komórkach pamięci. 
 
-Jednym z kontrowersyjnych kroków było ograniczenie rozmiaru stosu do 256 B i umieszczenie go na stałe w obszarze 0x100 – 0x1FF. Zmniejsza to uniwersalność wykorzystania stosu, jednak praktyka pokazała, że nie stanowi to problemu przy tworzeniu oprogramowania dla 8-bitowych komputerów osobistych. Ukłonem w stronę przeszłości było dodanie kompletnego trybu dziesiętnego, włączanego za pomocą znacznika D. Był to bodajże jedyny nietrafiony wybór – tryb ten nie był wówczas praktycznie wykorzystywany, a w wariancie MOS 6502 dla konsoli NES został w ogóle usunięty z rdzenia. Sam mikroprocesor wymagał tylko jednego sygnału zegarowego oraz jednego napięcia zasilającego, nie wymagał zewnętrznych układów wspomagających. 
+Jednym z kontrowersyjnych kroków było ograniczenie rozmiaru stosu do 256 B i umieszczenie go na stałe w obszarze 0x100 - 0x1FF. Zmniejsza to uniwersalność wykorzystania stosu, jednak praktyka pokazała, że nie stanowi to problemu przy tworzeniu oprogramowania dla 8-bitowych komputerów osobistych. Ukłonem w stronę przeszłości było dodanie kompletnego trybu dziesiętnego, włączanego za pomocą znacznika D. Był to bodajże jedyny nietrafiony wybór - tryb ten nie był wówczas praktycznie wykorzystywany, a w wariancie MOS 6502 dla konsoli NES został w ogóle usunięty z rdzenia. Sam mikroprocesor wymagał tylko jednego sygnału zegarowego oraz jednego napięcia zasilającego, nie wymagał zewnętrznych układów wspomagających. 
 
 W ten sposób powstał produkt, który był niemal równie popularny jak Z80, a w świecie komputerów osobistych nawet bardziej. Jego podstawowa specyfikacja przedstawiona jest poniżej.
 
@@ -518,7 +459,7 @@ ilość tranzystorów
 częstotliwość taktowania
 1.0 MHz (cykl zegarowy: 1 μs)
 cykl instrukcji
-2 – 7 μs (2–7 cykli zegarowych)
+2 - 7 μs (2–7 cykli zegarowych)
 indeks prędkości
 0.5 MIPS
 dodawanie 64-bitowe
@@ -538,13 +479,13 @@ dwa 8-bitowe rejestry indeksowe
 akumulator
 8-bitowy akumulator
 znaczniki
-N – znak
-V – przepełnienie
-B – przerwanie programowe
-D – tryb dziesiętny
-I – maska przerwań
-Z – zero
-C – przeniesienie
+N - znak
+V - przepełnienie
+B - przerwanie programowe
+D - tryb dziesiętny
+I - maska przerwań
+Z - zero
+C - przeniesienie
 adresowanie pamięci
 64 KiB (16-bitowy adres)
 adresowanie portów
@@ -595,11 +536,11 @@ BNE NAST		; kontynuuj, jeśli nie wszystkie bajty dodano
 3
 
 
-Wobec braku dużej liczby rejestrów wewnętrznych ich nazwy stanowią część samego mnemoniku – daje to zwarty i elegancki zapis. Powyższy kod przypomina styl znany z M6800, lecz dzięki możliwości wykorzystania przewagi w postaci dwóch rejestrów indeksowych oraz wykorzystaniu szybkiego dostępu do „strony zerowej” jest szybszy i krótszy. Dodając czasy wykonania poszczególnych instrukcji, mamy: 6 + 8 x 19 = 158 cykli zegara. Daje to czas operacji około 158 μs, a tym samym prędkość około 6329 dodawań na sekundę. W efektywności architektury MOS 6502 zajmuje pierwsze miejsce, jednak nie dzięki największym możliwościom, ale najbardziej przemyślanej i wydajnej architekturze w kontekście jej złożoności.
+Wobec braku dużej liczby rejestrów wewnętrznych ich nazwy stanowią część samego mnemoniku - daje to zwarty i elegancki zapis. Powyższy kod przypomina styl znany z M6800, lecz dzięki możliwości wykorzystania przewagi w postaci dwóch rejestrów indeksowych oraz wykorzystaniu szybkiego dostępu do „strony zerowej” jest szybszy i krótszy. Dodając czasy wykonania poszczególnych instrukcji, mamy: 6 + 8 x 19 = 158 cykli zegara. Daje to czas operacji około 158 μs, a tym samym prędkość około 6329 dodawań na sekundę. W efektywności architektury MOS 6502 zajmuje pierwsze miejsce, jednak nie dzięki największym możliwościom, ale najbardziej przemyślanej i wydajnej architekturze w kontekście jej złożoności.
 
 Jak widać, drogą obraną przez projektantów M6800 jest konsekwentnie prostota i wszechstronność, uniwersalność i koncentrowanie się przede wszystkich na efektywnym wykonywaniu ograniczonego zestawu prostych czynności. Jest to w zasadzie paradygmat RISC, który w nawet większym stopniu widzimy w strukturze jednostki centralnej PDP-11.
 
-Wkrótce po premierze MOS 6502 powstało wiele konstrukcji opartych na tym mikroprocesorze, wiele z nich zostało konstrukcjami klasycznymi, wręcz ikonami. Do takich niewątpliwie należy Apple I i Apple II, 8-bitowa rodzina komputerów Atari czy też konsola Nintendo NES. Najbardziej znanym komputerem osobistym opartym na architekturze MOS 6502 był jednak Commodore C64. Firma Commodore zleciła wykonanie specjalnej wersji dla swoich potrzeb – MOS 6510 – która była całkowicie zgodna z pierwowzorem, miała jednak wbudowany port wejścia/wyjścia.
+Wkrótce po premierze MOS 6502 powstało wiele konstrukcji opartych na tym mikroprocesorze, wiele z nich zostało konstrukcjami klasycznymi, wręcz ikonami. Do takich niewątpliwie należy Apple I i Apple II, 8-bitowa rodzina komputerów Atari czy też konsola Nintendo NES. Najbardziej znanym komputerem osobistym opartym na architekturze MOS 6502 był jednak Commodore C64. Firma Commodore zleciła wykonanie specjalnej wersji dla swoich potrzeb - MOS 6510 - która była całkowicie zgodna z pierwowzorem, miała jednak wbudowany port wejścia/wyjścia.
 
 MOS 6502 nie był najbardziej wszechstronnym ani dysponującym największa mocą obliczeniową mikroprocesorem swoich czasów. Był jednak konstrukcją, w której stosunek mocy i możliwości do ceny był zdaniem autora najlepszy. Co ważne, dokonano tego w sposób elegancki, prosty i minimalistyczny, co jest chyba w projektowaniu jedną z najtrudniejszych rzeczy.
 
@@ -628,8 +569,8 @@ Z80-CPU User Manual, Zilog Inc. 2016.
 Z80-CPU Technical Manual, Zilog Inc. 1976.
 Programming the 65816, William Labiak, Sybex Inc. 1986.
 Microprocessor Data Book - 2nd ed., S.A. Money, Academic Press Inc. 1990.
-Wikipedia – wikipedia.org
-Wikichip – wikichip.org
+Wikipedia - wikipedia.org
+Wikichip - wikichip.org
 www.asm80.com
 www.righto.com/2013/09/the-z-80-has-4-bit-alu-heres-how-it.html
 ![![alt text](<MOS 6502 - schemat blokowy.png>) ![alt text](<Z80 - schemat blokowy.png>) ![alt text](<Motorola 6800 - schemat blokowy.png>) ![alt text](<intel 8080 - schemat blokowy.png>) ![alt text](<intel 8008 - schemat blokowy.png>)](Altair_8800_Computer.jpg)
