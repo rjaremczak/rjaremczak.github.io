@@ -358,6 +358,7 @@ W ten sposób powstał produkt, który był niemal równie popularny jak Z80, a 
 
 Standardowa procedura dodawania 64-bitowych liczb binarnych wygląda następująco:
 
+```
 ; MOS Technology 6502 (MOS 6502)
 ; dodawanie dwóch liczb 64-bitowych
 ; ARG0 - 8-bitowy adres bufora pierwszego argumentu
@@ -375,7 +376,7 @@ NAST:
   INX           ; (2) zwiększ o 1 indeks bajtów
   DEY           ; (2) zmniejsz o 1 licznik bajtów
   BNE NAST      ; (3) kontynuuj, jeśli nie wszystkie bajty dodano
-
+```
 Wobec braku dużej liczby rejestrów wewnętrznych ich nazwy stanowią część samego mnemoniku - daje to zwarty i elegancki zapis. Powyższy kod przypomina styl znany z M6800, lecz dzięki możliwości wykorzystania przewagi w postaci dwóch rejestrów indeksowych oraz wykorzystaniu szybkiego dostępu do „strony zerowej” jest szybszy i krótszy. Dodając czasy wykonania poszczególnych instrukcji, mamy: 6 + 8 x 19 = 158 cykli zegara. Daje to czas operacji około 158 μs, a tym samym prędkość około 6329 dodawań na sekundę. W efektywności architektury MOS 6502 zajmuje pierwsze miejsce, jednak nie dzięki największym możliwościom, ale najbardziej przemyślanej i wydajnej architekturze w kontekście jej złożoności.
 
 Jak widać, drogą obraną przez projektantów M6800 jest konsekwentnie prostota i wszechstronność, uniwersalność i koncentrowanie się przede wszystkich na efektywnym wykonywaniu ograniczonego zestawu prostych czynności. Jest to w zasadzie paradygmat RISC, który w nawet większym stopniu widzimy w strukturze jednostki centralnej PDP-11.
@@ -386,31 +387,28 @@ MOS 6502 nie był najbardziej wszechstronnym ani dysponującym największa mocą
 
 Klony mikroprocesora MOS 6502 produkowane są do dzisiaj, a  jedną z ciekawszych konstrukcji jest WDC65816 firmy Western Design Center. Jest to konstrukcja zgodna z MOS 6502 oferująca jednak bardzo istotne rozszerzenia. Przestrzeń adresowa została w niej zwiększona do 24 bitów, dostępne są 16-bitowe rejestry ogólnego przeznaczenia, 16-bitowe ALU oraz znacznie wyższe częstotliwości zegara. Był to pomost między 8-mioma a 16-bitami, zapewniający wsteczną zgodność i jednocześnie umożliwiający zwiększenie wydajności.
 
-Perspektywy
+## Perspektywy
 
 Tak Intel, jak i Motorola oraz pozostałe firmy powstałe wskutek rywalizacji na rynku mikroprocesorów nie ustawały w innowacjach i planowały już nowe, w pełni 16-bitowe, a nawet 32-bitowe konstrukcje. Powstawały nowe koncepcje, jednak pierwotny podział wydaje się wciąż obecny. Z jednej strony powstają rozwiązania stanowiące rozwinięte wersje swoich, mniej wydajnych i wszechstronnych prekursorów. Z drugiej strony powstają ograniczone i tanie wersje dużych, uniwersalnych maszyn liczących, które starają się zachować ich elastyczność w mniejszej skali.
 
-Źródła i bibliografia
+## Źródła i bibliografia
 
 W powstaniu niniejszego artykułu wykorzystane zostały następujące publikacje i źródła:
-
-
-PDP-11 Handbook, Digital Equipment Corporation 1969.
-DATAPOINT 2200 Reference Manual, Datapoint Corporation 1970.
-8008 8-bit Parallel Processing Unit, Intel Corporation 1972.
-MCS-8 Assembly Language Programming Manual, Intel Corporation 1973.
-8080 Microcomputer System User’s Manual, Intel Corporation 1975.
-MCS-80 User’s Manual, Intel Corporation 1977.
-MC6800 Datasheet, Motorola Inc. 1984.
-M6800 Programming Reference Manual, Motorola Inc, 1976.
-R650x and R651x Microprocessors (CPU), Rockwell 1987.
-Programming the 6502 - 4th ed., Rodney Zacks, Sybex Inc. 1983.
-Z80-CPU User Manual, Zilog Inc. 2016.
-Z80-CPU Technical Manual, Zilog Inc. 1976.
-Programming the 65816, William Labiak, Sybex Inc. 1986.
-Microprocessor Data Book - 2nd ed., S.A. Money, Academic Press Inc. 1990.
-Wikipedia - wikipedia.org
-Wikichip - wikichip.org
-www.asm80.com
-www.righto.com/2013/09/the-z-80-has-4-bit-alu-heres-how-it.html
-![![alt text](<MOS 6502 - schemat blokowy.png>) ![alt text](<Z80 - schemat blokowy.png>) ![alt text](<Motorola 6800 - schemat blokowy.png>) ![alt text](<intel 8080 - schemat blokowy.png>) ![alt text](<intel 8008 - schemat blokowy.png>)](Altair_8800_Computer.jpg)
+- PDP-11 Handbook, Digital Equipment Corporation 1969.
+- DATAPOINT 2200 Reference Manual, Datapoint Corporation 1970.
+- 8008 8-bit Parallel Processing Unit, Intel Corporation 1972.
+- MCS-8 Assembly Language Programming Manual, Intel Corporation 1973.
+- 8080 Microcomputer System User’s Manual, Intel Corporation 1975.
+- MCS-80 User’s Manual, Intel Corporation 1977.
+- MC6800 Datasheet, Motorola Inc. 1984.
+- M6800 Programming Reference Manual, Motorola Inc, 1976.
+- R650x and R651x Microprocessors (CPU), Rockwell 1987.
+- Programming the 6502 - 4th ed., Rodney Zacks, Sybex Inc. 1983.
+- Z80-CPU User Manual, Zilog Inc. 2016.
+- Z80-CPU Technical Manual, Zilog Inc. 1976.
+- Programming the 65816, William Labiak, Sybex Inc. 1986.
+- Microprocessor Data Book - 2nd ed., S.A. Money, Academic Press Inc. 1990.
+- [Wikipedia](wikipedia.org)
+- [Wikichip](wikichip.org)
+- [ASM80](www.asm80.com)
+- [Ken Shirriff's blog](www.righto.com/2013/09/the-z-80-has-4-bit-alu-heres-how-it.html)
