@@ -1,7 +1,9 @@
 # Intel 4004 - początek czwartej generacji
+
 Z perspektywy współczesnych 64-bitowych, wielordzeniowych mikroprocesorów nawet konstrukcje 16-bitowe wydają się archaiczne. Komputery 8-bitowe lat 70-tych i 80-tych XX wieku wyglądają jak zabawki, mające tylko wartość sentymentalną. Przy nich Intel 4004, konstrukcja 4-bitowa, prezentuje się już tylko groteskowo i prymitywnie. Jednak przy przetwarzaniu liczb dziesiętnych podstawową porcją danych jest pojedyncza cyfra, a ta daje się doskonale zapisać właśnie na 4 bitach.
 
 ## Kontekst
+
 Istnieje znany podział rozwoju techniki komputerowej, który choć arbitralny, pozwala w pewien usystematyzowany sposób zaprezentować etapy rozwoju technologii. Jest to podział na tzw. „generacje komputerów”. Te, które poprzedzają powstanie mikroprocesora Intel 4004, podano poniżej wraz z przypisanym do każdej z nich orientacyjnym zakresem dat:
 
 - **zerowa generacja** (do około 1942) - maszyny liczące oparte na elementach mechanicznych (np. koła zębate, przekładnie) lub elektromechanicznych (np. przekaźniki). Nie były to w sensie ścisłym komputery, lecz konstrukcje „przed komputerowe”; zalicza się do nich np. „Maszyna Różnicowa” Charlesa Babbage’a.
@@ -19,6 +21,7 @@ Zwiększenie gęstości upakowania tranzystorów bipolarnych napotykało na kilk
 Oficjalnie Intel 4004 jest uznawany za pierwszy komercyjnie dostępny mikroprocesor, pozostały jednak w tej kwestii pewne kontrowersje. Istniała wcześniejsza, bardziej zaawansowana konstrukcja MP944, będąca pełnoprawnym mikroprocesorem, wykonanym w technologii MOS. Był to jednak element wojskowego projektu, całkowicie utajniony, wykorzystywany w systemie awioniki (CADC - ang. *Central Air Data Computer*) myśliwca F-14 Tomcat. Nie był to więc produkt komercyjny. Innym pretendentem do pierwszego miejsca był układ AL1 firmy Four-Phase Systems. Nie był to jednak CPU w pełnym tego słowa znaczeniu, zawierał tylko ALU i zestaw rejestrów, nie zawierał natomiast logiki sterującej. Nie można zapomnieć też o TMS0100 (później przemianowanym na TMS1802NC) firmy Texas Instruments. Był to w zasadzie tzw. kalkulator w jednym układzie (ang. *Calculator on a Chip*), był on też znacznie mniej wszechstronną konstrukcją od Intel 4004, a jego komercyjny debiut miał miejsce kilka miesięcy później.
 
 ## Czwarta generacja
+
 Autorem projektu układu mikroprocesora Intel 4004 był Federico Faggin, zatrudniony w firmie Intel w kwietniu 1970 jako projektant i kierownik zespołu. W strukturze pierwszych serii tych mikroprocesorów, jako podpis, umieścił on swoje inicjały. W pełni funkcjonalny produkt został przekazany do produkcji w marcu 1971 roku. 
 
 Początkowo Intel 4004 miał być „sercem” kalkulatora programowalnego Busicom model 141-PF; był to produkt japońskiej firmy o tej samej nazwie. Firma Intel nie zamierzała projektować mikroprocesora ogólnego przeznaczenia, miał to być projekt „skrojony” pod konkretnego kontrahenta i konkretną linię produktów. Oryginalny projekt firmy Busicom opierał się na układzie logicznym złożonym z bramek i prostych bloków funkcjonalnych, jak liczniki, zatrzaski itd. (ang. *random logic*). Był to, używając współczesnej terminologii, projekt zdefiniowany sprzętowo. Składał się z kilku układów scalonych w dużych obudowach z 36 lub 40 wyprowadzeniami, zawierających od 3000 do 5000 tranzystorów każdy. Dla porównania Intel 4004 miał 16 wyprowadzeń i składał się z około 2300 tranzystorów. 
@@ -29,6 +32,7 @@ Rysunek 1. Wersja OEM kalkulatora Busicom 141-PF
 Faggin był, jak sam później przyznał, porażony poziomem komplikacji projektu opracowanego w firmie Busicom, postanowił więc przedstawić własne rozwiązanie. Pomimo tego, że projekt został zaakceptowany, firma Intel nie dostrzegła potencjału i elastyczności, jaką dawało oparcie się na oprogramowaniu, które można modyfikować bez konieczności zmian w sprzęcie. Faggin prowadził swojego rodzaju krucjatę wewnątrz firmy Intel, która ostatecznie zakończyła się sukcesem - Intel odkupił prawa do wykorzystania mikroprocesora od firmy Busicom i tak powstała 4-bitowa rodzina układów MCS-4 (ang. *Micro-Computer Set - 4*). Była to pierwsza komercyjna alternatywa dla projektów opartych na logice zdefiniowanej sprzętowo.
 
 ## Model programowy i mikroarchitektura
+
 Należy z całą stanowczością podkreślić, że pomimo 4-bitowej architektury Intel 4004 był kompletnym mikroprocesorem, nie mającym w sobie nic z zabawki. W dalszym ciągu tego artykułu, po bardziej szczegółowym opisaniu mikroarchitektury, modelu programowego i omówieniu listy rozkazów, wszechstronny charakter tej konstrukcji stanie się widoczny. 
 Pierwotnym zastosowaniem Intel 4004 miał być kalkulator wraz z całym ekosystemem i peryferiami, w związku z tym jego architektura była zorientowana na przetwarzanie pojedynczych cyfr dziesiętnych. Do tego celu doskonale nadaje się kodowanie BCD (ang. *Binary Coded Decimal* - binarnie zakodowane liczby dziesiętne), gdzie każdej cyfrze dziesiętnej odpowiada 4-bitowa liczba dwójkowa, czyli tzw. nibble - półbajt. Dlatego podstawowa porcja danych w tej architekturze ma rozmiar 4 bitów. Słowo natomiast jest zdefiniowane jako 8 bitów, czyli jeden bajt. Podstawowa charakterystyka Intel 4004 wygląda następująco:
 
@@ -298,7 +302,7 @@ W powstaniu niniejszego artykułu wykorzystane zostały następujące publikacje
 - „MCS-40 User’s Manual For Logic Designers”, Intel Corporation, 1974.
 - „MCS-4 Micro Computer Set”, Intel Corporation, 1971.
 Joyrup Bhattacharya, „Rudiments of MODERN COMPUTER APPLICATION”, Academic Publishers, 2014.
-- Emulator i opis instrukcji Intel 4004/MCS-4: http://e4004.szyc.org/index_pl.html.
+- [Emulator i opis instrukcji Intel 4004/MCS-4](http://e4004.szyc.org/index_pl.html)
 - [Wikipedia](wikipedia.org)
 - [Wikichip](wikichip.org)
 - [The CPUShack](cpushack.com)

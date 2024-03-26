@@ -1,7 +1,8 @@
-Intel 8086 i okolice 16 bitów
+# Intel 8086 i okolice 16 bitów
+
 Po sukcesie mikrokomputerów 8-bitowych przyszła pora na przejmowanie przez mikroprocesory obszarów wymagających większej mocy obliczeniowej, zarezerwowanych do tej pory dla tzw. minikomputerów. Do tego potrzebna była, oprócz szybkości, bardziej elastyczna architektura, możliwość obsługi większej pamięci i współpraca z dodatkowymi jednostkami obliczeniowymi. Kolejny krok w ewolucji stał się nieuchronny.
 
-Problemy z klasyfikacją i metodologia pomiarowa
+## Problemy z klasyfikacją i metodologia pomiarowa
 
 Zanim przejdziemy do omówienia wybranych reprezentantów kolejnego etapu ewolucji mikroprocesorów, należy doprecyzować i wyjaśnić kilka kwestii. 
 
@@ -11,17 +12,13 @@ Podawany dla każdego modelu indeks prędkości jest prostym odzwierciedleniem n
 
 Podobnie jak w poprzednich odcinkach cyklu, podstawowym benchmarkiem jest dodawanie liczb całkowitych, 64-bitowych, zapisanych w pamięci. Czas wykonania tego działania jest również bazą dla wyliczenia współczynnika efektywności architektury. Pokazuje on, w jakim stopniu poziom komplikacji mikroprocesora przekłada się na jego zdolność do wykonywania prostych operacji arytmetycznych. Został on zdefiniowany następująco:
 
-efektywność architektury =
-ilość 64-bitowych dodawań na sekundę
-
-ilość tranzystorów w tysiącach
-
+$$\text{efektywność architektury} = \frac{\text{ilość 64-bitowych dodawań na sekundę}}{\text{ilość tranzystorów w tysiącach}}$$
 
 Przy obliczaniu czasu wykonania, mechanizm pobierania wstępnego i kolejkowania jest brany pod uwagę tylko o tyle, o ile jest on uwzględniony w czasach wykonania podanych w materiałach producenta. Jest to zabieg celowy, z jednej strony mający na celu wyeliminowanie czynników o charakterze niedeterministycznym, a z drugiej możliwość porównania architektur prostych i bardziej wyrafinowanych. Autor jest świadomy potencjalnie dużego wpływu na rzeczywistą, średnią wydajność, jaką może mieć zastosowanie wyżej wymienionych technologii. Wybór takiego współczynnika ma na celu pokazanie, jak wielki narzut na „surową” moc obliczeniową mają mechanizmy związane z wielozadaniowością, trybem chronionym czy stronicowaniem, które są wbudowane w nowoczesne mikroprocesory. Jest to cena, jaką płacimy za wszechstronność i elastyczność rozwiązań sprzętowych, którą warto jest sobie uświadomić. 
 
 Ważnym aspektem klasyfikacji procesorów jest przypisanie ich do rodziny 8, 16 lub 32-bitowej. Czasami bywa to jednak niejednoznaczne i trudne, istnieje bowiem kilka kryteriów, których można użyć. Może to być szerokość szyny danych (zewnętrznej lub wewnętrznej), rozmiar danych przetwarzanych przez wewnętrzne ALU (ang. Arithmetic Logic Unit – jednostka arytmetyczno-logiczna) lub rozmiar rejestrów mikroprocesora. Mikroprocesor może zostać przypisany do więcej niż jednej kategorii i w związku z tym jego zaklasyfikowanie jest w pewnym stopniu umowne.
 
-Intel 8086
+## Intel 8086
 
 Poprzednie konstrukcje firmy Intel, od i4004 począwszy, przez i8008 oraz i8080, pokazują przyjęty przez nią kierunek rozwojowy. Ta filozofia sprowadza się do wykorzystania najnowszej technologii w celu stworzenia architektury, która w krótkim terminie pozwoli uchwycić i utrzymać istotny segment rynku. Wymaga to najczęściej kompatybilności z poprzednimi modelami, co umożliwia wykorzystanie gotowej już bazy programów i użytkowników. Marketingowo takie podejście jest najczęściej skuteczne, jednak z inżynieryjnego punktu widzenia ma swoje, dosyć istotne, wady. 
 
@@ -40,27 +37,21 @@ Zapis wyniku, jeśli instrukcja tego wymaga (ang. write – zapisz).
 
 Dzięki separacji BIU i EU faza pobrania kolejnej instrukcji może odbywać się równolegle z fazą wykonywania poprzedniej. Proces ten jest wspomagany kolejką FIFO o długości 6 B łączącą oba moduły. Technika modularyzacji stanie się defacto standardem w projektowaniu mikroprocesorów kolejnych generacji. Pierwsze próby zastosowania pipeliningu (potokowości) były obecne już wcześniej, np. w MOS 6502, lecz teraz przybrały bardziej dojrzałą formę.
 
+#[Intel 8086 - Schemat blokowy](i8086_schemat_blokowy.png)
 Rysunek 1. Schemat blokowy mikroprocesora Intel 8086
 
 Wewnętrzna architektura składa się z 16-bitowych rejestrów ogólnego przeznaczenia o częściowo specjalizowanych funkcjach.
 
-Intel 8086
-rok wprowadzenia do produkcji
-1978
-ilość tranzystorów
-29000
-częstotliwość taktowania
-5 MHz (cykl zegarowy:  0.2 μs)
-najkrótszy cykl instrukcji
-0.4 μs (2 cykle zegarowe)
-indeks prędkości
-2.5 MIPS
-dodawanie 64-bitowe
-22727 / s
-efektywność architektury
-784
-typ architektury
-16-bitowa, CISC
+|                               |                                |
+| ----------------------------- | ------------------------------ |
+| rok wprowadzenia do produkcji | 1978                           |
+| ilość tranzystorów            | 29000                          |
+| częstotliwość taktowania      | 5 MHz (cykl zegarowy:  0.2 μs) |
+| najkrótszy cykl instrukcji    | 0.4 μs (2 cykle zegarowe)      |
+| indeks prędkości              | 2.5 MIPS                       |
+| dodawanie 64-bitowe           | 22727 / s                      |
+| efektywność architektury      | 784                            |
+| typ architektury              | 16-bitowa, CISC                |
 kolejność bajtów
 little-endian
 licznik programu
@@ -1004,4 +995,3 @@ https://defuse.ca/online-x86-assembler.htm
 https://en.wikipedia.org/wiki/Transistor_count
 Wikipedia – wikipedia.org
 Wikichip – wikichip.org
-![alt text](<intel 8086 - schemat blokowy.png>) ![alt text](<wdc 65816 - schemat blokowy.png>) ![alt text](<intel 80286 - schemat blokowy.png>) ![alt text](<motorola 68000 - schemat blokowy.png>) ![alt text](<zilog z8001 - schemat blokowy.png>)

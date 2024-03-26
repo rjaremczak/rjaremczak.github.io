@@ -1,4 +1,5 @@
 # 8-bitów: Intel, Motorola i inni ...
+
 Wprowadzenie mikroprocesorów na rynek komercyjny na początku lat 70-tych XX wieku  zaowocowało powstaniem najrozmaitszych systemów komputerowych, oferowanych przez wielkie firmy, jak i „garażowych”, niszowych hobbystów. Szczególnie konstrukcje 8-bitowe, jako stosunkowo proste i tanie, wyzwoliły twórczy potencjał konstruktorów. Rozgrzały także rywalizację o rynek wśród producentów mikroprocesorów.
 
 ## Korzenie
