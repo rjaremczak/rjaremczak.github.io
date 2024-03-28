@@ -85,29 +85,29 @@ W celu porównania wydajności z innymi mikroprocesorami oraz zaprezentowania mo
 ; oraz nie przekraczać granicy pełnych 256 bajtów.
 ; Liczby w nawiasach, w komentarzu, oznaczają ilość cykli na daną instrukcję.
 
-  MOV H, ARGH	; (16) ładuj ARGH do rejestru H
-  XRA			; (10) zeruj akumulator
-  MOV C, A		; (10) zeruj rejestr C (indeks bajtu)
-  MOV E, A		; (10) zeruj rejestr E (przeniesienie)
-  MVI D, 8		; (16) ładuj do D długość argumentów w bajtach
+  MOV H, ARGH   ; (16) ładuj ARGH do rejestru H
+  XRA           ; (10) zeruj akumulator
+  MOV C, A      ; (10) zeruj rejestr C (indeks bajtu)
+  MOV E, A      ; (10) zeruj rejestr E (przeniesienie)
+  MVI D, 8      ; (16) ładuj do D długość argumentów w bajtach
 NAST: 
   MVI A, ARGL0	; (16) ładuj do akumulatora LSB argumentu 0
-  ADD A, C		; (10) dodaj do A aktualny indeks bajtu
-  MOV L, C		; (10) H,L zawiera adres bieżącego bajtu argumentu 0
-  MOV B, M		; (16) ładuj do B bieżący bajt argumentu 0
-  MVI A, ARGL1	; (16) ładuj do akumulatora LSB argumentu 1
-  ADD A, C		; (10) dodaj do A aktualny indeks bajtu
-  MOV L, C		; (10) H,L zawiera adres bieżącego bajtu argumentu 1
-  MOV A, E		; (10) odtwórz aktualną wartość przeniesienia (bit 0)
-  RAR			; (10) wpisz tą wartość do znacznika C
-  MOV A, M		; (16) ładuj do akumulator bieżący bajt argumentu 1
-  ADC B		; (10) i wreszcie dodaj oba bajty z przeniesieniem
-  MOV M, B	      ; (16) rezultat zapisz w miejsce bajtu argumentu 1
-  RAL			; (10) wpisz wartość znacznika C do bitu 0 akumulatora
-  MOV E, A		; (10) zachowaj wartość przeniesienia w rejestrze E
-  INR C		; (10) zwiększ licznik bajtów o 1
-  DCR D		; (10) zmniejsz licznik długości o 1
-  JNZ NAST		; (22) jeśli nie wszystkie bajty, kontynuuj
+  ADD A, C      ; (10) dodaj do A aktualny indeks bajtu
+  MOV L, C      ; (10) H,L zawiera adres bieżącego bajtu argumentu 0
+  MOV B, M      ; (16) ładuj do B bieżący bajt argumentu 0
+  MVI A, ARGL1  ; (16) ładuj do akumulatora LSB argumentu 1
+  ADD A, C      ; (10) dodaj do A aktualny indeks bajtu
+  MOV L, C      ; (10) H,L zawiera adres bieżącego bajtu argumentu 1
+  MOV A, E      ; (10) odtwórz aktualną wartość przeniesienia (bit 0)
+  RAR           ; (10) wpisz tą wartość do znacznika C
+  MOV A, M      ; (16) ładuj do akumulator bieżący bajt argumentu 1
+  ADC B         ; (10) i wreszcie dodaj oba bajty z przeniesieniem
+  MOV M, B      ; (16) rezultat zapisz w miejsce bajtu argumentu 1
+  RAL           ; (10) wpisz wartość znacznika C do bitu 0 akumulatora
+  MOV E, A      ; (10) zachowaj wartość przeniesienia w rejestrze E
+  INR C         ; (10) zwiększ licznik bajtów o 1
+  DCR D         ; (10) zmniejsz licznik długości o 1
+  JNZ NAST      ; (22) jeśli nie wszystkie bajty, kontynuuj
 ```
 Zliczając czasy wykonania wszystkich instrukcji, mamy 62 + 8 x 212 - 4 (ostatni skok warunkowy nie zachodzi) = **1754** cykli zegara. Ostatecznie więc czas wykonania to około 3.5 ms, co daje około 285 takich operacji na sekundę. 
 
@@ -122,7 +122,7 @@ Rysunek 2. Schemat blokowy mikroprocesora Intel i8080
 
 Rejestry, które mogą być łączone w pary w celu osiągnięcia większej długości słowa, zostały na schematach blokowych ustawione w poziomie, obok siebie. Jak widać, pomimo zachowania praktycznie identycznego zestawu rejestrów ich funkcjonalność została znacznie rozszerzona. Nie tylko rejestry H i L ale również B, C i D, E mogą być łączone w pary. Takie 16-bitowe pary mogą być w ograniczonym zakresie wykorzystywane jako pojedynczy rejestr. W ten sposób można za pomocą jednej instrukcji załadować 16-bitową wartość w trybie natychmiastowym, można też dokonać inkrementacji i dekrementacji takiej pary. Istnieje również instrukcja DAD realizująca 16-bitowe dodawanie, gdzie rolę akumulatora spełnia para HL, a drugiego operandu para BC, DE lub wskaźnik stosu SP.
 
-Rejestr znaczników został wzbogacony o tak zwane przeniesienie pomocnicze, czyli przeniesienie z mniej znaczącego półbajtu (ang. nibble - czterobitowe słowo). Pozwala to na uproszczenie procedur operujących na liczbach dziesiętnych kodowanych binarnie (ang. Binary Coded Decimal - BCD).
+Rejestr znaczników został wzbogacony o tak zwane przeniesienie pomocnicze, czyli przeniesienie z mniej znaczącego półbajtu (ang. *nibble* - czterobitowe słowo). Pozwala to na uproszczenie procedur operujących na liczbach dziesiętnych kodowanych binarnie (ang. *Binary Coded Decimal* - BCD).
 
 W pełni 16-bitowy rejestr PC, czyli licznik programu, pozwalał w końcu na zaadresowanie pełnych 64 KiB pamięci. Na uwagę zasługuje usunięcie z rdzenia cyklicznego bufora rejestrów adresowych, spełniającego rolę stosu. Zamiast tego dodany został wskaźnik stosu SP zawierający adres jego wierzchołka. Stos mógł być więc umieszczony gdziekolwiek w pamięci, można było też przez zmianę wartości SP utworzyć wiele niezależnych stosów. W połączeniu z instrukcjami PUSH i POP znacznie łatwiejsze było jego wykorzystanie w obsłudze wywołań podprogramów czy procedurach obsługi przerwań.
 
