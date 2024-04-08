@@ -30,14 +30,14 @@ Od początku i8086 został zaprojektowany tak, by przenoszenie kodu z i8080 był
 
 Pierwszą, rzucającą się w oczy zmianą jest funkcjonalny podział jednostki centralnej na blok BIU (ang. Bus Interface Unit - jednostka interfejsu magistrali) i EU (ang. Execution Unit - jednostka wykonawcza). Cykl pobrania i wykonania rozkazów w dalszym ciągu składa się ze standardowych czterech faz:
 
-Pobranie z pamięci i zdekodowanie kolejnej instrukcji (ang. fetch - pobierz).
-Odczyt operandu, jeśli instrukcja tego wymaga (ang. read - odczytaj).
-Wykonanie instrukcji (ang. execute - wykonaj).
-Zapis wyniku, jeśli instrukcja tego wymaga (ang. write - zapisz).
+* Pobranie z pamięci i zdekodowanie kolejnej instrukcji (ang. *fetch* - pobierz).
+* Odczyt operandu, jeśli instrukcja tego wymaga (ang. *read* - odczytaj).
+* Wykonanie instrukcji (ang. *execute* - wykonaj).
+* Zapis wyniku, jeśli instrukcja tego wymaga (ang. *write* - zapisz).
 
 Dzięki separacji BIU i EU faza pobrania kolejnej instrukcji może odbywać się równolegle z fazą wykonywania poprzedniej. Proces ten jest wspomagany kolejką FIFO o długości 6 B łączącą oba moduły. Technika modularyzacji stanie się defacto standardem w projektowaniu mikroprocesorów kolejnych generacji. Pierwsze próby zastosowania pipeliningu (potokowości) były obecne już wcześniej, np. w MOS 6502, lecz teraz przybrały bardziej dojrzałą formę.
 
-#[Intel 8086 - Schemat blokowy](i8086_schemat_blokowy.png)
+![Intel 8086 - Schemat blokowy](i8086_schemat_blokowy.png)
 Rysunek 1. Schemat blokowy mikroprocesora Intel 8086
 
 Wewnętrzna architektura składa się z 16-bitowych rejestrów ogólnego przeznaczenia o częściowo specjalizowanych funkcjach.
@@ -55,20 +55,40 @@ Wewnętrzna architektura składa się z 16-bitowych rejestrów ogólnego przezna
 | kolejność bajtów                       | little-endian                                           |
 | licznik programu                       | 16-bit segment : 16-bit offset                          |
 | stos                                   | 16-bit segment : 16-bit offset                          |
-| rejestry ogólne                        | 7 x 16-bit                                              |
+| rejestry ogólnego przeznaczenia        | 7 x 16-bit                                              |
 | rejestry segmentowe                    | 4 x 16-bit                                              |
 | ALU                                    | 16-bit ogólnego przeznaczenia                           |
-| znaczniki                              | O D I T S Z A P C                                       |
 | adresowanie pamięci                    | 1 MiB (20-bit) adresowanie segmentowe                   |
 | adresowanie portów                     | 64 KiB portów we/wy                                     |
 | przerwania sprzętowe                   | niemaskowalne/maskowalne                                |
 | przerwania programowe                  | maskowalne, w/g priorytetów, 256 kodów identyfikujących |
-| tryby adresowania                      | 10                                                      |
 | dzielenie i mnożenie liczb całkowitych | tak                                                     |
 | tryby pracy                            | minimalny/maksymalny                                    |
 | praca z koprocesorem                   | tak (np. Intel 8087, 8089)                              |
 | systemy wieloprocesorowe               | tak                                                     |
 |                                        |                                                         |
+
+Znaczniki:
+
+* `O` – przepełnienie
+* `D` - kierunek dla operacji łańcuchowych
+* `I` - maska przerwań
+* `T` - pułapka przy pracy krokowej
+* `S` - znak
+* `Z` - zero
+* `A` - przeniesienie pomocnicze
+* `P` - parzystość
+* `C` - przeniesienie
+
+Tryby adresowania:
+
+* bezpośrednie
+* pośrednie rejestrowe (z przesunięciem)
+* bazowe (z przesunięciem)
+* indeksowane (z przesunięciem)
+* bazowe indeksowane (z przesunięciem)
+* blok danych
+* względne
 
 16-bitowe rejestry danych AX, BX, CX, DX są dostępne w modelu programowym również jako 8-bitowe połówki (np. AL, AH), co pozwala na przyspieszenie wykonywania rozkazów i skrócenie ich długości w przypadku użycia adresowania natychmiastowego. Z przyczyn ekonomicznych i8086 był oferowany w obudowie o 40-tu wyprowadzeniach, co wymusiło multipleksowanie szyny danych i szyny adresowej. Dzięki możliwości użycia 8-bitowego operandu wystarczał pojedynczy cykl dostępu do szyny danych.
 
@@ -96,10 +116,10 @@ Powstały w ten sposób 20-bitowy adres fizyczny pozwala na zaadresowanie 1 MiB 
 
 Do wyboru są następujące rejestry segmentowe:
 
-`DS` - segment danych (ang. *data segment*).
-`CS` - segment programu (ang. *code segment*).
-`SS` - segment stosu (ang. *stack segment*).
-`ES` - segment dodatkowy (ang. *extra segment*)
+* `DS` - segment danych (ang. *data segment*).
+* `CS` - segment programu (ang. *code segment*).
+* `SS` - segment stosu (ang. *stack segment*).
+* `ES` - segment dodatkowy (ang. *extra segment*)
 
 Każdy z nich ma swoje domyślne zastosowanie w kontekście określonych operacji - ma to zresztą odzwierciedlenie w ich nazwach. Tak np. adres aktualnie wykonywanej instrukcji określa para CS:IP, aktualny wierzchołek stosu określa para SS:SP. Dla instrukcji MOV domyślnym segmentem jest DS, można jednak explicite podać inny segment.
 
@@ -113,28 +133,28 @@ Poniższy kod realizujący nasz standardowy benchmark pokazuje w praktyce wykorz
 ; zakładamy, że segmenty ES i DS są sobie równe
 
 
-MOV SI, offset ARG0        ; (4) ładuj adres argumentu 0 do SI
-MOV DI, offset ARG1        ; (4) ładuj adres argumentu 1 do DI
-MOV CX, 4                  ; (4) ustaw licznik słów
-CLD                        ; (2) ustaw znacznik kierunku na inkrementację
-CLC                        ; (2) zeruj znacznik przeniesienia
+  MOV SI, offset ARG0        ; (4) ładuj adres argumentu 0 do SI
+  MOV DI, offset ARG1        ; (4) ładuj adres argumentu 1 do DI
+  MOV CX, 4                  ; (4) ustaw licznik słów
+  CLD                        ; (2) ustaw znacznik kierunku na inkrementację
+  CLC                        ; (2) zeruj znacznik przeniesienia
 NST:
-LODSW                      ; (12) ładuj blokowo kolejne słowo ARG0 do AX
-ADC AX,[DI]                ; (14) dodaj kolejne słowo z ARG1 do AX
-STOSW                      ; (11) zapisz blokowo AX do kolejnego słowa ARG1
-LOOP NST                   ; (17) kontynuuj dla następnego słowa
+  LODSW                      ; (12) ładuj blokowo kolejne słowo ARG0 do AX
+  ADC AX,[DI]                ; (14) dodaj kolejne słowo z ARG1 do AX
+  STOSW                      ; (11) zapisz blokowo AX do kolejnego słowa ARG1
+  LOOP NST                   ; (17) kontynuuj dla następnego słowa
 ```
 Sumując czasy wykonania dostajemy: 16 + 4 x 54 - 12 (ostatni skok warunkowy nie zachodzi, więc zajmuje mniej cykli) = 220 cykli zegara. Czas wykonania wynosi więc 44 μs, co daje 22727 dodawań na sekundę.
 
-Istnieją również instrukcje blokowe, wykorzystujące ten sam schemat adresowania i inkrementacji/dekrementacji, realizujące skanowanie (wyszukiwanie zera) i porównywanie. W tym kontekście operacje te zwane są również łańcuchowymi (ang. string operations).
+Istnieją również instrukcje blokowe, wykorzystujące ten sam schemat adresowania i inkrementacji/dekrementacji, realizujące skanowanie (wyszukiwanie zera) i porównywanie. W tym kontekście operacje te zwane są również łańcuchowymi (ang. *string operations*).
 
 System przerwań został wzbogacony o możliwość identyfikacji źródła za pomocą 8-bitowego kodu. Sprzętowe przerwanie maskowalne wyzwalane jest sygnałem INTA, pierwszy impuls ma charakter aktywacji, podczas drugiego na szynie danych powinien znaleźć się 8-bitowy kod przerwania. Kod ten jest wykorzystywany przez CPU do odnalezienia odpowiedniego wektora obsługi przerwania i skoku pod zawarty w nim adres. Standardowo koordynacją sprzętowej obsługi przerwań zajmuje się dedykowany układ scalony Intel 8259A. Przerwanie może zostać wyzwolone również programowo za pomocą instrukcji INT, w której parametrem jest kod przerwania.
 
 Ważnym krokiem w rozwoju architektury mikroprocesorów, zrealizowanym na przykładzie i8086, było ułatwienie tworzenia systemów wieloprocesorowych. Nie było to jednak w owych czasach rozwiązanie często stosowane, dlatego wyposażono i8086 w dwa tryby pracy: minimalny i maksymalny. Wyboru trybu pracy dokonywało się przez podanie odpowiedniego stanu na wyprowadzenie MN/MX. Tryb minimalny był dedykowany dla nieskomplikowanych systemów jednoprocesorowych, w którym sygnały dostępu do magistrali: HOLD/HLDA i sygnały sterujące: DT/R, DEN, ALE, M/IO generuje sam mikroprocesor. W trybie maksymalnym na zewnątrzy wyprowadzone były syntetyczne sygnały określające wewnętrzny stan mikroprocesora: S0..S2, QS0..1, RQ/GT0..1 wykorzystywane przez dodatkowe układy, jak Intel 8288 (kontroler magistrali) czy Intel 8289 (arbiter). Były to elementy tzw. architektury Intel Multibus. Tego typu rozwiązania nie były stosowane w konstrukcjach 8-bitowych, były jednak standardem w minikomputerach i maszynach klasy mainframe. Mikroprocesor nie był jednak wyposażony w tzw. tryb chroniony (ang. protected mode), ograniczający dostęp do określonych instrukcji i zasobów dla programów użytkownika.
 
-Idea współpracy mikroprocesora z innymi jednostkami przetwarzającymi, tzw. koprocesorami (ang. co-processor), zaowocowała również wprowadzeniem do sprzedaży koprocesora Intel 8087, który zajmował się sprzętową realizacją arytmetyki zmiennoprzecinkowej (ang. floating-point arithmetic). Ta klasa procesorów często określana jest jako FPU (ang. floating-point unit - jednostka zmiennoprzecinkowa) w odróżnieniu od CPU (ang. central processing unit  - centralna jednostka przetwarzająca, procesor). 
+Idea współpracy mikroprocesora z innymi jednostkami przetwarzającymi, tzw. koprocesorami (ang. *co-processor*), zaowocowała również wprowadzeniem do sprzedaży koprocesora Intel 8087, który zajmował się sprzętową realizacją arytmetyki zmiennoprzecinkowej (ang. *floating-point arithmetic*). Ta klasa procesorów często określana jest jako FPU (ang. *floating-point unit* - jednostka zmiennoprzecinkowa) w odróżnieniu od CPU (ang. *central processing unit*  - centralna jednostka przetwarzająca, procesor). 
 
-Zazwyczaj koprocesor pobiera swoje rozkazy za pośrednictwem procesora głównego (ang. host processor), który realizuje dostęp do operandów łącznie z wyliczaniem ich adresu efektywnego i pobieraniem ich z pamięci. W przypadku i8086 sekwencja obsługi instrukcji koprocesora rozpoczyna się od instrukcji ESC i wygląda następująco:
+Zazwyczaj koprocesor pobiera swoje rozkazy za pośrednictwem procesora głównego (ang. *host processor*), który realizuje dostęp do operandów łącznie z wyliczaniem ich adresu efektywnego i pobieraniem ich z pamięci. W przypadku i8086 sekwencja obsługi instrukcji koprocesora rozpoczyna się od instrukcji ESC i wygląda następująco:
 
 instrukcja ESC jest dekodowana jednocześnie przez procesor i koprocesor. Koprocesor przechodzi po niej w stan aktywny, ponieważ kolejna instrukcja jest dedykowana dla niego.
 
@@ -150,7 +170,7 @@ Koordynację pracy obu procesorów, szczególnie podczas konieczności pobierani
 
 Powyżej zaprezentowany schemat współpracy procesora głównego z koprocesorem, który efektywnie rozszerza dostępny zestaw instrukcji, jest stosowany w mniej lub bardziej podobny sposób przez pozostałe, omówione w dalszej części artykułu, konstrukcje. Firma Intel oferuje oprócz koprocesora numerycznego również koprocesor wejścia/wyjścia - Intel 8089.
 
-W celu koordynacji dostępu do współdzielonych zasobów w systemach wieloprocesorowych dostępny jest modyfikator instrukcji (ang. prefix) LOCK, który sygnalizuje wyłączny dostęp do szyny i w połączeniu z instrukcją XCHG (wymiana danych pomiędzy rejestrem i pamięcią) pozwala na implementację semaforów. 
+W celu koordynacji dostępu do współdzielonych zasobów w systemach wieloprocesorowych dostępny jest modyfikator instrukcji (ang. *prefix*) LOCK, który sygnalizuje wyłączny dostęp do szyny i w połączeniu z instrukcją XCHG (wymiana danych pomiędzy rejestrem i pamięcią) pozwala na implementację semaforów. 
 
 Podsumowując, architektura mikroprocesora Intel 8086 jest znacznie bardziej zaawansowana niż jej 8-bitowych poprzedników. Charakterystycznym rysem konstrukcji Intela pozostaje w dalszym ciągu tendencja do tworzenia wyspecjalizowanych rozwiązań i dedykowanych dla nich rejestrów czy instrukcji mających w wydajny i zwięzły sposób realizować określone funkcje. Pozwala to tworzyć naprawdę wydajne rozwiązania, lecz nieuchronnie prowadzi do rozrastania się zestawu „wyspecjalizowanych narzędzi”, różniących się od siebie i wymagających opanowania każdego z osobna. Jest to podejście charakterystyczne dla projektantów rozwiązań sprzętowych, które raz wdrożone pozostają w zasadzie niezmienne, stąd potrzeba „obejść” i „rozszerzeń” staje się jedyną drogą rozwoju.
 
@@ -176,27 +196,24 @@ Zaimplementowanie odrębnego trybu użytkownika i trybu systemowego, wybieranego
 Z trybem chronionym wiąże się również mechanizm pułapek (ang. *trap*). W Z8001 występują następujące ich rodzaje:
 
 * Extended Instruction - instrukcja rozszerzona; sygnalizuje, że kod instrukcji przeznaczony jest dla koprocesora, bardziej szczegółowe omówienie znajduje się poniżej.
-
 * Privileged Instruction - próba wykonania instrukcji uprzywilejowanej w trybie normalnym.
-
 * Addressing Violation (Segment Trap) - próba niedozwolonego dostępu do adresu (segmentu). Generowana przez aktywowanie wejściowego sygnału SEGT przez MMU (np. Z8010).
-
 * System Call - wywołanie funkcji systemowej; standardowy sposób na przekazanie kontroli z poziomu kodu pracującego w trybie użytkownika do kodu systemu operacyjnego, pracującego w trybie systemowym.
 
-Wzorem i8086 mikroprocesor firmy Zilog zawierał mechanizmy umożliwiające wykorzystywanie tzw. EPU (ang. extended processing unit - jednostka przetwarzania rozszerzonego, koprocesor), jak określono w dokumentacji dodatkową jednostkę przetwarzającą. Obecność EPU określał znacznik EPA, jeśli nie był ustawiony, oznaczało to brak fizycznego koprocesora i każda próba wykonania instrukcji rozszerzonej generowała wyjątek (ang. trap - pułapka). Schemat współpracy procesora głównego z koprocesorem jest podobny do tego opisanego dla i8086. Obliczanie adresu efektywnego operandu było zadaniem procesora głównego, koprocesor monitorował strumień instrukcji i wychwytywał oraz wykonywał tylko te przeznaczone dla siebie. EPU i CPU pracowały całkowicie asynchronicznie, wymuszenie wstrzymania CPU aż do zakończenia przetwarzania bieżącej instrukcji przez EPU realizowane było za pomocą sygnału wejściowego STOP mikroprocesora Z8001. Dostępne były cztery rodzaje instrukcji rozszerzonych:
+Wzorem i8086 mikroprocesor firmy Zilog zawierał mechanizmy umożliwiające wykorzystywanie tzw. EPU (ang. extended processing unit - jednostka przetwarzania rozszerzonego, koprocesor), jak określono w dokumentacji dodatkową jednostkę przetwarzającą. Obecność EPU określał znacznik EPA, jeśli nie był ustawiony, oznaczało to brak fizycznego koprocesora i każda próba wykonania instrukcji rozszerzonej generowała wyjątek (ang. *trap* - pułapka). Schemat współpracy procesora głównego z koprocesorem jest podobny do tego opisanego dla i8086. Obliczanie adresu efektywnego operandu było zadaniem procesora głównego, koprocesor monitorował strumień instrukcji i wychwytywał oraz wykonywał tylko te przeznaczone dla siebie. EPU i CPU pracowały całkowicie asynchronicznie, wymuszenie wstrzymania CPU aż do zakończenia przetwarzania bieżącej instrukcji przez EPU realizowane było za pomocą sygnału wejściowego STOP mikroprocesora Z8001. Dostępne były cztery rodzaje instrukcji rozszerzonych:
 
-wewnętrzne instrukcje wykonywane przez EPU,
-przesyłanie danych pomiędzy EPU i pamięcią,
-przesyłanie danych pomiędzy EPU i CPU,
-przesyłanie danych między rejestrami znaczników EPU a rejestrami znaczników i słowem kontrolnym CPU. Stosowane między innymi do sprawdzania rezultatu wykonania instrukcji po stronie EPU i wykorzystania go w skoku warunkowym.
+* wewnętrzne instrukcje wykonywane przez EPU,
+* przesyłanie danych pomiędzy EPU i pamięcią,
+* przesyłanie danych pomiędzy EPU i CPU,
+* przesyłanie danych między rejestrami znaczników EPU a rejestrami znaczników i słowem kontrolnym CPU. Stosowane między innymi do sprawdzania rezultatu wykonania instrukcji po stronie EPU i wykorzystania go w skoku warunkowym.
 
 Stosowanie pułapki do przechwytywania instrukcji rozszerzonych jest wygodną metodą ich emulacji w przypadku braku fizycznego koprocesora. Ten sam kod może być wykonywany przez fizyczne EPU, jak i w trybie emulacji programowej. Zilog Z8001 zawierał również dedykowane instrukcje do komunikacji między-procesorowej, tzw. instrukcje Multi-Micro.
 
 Mechanizm przerwań, który co do zasady jest podobny do mechanizmu pułapek, lecz w odróżnieniu od niego asynchroniczny, został zaimplementowany następująco:
 
-*`NMI` - przerwanie niemaskowalne, tę funkcję pełni również obsługa resetu sprzętowego (pin RESET), która ma osobny adres obsługi.
-*`NVI` - przerwanie maskowalne, niewektoryzowane. 16-bitowe słowo identyfikujące rodzaj przerwania jest dostępne na stosie, jednak nie ma wpływu na adres procedury obsługi, który jest stały.
-*`VI` - przerwanie maskowalne, wektoryzowane. 16-bitowe słowo identyfikujące rodzaj przerwania jest dostępne na stosie oraz jest wykorzystywane przez mikroprocesor do określenia adresu procedury obsługi (wektora) przerwania.
+* `NMI` - przerwanie niemaskowalne, tę funkcję pełni również obsługa resetu sprzętowego (pin RESET), która ma osobny adres obsługi.
+* `NVI` - przerwanie maskowalne, niewektoryzowane. 16-bitowe słowo identyfikujące rodzaj przerwania jest dostępne na stosie, jednak nie ma wpływu na adres procedury obsługi, który jest stały.
+* `VI` - przerwanie maskowalne, wektoryzowane. 16-bitowe słowo identyfikujące rodzaj przerwania jest dostępne na stosie oraz jest wykorzystywane przez mikroprocesor do określenia adresu procedury obsługi (wektora) przerwania.
 
 Sumaryczne przedstawienie podstawowych danych omawianego mikroprocesora znajduje się w poniższej tabeli.
 
@@ -215,20 +232,43 @@ Sumaryczne przedstawienie podstawowych danych omawianego mikroprocesora znajduje
 | stos                                   | 7-bit segment : 16-bit offset                                      |
 | rejestry ogólne                        | 14 x 16-bit                                                        |
 | ALU                                    | 16-bit ogólnego przeznaczenia                                      |
-| znaczniki                              | C Z S P/V DA H                                                     |
-| znaczniki specjalne                    | SEG S/N EPA VIE NVIE                                               |
 | adresowanie pamięci                    | 8 MiB (23-bit adres), adresowanie segmentowe                       |
 | adresowanie portów                     | 2 obszary po 64 KiB adresów we/wy każdy                            |
 | przerwania                             | niemaskowalne, wektoryzowane, niewektoryzowane, system priorytetów |
-| tryby adresowania                      | 10                                                                 |
 | dzielenie i mnożenie liczb całkowitych | tak                                                                |
 | tryby pracy                            | normalny/systemowy - segmentowany/niesegmentowany                  |
 | praca z koprocesorem                   | tak                                                                |
 | systemy wieloprocesorowe               | tak                                                                |
 |                                        |                                                                    |
 
-Zestaw instrukcji jest imponujący - zawiera instrukcje transferu blokowego LDIR z licznikiem słów, gdzie tak licznik, jak i rejestry zawierające adres źródłowy i docelowy mogą być wyspecyfikowane w instrukcji. Podobnie działają instrukcje porównywania i wyszukiwania blokowego, a także instrukcja TRIRB/TRDRB realizująca translacje ciągu bajtów w oparciu o 256-bajtową tabelę kodów. Jednak pomimo takiej różnorodności wiele instrukcji ma ściśle określone tryby adresowania operandów i w związku z tym, wskutek braku instrukcji blokowej, której operandem byłby rejestr (jak np. LODS/STOS w i8086), pętla naszego benchmarku musiała zostać zrealizowana w sposób klasyczny.
+Znaczniki:
 
+* `SEG` - tryb z segmentowaniem
+* `S/N` - tryb systemowy / normalny
+* `EPA` - tryb rozszerzonej architektury
+* `VIE` - przerwania wektoryzowane
+* `NVIE` - przerwania niewektoryzowane
+* `C` - przeniesienie
+* `Z` - zero
+* `S` - znak
+* `P/V` - parzystość/przepełnienie
+* `DA` - korekta dziesiętna
+* `H` - przeniesienie pomocnicze
+
+Tryby adresowania:
+
+* domyślne
+* natychmiastowe
+* rejestrowe
+* bezpośrednie
+* pośrednie rejestrowe
+* indeksowane
+* bazowe
+* bazowe indeksowane
+* blok danych
+* względne
+
+Zestaw instrukcji jest imponujący - zawiera instrukcje transferu blokowego LDIR z licznikiem słów, gdzie tak licznik, jak i rejestry zawierające adres źródłowy i docelowy mogą być wyspecyfikowane w instrukcji. Podobnie działają instrukcje porównywania i wyszukiwania blokowego, a także instrukcja TRIRB/TRDRB realizująca translacje ciągu bajtów w oparciu o 256-bajtową tabelę kodów. Jednak pomimo takiej różnorodności wiele instrukcji ma ściśle określone tryby adresowania operandów i w związku z tym, wskutek braku instrukcji blokowej, której operandem byłby rejestr (jak np. LODS/STOS w i8086), pętla naszego benchmarku musiała zostać zrealizowana w sposób klasyczny.
 ```
 ; Zilog Z8001
 ; dodawanie dwóch liczb 64-bitowych
@@ -237,144 +277,127 @@ Zestaw instrukcji jest imponujący - zawiera instrukcje transferu blokowego LDIR
 ; kolejność bajtów w słowie zgodna z wymaganą przez architekturę procesora
 ; słowa w buforze w kolejności od najmniej znaczącego
 
-
-CLR    R1            ; (7) zeruj rejestr przesunięcia
-RESFLG C             ; (7) zeruj znacznik przeniesienia
+  CLR    R1            ; (7) zeruj rejestr przesunięcia
+  RESFLG C             ; (7) zeruj znacznik przeniesienia
 NST:
-LD     R2, ARG0(R1)  ; (10) załaduj kolejne słowo argumentu 0
-LD     R3, ARG1(R1)  ; (10) załaduj kolejne słowo argumentu 1
-ADC    R3, R2        ; (5) dodaj słowa
-LD     ARG1(R1), R3  ; (12) zapisz wynik do kolejnego słowa argumentu 1
-INC    R1, #2        ; (4) zwiększ przesunięcie o 2
-CP     R1, #8        ; (7) porównaj przesunięcie z rozmiarem argumentów
-JR     NE, NST       ; (6) jeśli < 8 kontynuuj
-
+  LD     R2, ARG0(R1)  ; (10) załaduj kolejne słowo argumentu 0
+  LD     R3, ARG1(R1)  ; (10) załaduj kolejne słowo argumentu 1
+  ADC    R3, R2        ; (5) dodaj słowa
+  LD     ARG1(R1), R3  ; (12) zapisz wynik do kolejnego słowa argumentu 1
+  INC    R1, #2        ; (4) zwiększ przesunięcie o 2
+  CP     R1, #8        ; (7) porównaj przesunięcie z rozmiarem argumentów
+  JR     NE, NST       ; (6) jeśli < 8 kontynuuj
+```
 Zliczając czasy wszystkich instrukcji, mamy: 14 + 4 x 54 = 230 cykli zegara. Czas wykonania wynosi więc około 38.3 μs, co daje 26086 dodawań na sekundę.
 
 Mikroprocesor Zilog Z8001 oferuje znacznie więcej niż współczesny mu Intel 8086 i to przy użyciu znacznie mniejszej liczby tranzystorów w strukturze. Udało się tego dokonać dzięki odmiennej od konkurencji metodzie projektowania układu wykonawczego, realizującego na poziomie mikroarchitektury instrukcje procesora. 
 
-Zazwyczaj układ wykonawczy mikroprocesora oparty jest na tzw. mikrokodzie, który z kolej inicjuje wykonanie serii określonych sekwencji tzw. nanokodu. Podział ten i konwencja nazewnicza jest umowna, sprowadza się jednak do tego, że nanokod jest sekwencją wielobitowych słów, które bezpośrednio sterują poszczególnymi blokami mikroarchitektury procesora. Matryca bitowa określająca nanokod zajmuje stosunkowo dużo miejsca w układzie scalonym, dlatego metodą na zaoszczędzenie tego miejsca jest kodowanie w ten sposób tylko unikalnych sekwencji. Sekwencje nanokodu są grupowane i wywoływane przez mikrokod, którego komendy są już krótsze, a co za tym idzie całe sekwencje zajmują mniej miejsca. Oprócz oszczędności miejsca taka metoda jest znacznie wygodniejsza w fazie projektowania i umożliwia dokonywanie zmian praktycznie do ostatniej chwili przed oddaniem mikroprocesora do masowej produkcji. Alternatywą jest projektowanie klasycznej logiki opartej na bramkach logicznych, rejestrach i innych nisko-poziomowych blokach stosowanych układach mających tzw. strukturę nieregularną (ang. random logic). Układ logiczny wykonany jako struktura nieregularna wymaga zazwyczaj mniejszej ilości tranzystorów i jest szybszy, jego projektowanie natomiast jest zadaniem bardzo czasochłonnym, szczególnie przy układach VLSI (ang. very large scale of integration - bardzo duża skala integracji), jakimi są mikroprocesory. Projektanci firmy Zilog podjęli się tej tytanicznej pracy, by maksymalnie wykorzystać elementy półprzewodnikowe znajdujące się w strukturze mikroprocesora. Przyjęte przez nich rozwiązanie hybrydowe pozwoliło znacznie zredukować liczbę tranzystorów, a więc i cenę mikroprocesora. Jednak odbyło się to kosztem zmniejszenia elastyczności listy rozkazów pod względem dostępnych dla nich trybów adresowania operandów. Zmniejszeniu uległa tzw. ortogolnalność dla bardziej wyspecjalizowanych czy rzadziej wykorzystywanych instrukcji, co ogranicza możliwość ich stosowania w kodzie programu.
+Zazwyczaj układ wykonawczy mikroprocesora oparty jest na tzw. mikrokodzie, który z kolej inicjuje wykonanie serii określonych sekwencji tzw. nanokodu. Podział ten i konwencja nazewnicza jest umowna, sprowadza się jednak do tego, że nanokod jest sekwencją wielobitowych słów, które bezpośrednio sterują poszczególnymi blokami mikroarchitektury procesora. Matryca bitowa określająca nanokod zajmuje stosunkowo dużo miejsca w układzie scalonym, dlatego metodą na zaoszczędzenie tego miejsca jest kodowanie w ten sposób tylko unikalnych sekwencji. Sekwencje nanokodu są grupowane i wywoływane przez mikrokod, którego komendy są już krótsze, a co za tym idzie całe sekwencje zajmują mniej miejsca. Oprócz oszczędności miejsca taka metoda jest znacznie wygodniejsza w fazie projektowania i umożliwia dokonywanie zmian praktycznie do ostatniej chwili przed oddaniem mikroprocesora do masowej produkcji. Alternatywą jest projektowanie klasycznej logiki opartej na bramkach logicznych, rejestrach i innych nisko-poziomowych blokach stosowanych układach mających tzw. strukturę nieregularną (ang. *random logic*). Układ logiczny wykonany jako struktura nieregularna wymaga zazwyczaj mniejszej ilości tranzystorów i jest szybszy, jego projektowanie natomiast jest zadaniem bardzo czasochłonnym, szczególnie przy układach VLSI (ang. *very large scale of integration* - bardzo duża skala integracji), jakimi są mikroprocesory. Projektanci firmy Zilog podjęli się tej tytanicznej pracy, by maksymalnie wykorzystać elementy półprzewodnikowe znajdujące się w strukturze mikroprocesora. Przyjęte przez nich rozwiązanie hybrydowe pozwoliło znacznie zredukować liczbę tranzystorów, a więc i cenę mikroprocesora. Jednak odbyło się to kosztem zmniejszenia elastyczności listy rozkazów pod względem dostępnych dla nich trybów adresowania operandów. Zmniejszeniu uległa tzw. ortogolnalność dla bardziej wyspecjalizowanych czy rzadziej wykorzystywanych instrukcji, co ogranicza możliwość ich stosowania w kodzie programu.
 
 ## Motorola 68000
 
 Projektanci i zarządzający firmą Motorola, inaczej niż ich koledzy z firmy Intel, rozpoznali nadchodzącą zmianę paradygmatu w tworzeniu oprogramowania. Aplikacje oszczędne, a wręcz ascetyczne, oparte na pracy w trybie tekstowym, miały definitywnie odejść w przeszłość. Proste, iteracyjne rozszerzanie istniejących konstrukcji, mających swoje korzenie w systemach wbudowanych komunikujących się przez terminal, miały zostać zastąpione dynamicznym, graficznym interfejsem użytkownika. To oznaczało konieczność przetwarzania znacznie większych porcji danych, znacznie szybciej i w znacznie bardziej wyrafinowany sposób. Niezbędne stało się projektowanie systemów komputerowych pod kątem oprogramowania i programistów, a nie głównie sprzętu, jak to było dotychczas.
 
-W tym celu powołano projekt MACSS (ang. Motorola’s Advanced Computer System on Silicon), czyli w wolnym tłumaczeniu: zaawansowany system komputerowy firmy Motorola zaimplementowany w krzemie. Członkowie projektu mieli prawie całkowitą swobodę, był to tzw. green field, na którym mogli zaprojektować to, co chcieli, bez oglądania się na wcześniejsze konstrukcje. Celem był mikroprocesor mający sprostać wyzwaniom przyszłości, tak jak je rozumiano w połowie lat 70-tych XX wieku. Projektanci zdecydowali się na zachowanie zgodności z układami peryferyjnymi rodziny M6800 co nie ograniczało ich inwencji w kwestii architektury nowego mikroprocesora, a dawało znaczącą przewagę marketingową podczas rynkowego debiutu.
+W tym celu powołano projekt MACSS (ang. *Motorola’s Advanced Computer System on Silicon*), czyli w wolnym tłumaczeniu: zaawansowany system komputerowy firmy Motorola zaimplementowany w krzemie. Członkowie projektu mieli prawie całkowitą swobodę, był to tzw. green field, na którym mogli zaprojektować to, co chcieli, bez oglądania się na wcześniejsze konstrukcje. Celem był mikroprocesor mający sprostać wyzwaniom przyszłości, tak jak je rozumiano w połowie lat 70-tych XX wieku. Projektanci zdecydowali się na zachowanie zgodności z układami peryferyjnymi rodziny M6800 co nie ograniczało ich inwencji w kwestii architektury nowego mikroprocesora, a dawało znaczącą przewagę marketingową podczas rynkowego debiutu.
 
-Pierwszą decyzją było wprowadzenie płaskiego (ang. flat), 32-bitowego adresowania, bez jakiejkolwiek segmentacji. W praktyce pociągnęło to za sobą konieczność zastosowania 32-bitowych rejestrów w celu wygodnej manipulacji na adresach. Wewnętrzna architektura procesora M68000 musiała być w dużej części 32-bitowa. Ta decyzja stała się jednym z filarów jej ogromnego sukcesu. Poglądowy schemat mikroprocesora M68000 zaprezentowano na Rysunku 3.
+Pierwszą decyzją było wprowadzenie płaskiego (ang. *flat*), 32-bitowego adresowania, bez jakiejkolwiek segmentacji. W praktyce pociągnęło to za sobą konieczność zastosowania 32-bitowych rejestrów w celu wygodnej manipulacji na adresach. Wewnętrzna architektura procesora M68000 musiała być w dużej części 32-bitowa. Ta decyzja stała się jednym z filarów jej ogromnego sukcesu. Poglądowy schemat mikroprocesora M68000 zaprezentowano na Rysunku 3.
 
+![M68000 - Schemat blokowy](motorola_68000_schemat_blokowy.png)
 Rysunek 3. Schemat blokowy mikroprocesora Motorola 68000
 
-Na zewnątrz obudowy wyprowadzono tylko 24-bity adresu, lecz model programowy i mikroarchitektura były gotowe na kolejne modele, w których miano udostępnić pełne 32 bity. Dawało to już na starcie możliwość bezpośredniego zaadresowania 16 MiB pamięci z perspektywą rozszerzenia do pełnych 4 GiB w kolejnych modelach rodziny M68000. Z powodu decyzji o zgodności z peryferiami serii M6800 najmłodszy bit adresu został zastąpiony dwoma osobnymi sygnałami LDS/UDS, które służyły do wybierania mniej lub bardziej znaczącego bajtu na 16-bitowej szynie danych. W celu przyspieszenia operacji wyliczania adresu efektywnego zastosowano dwie dodatkowe, dedykowane 16-bitowe jednostki arytmetyczne. W ten sposób główne ALU nie musiało być wykorzystywane w tym celu, a proces wyliczania adresu mógł przebiegać równolegle z wykonywaniem operacji arytmetyczno-logicznych wynikających z instrukcji. Dodatkowe jednostki arytmetyczne można było wykorzystać wprost np. za pomocą instrukcji LEA (ang. load effective address - ładuj adres efektywny), co pozwalało zachować wprost wynik obliczeń w rejestrze. 
+Na zewnątrz obudowy wyprowadzono tylko 24-bity adresu, lecz model programowy i mikroarchitektura były gotowe na kolejne modele, w których miano udostępnić pełne 32 bity. Dawało to już na starcie możliwość bezpośredniego zaadresowania 16 MiB pamięci z perspektywą rozszerzenia do pełnych 4 GiB w kolejnych modelach rodziny M68000. Z powodu decyzji o zgodności z peryferiami serii M6800 najmłodszy bit adresu został zastąpiony dwoma osobnymi sygnałami LDS/UDS, które służyły do wybierania mniej lub bardziej znaczącego bajtu na 16-bitowej szynie danych. W celu przyspieszenia operacji wyliczania adresu efektywnego zastosowano dwie dodatkowe, dedykowane 16-bitowe jednostki arytmetyczne. W ten sposób główne ALU nie musiało być wykorzystywane w tym celu, a proces wyliczania adresu mógł przebiegać równolegle z wykonywaniem operacji arytmetyczno-logicznych wynikających z instrukcji. Dodatkowe jednostki arytmetyczne można było wykorzystać wprost np. za pomocą instrukcji LEA (ang. *load effective address* - ładuj adres efektywny), co pozwalało zachować wprost wynik obliczeń w rejestrze. 
 
 Zaprojektowano kolejkę pobierania wstępnego o długości dwóch słów 16-bitowych. Układ pobierania z wyprzedzeniem był odpowiedzialny za załadowanie do niej kolejnej instrukcji. Jeśli możliwe było rozgałęzienie, w przypadku instrukcji warunkowych, pobrane mogły być instrukcje dla obu wariantów. Bufor miał 2 x 16 bitów, ponieważ długość każdej instrukcji, nie licząc operandów, to właśnie 16 bitów.
 
 Blok rejestrów składał się z ośmiu 32-bitowych rejestrów danych D0..7, ogólnego przeznaczenia, oraz ośmiu rejestrów adresowych A0..7, również 32-bitowych. Z nich A7 był dedykowany jako wskaźnik stosu. Rozróżnienie pomiędzy rejestrami danych i adresowymi miało jeden ważny powód. Operacje arytmetyczne na rejestrach danych ustawiają wskaźniki, jak np. wskaźnik przepełnienia, natomiast operacje na rejestrach adresowych nie zmieniają ich. Dzięki temu można łatwo przeplatać operacje arytmetyczne na rejestrach adresowych z operacjami na danych, bez konieczności każdorazowego zapisywania i odtwarzania znaczników. Ma to zastosowanie np. w operacjach wielobajtowego dodawania, które wymaga zachowania znacznika przeniesienia. Rejestry danych mogą dodatkowo być wykorzystywane jako 8 czy 16-bitowe.
 
-Jedną z ciekawostek było wprowadzenie znacznika X (ang. extension - rozszerzenie), który podczas operacji arytmetycznych czy logicznych był ustawiany jednocześnie ze znacznikiem C (ang. carry - przeniesienie). Znacznik C jest wykorzystywany przez instrukcje skoków warunkowych, natomiast znacznik X jest używany jako przeniesienie w operacjach dodawania czy odejmowania, efektywnie rozszerzając operandy o jeden bit. Dodatkową innowacją było zastosowanie dwukierunkowego sygnału RESET, który mógł być wykorzystany przez procesor do resetowania układów zewnętrznych instrukcją.. RESET.
+Jedną z ciekawostek było wprowadzenie znacznika X (ang. *extension* - rozszerzenie), który podczas operacji arytmetycznych czy logicznych był ustawiany jednocześnie ze znacznikiem C (ang. *carry* - przeniesienie). Znacznik C jest wykorzystywany przez instrukcje skoków warunkowych, natomiast znacznik X jest używany jako przeniesienie w operacjach dodawania czy odejmowania, efektywnie rozszerzając operandy o jeden bit. Dodatkową innowacją było zastosowanie dwukierunkowego sygnału RESET, który mógł być wykorzystany przez procesor do resetowania układów zewnętrznych instrukcją.. RESET.
 
-Mikroprocesor oferował dwa tryby wykonywania programu: tryb użytkownika i tryb nadzorcy (ang. supervisor). Tryb pracy określa wartość wskaźnika S w systemowej części rejestru CCR (ang. conditional code register - rejestr kodów warunków) lub też SR (ang. system register - rejestr systemowy). W trybie nadzorcy dostępny był osobny wskaźnik stosu jako alternatywny rejestr A7’, określany również jako SSP (ang. system stack pointer - systemowy wskaźnik stosu) w odróżnieniu od A7, czyli USP (ang. user stack pointer - wskaźnik stosu użytkownika).
+Mikroprocesor oferował dwa tryby wykonywania programu: tryb użytkownika i tryb nadzorcy (ang. *supervisor*). Tryb pracy określa wartość wskaźnika S w systemowej części rejestru CCR (ang. *conditional code register* - rejestr kodów warunków) lub też SR (ang.*system register* - rejestr systemowy). W trybie nadzorcy dostępny był osobny wskaźnik stosu jako alternatywny rejestr A7’, określany również jako SSP (ang. *system stack pointer* - systemowy wskaźnik stosu) w odróżnieniu od A7, czyli USP (ang. *user stack pointer* - wskaźnik stosu użytkownika).
 
 Tryb pracy uprzywilejowanej, czyli nadzorcy, jest trybem, w którym możliwe jest wykonanie każdej instrukcji i dostęp do każdego zasobu. W trybie użytkownika niektóre zasoby, jak np. systemowa część rejestru znaczników, gdzie znajduje się bit S, nie jest dostępna. Przełączenie trybu z użytkownika na tryb nadzorcy możliwe jest przez zgłoszenie wyjątku (pułapki lub przerwania). Pierwsza wersja M68000 nie wspierała ochrony obszarów pamięci (ang. memory protection) bez zewnętrznego układu zarządzającego dostępem (MMU). W celu wykorzystania M68000 w systemach wielodostępnych typu UNIX zewnętrzny układ MMU zapewniający ochronę pamięci oraz translację adresów logicznych na fizyczne był niezbędny, a przynajmniej wysoce pożądany.
 
 System przerwań bazuje na 3-bitowym identyfikatorze priorytetu, gdzie wartość 0 oznacza brak przerwania, a 7 przerwanie niemaskowalne (odpowiednik NMI w innych systemach). Przerwanie o priorytecie wyższym może przerwać procedurę obsługi przerwania o priorytecie niższym. Konsekwentnie program główny, pracujący na poziomie 0, może zostać przerwany przez każdy wyższy priorytet.
 
-W systemach wieloprocesorowych instrukcja TAS (ang. test and set - sprawdź i ustaw) stanowiła podstawę implementacji semaforów zapewniających wyłączny dostęp do współdzielonych zasobów. 
+W systemach wieloprocesorowych instrukcja TAS (ang. *test and set* - sprawdź i ustaw) stanowiła podstawę implementacji semaforów zapewniających wyłączny dostęp do współdzielonych zasobów. 
 
 Skrócona specyfikacja mikroprocesora podana jest w poniższej tabeli.
 
-Motorola 68000
-rok wprowadzenia do produkcji
-1979
-ilość tranzystorów
-68000
-częstotliwość taktowania
-8 MHz  (cykl zegarowy: 0.125  μs)
-najkrótszy cykl instrukcji
-0.5 μs (4 cykle zegarowe)
-indeks prędkości
-2 MIPS
-dodawanie 64-bitowe
-63492 / s
-efektywność architektury
-934
-typ architektury
-16/32-bitowa, CISC
-kolejność bajtów
-big-endian
-licznik programu
-32-bitowy licznik programu
-24 bity wyprowadzone na zewnątrz
-stos
-32-bitowy stos użytkownika i nadzorcy
-24 bity wyprowadzone na zewnątrz
-rejestry
-14 x 32 bitowe ogólnego przeznaczenia
-ALU
-1 x 16 bitowe ogólnego przeznaczenia
-2 x 16 bitowe do wyliczania adresu
-znaczniki
-T - tryb śledzenia
-S - tryb nadzorcy
-I - maska przerwań (3 bitowa)
-X - bit rozszerzenia
-N - znak
-Z - zero
-V - przepełnienie
-C - przeniesienie
-adresowanie pamięci
-16 MiB (23 bity adresu + 2 bity wyboru bajtu) - adresowanie jednolite
-adresowanie portów
-mapowane w obszarze pamięci
-przerwania
-priorytetowe o 7 poziomach, najwyższy niemaskowalny
-tryby adresowania
-domyślne
-natychmiastowe
-bezpośrednie
-rejestrowe
-pośrednie rejestrowe (z predekrementacją, postinkrementacją, indeksowaniem, przesunięciem)
-względne (z indeksem, przesunięciem)
-dzielenie i mnożenie liczb całkowitych
-tak
-tryby pracy
-nadzorcy/użytkownika
-praca z koprocesorem
-tak
-systemy wieloprocesorowe
-tak
+|                                        |                                                       |
+| -------------------------------------- | ----------------------------------------------------- |
+| rok wprowadzenia do produkcji          | 1979                                                  |
+| ilość tranzystorów                     | 68000                                                 |
+| częstotliwość taktowania               | 8 MHz  (cykl zegarowy: 0.125  μs)                     |
+| najkrótszy cykl instrukcji             | 0.5 μs (4 cykle zegarowe)                             |
+| indeks prędkości                       | 2 MIPS                                                |
+| dodawanie 64-bitowe                    | 63492 / s                                             |
+| efektywność architektury               | 934                                                   |
+| typ architektury                       | 16/32-bit, CISC                                       |
+| kolejność bajtów                       | big-endian                                            |
+| licznik programu                       | 32-bit (24-bit zew)                                   |
+| stos                                   | 32-bit (24-bit zew) użytkownika i nadzorcy            |
+| rejestry                               | 14 x 32-bit ogólnego przeznaczenia                    |
+| ALU ogólnego przeznaczenia             | 1 x 16-bit                                            |
+| ALU do wyliczania adresu               | 2 x 16-bit                                            |
+| adresowanie pamięci                    | 16 MiB jednolite (23-bit adresu + 2-bit wyboru bajtu) |
+| adresowanie portów                     | mapowane w obszarze pamięci                           |
+| przerwania                             | priorytetowe o 7 poziomach, najwyższy niemaskowalny   |
+| dzielenie i mnożenie liczb całkowitych | tak                                                   |
+| tryby pracy                            | nadzorcy/użytkownika                                  |
+| praca z koprocesorem                   | tak                                                   |
+| systemy wieloprocesorowe               | tak                                                   |
+|                                        |
 
+Znaczniki:
+
+* `T` – tryb śledzenia
+* `S` – tryb nadzorcy
+* `I` – maska przerwań (3 bitowa)
+* `X` – bit rozszerzenia
+* `N` – znak
+* `Z` – zero
+* `V` – przepełnienie
+* `C` – przeniesienie
+
+Tryby adresowania:
+
+* domyślne
+* natychmiastowe
+* bezpośrednie
+* rejestrowe
+* pośrednie rejestrowe (z predekrementacją, postinkrementacją, indeksowaniem, przesunięciem)
+* względne (z indeksem, przesunięciem)
 
 Tym, co najbardziej fascynuje w architekturze Motoroli 68000, jest zestaw instrukcji i ortogonalność względem trybów adresowania. Projektanci słusznie uznali instrukcję przesłania (transferu) danych między dwoma lokalizacjami za podstawowy element składowy programu. Rozwijając konsekwentnie tę ideę, wyeliminowali nawet tak powszechnie występujące instrukcje jak operacje na stosie, czyli PUSH i POP, które stały się przypadkiem szczególnym użycia instrukcji MOVE. Nie istnieją również osobne instrukcje inkrementacji i dekrementacji, ponieważ w uniwersalny sposób realizują te funkcje warianty instrukcji ADD i SUB.
 
 Poniżej zaprezentowano na przykładach kilka charakterystycznych dla asemblera M68000 konstrukcji:
-
+```
 	MOVEM.L D0/D4-D7/A4/A5,40(A6)
-
+```
 Prześlij (MOVE) wiele (M) słów 32-bitowych (.L) kolejno z rejestrów: D0, D4, D5, D6, D7, A4, A5 do pamięci, począwszy od adresu będącego sumą wartości rejestru A6 i przesunięcia 40. To wszystko w jednej instrukcji! Uwagę zwraca również kolejność operandów, inna niż w większości procesorów, określająca najpierw źródło, a później przeznaczenie przesyłanych danych.
-
+```
 	MOVEQ 123,D2
-
+```
 Prześlij (MOVE) szybko (Q) 8-bitową wartość natychmiastową do rejestru D0. Wartość jest częścią 16-bitowej instrukcji, więc czas wykonania jest najkrótszy z możliwych i wynosi 4 cykle zegara.
-
+```
 	MOVE.W (A5)+,D1
-
+```
 Prześlij (MOVE) szybko (Q) daną 16-bitową (.W) spod adresu zawartego w A5 do rejestru D1. Następnie zwiększ A5 o 2 (post-inkrementacja), ponieważ rozmiar przesyłanych danych to 2 bajty.
-
+```
 	MOVE.L D1,-(A7)
-
+```
 Odpowiednik instrukcji typu PUSH. Odejmij od rejestru A7 wartość 4, a następnie prześlij (MOVE) słowo 32-bitowe (.L) z rejestru D1 pod adres znajdujący się w rejestrze A7, czyli na wierzchołek stosu. Wartość pre-dekrementacji wynika z rozmiaru przesyłanej porcji danych w bajtach.
-
+```
 	 ADDX.L -(A2),-(A5)
-
+```
 Zmniejsz o 4 rejestry A2 i A5, następnie dodaj (ADD) z uwzględnieniem rozszerzenia/przeniesienia (X) 32-bitową (.L) zawartość pamięci pod adresem A2 do zawartości pamięci pod adresem A5. Wynik zapisz w pamięci pod adresem A5.
-
+```
 	 ADDQ.B #1,D4
-
+```
 Odpowiednik instrukcji typu INC. Dodaj (ADD) szybko (Q) bajt (.B) o wartości 1 do rejestru D4. Operand jest zawarty w kodzie instrukcji, która w całości mieści się na 16-bitach, jej czas wykonania to 4 cykle zegara, czyli najkrótszy z możliwych. W ten sposób można dodawać lub odejmować (SUBQ) wartości od 1 do 8.
 
 Siłą tego modelu programowego jest jego regularność i uniwersalizm. Jest intuicyjny, łatwy do nauczenia się i poprawnego stosowania. Nie bazuje na wielości wyspecjalizowanych rozwiązań, lecz na swobodnym składaniu instrukcji i trybów adresowania w logiczną i zwartą w zapisie operację. Poniżej znajduje się kod standardowego, 64-bitowego dodawania:
-
+```
 ; Motorola 68000
 ; dodawanie dwóch liczb 64-bitowych
 ; ARG0, ARG1 - etykiety buforów zawierających argumenty
@@ -382,154 +405,80 @@ Siłą tego modelu programowego jest jego regularność i uniwersalizm. Jest int
 ; kolejność bajtów w słowie zgodna z wymaganą przez architekturę procesora,
 ; słowa w buforze w kolejności od najmniej znaczącego
 
-
-LEA    ARG0, A0
-; ładuj adres pierwszego argumentu do A0
-8
-
-
-LEA    ARG1, A1
-; ładuj adres drugiego argumentu do A1
-8
-
-
-MOVEQ  #1, D1
-; ustaw licznik pętli
-4
-
-
-ANDI   #F6, CCR
-; zeruj znacznik przeniesienia (C i X)
-20
+  LEA    ARG0, A0    ; (8) ładuj adres pierwszego argumentu do A0
+  LEA    ARG1, A1    ; (8) ładuj adres drugiego argumentu do A1
+  MOVEQ  #1, D1      ; (4) ustaw licznik pętli
+  ANDI   #F6, CCR    ; (20) zeruj znacznik przeniesienia (C i X)
 NST:
-MOVE.L (A0)+, D0
-; pobierz kolejne długie słowo z ARG0
-12
-
-
-ADDX.L D0, (A1)+
-; dodaj do kolejnego długiego słowa z ARG1
-20
-
-
-DBRA   D1, NST
-; kontynuuj dla kolejnego słowa
-10
-
-
-Zliczając czasy wszystkich instrukcji, mamy: 40 + 2 x 42 + 2 = 126 cykli zegara. Czas wykonania wynosi 15.75  μs, co daje 63492 dodawań na sekundę.
+  MOVE.L (A0)+, D0   ; (12) pobierz kolejne długie słowo z ARG0
+  ADDX.L D0, (A1)+   ; (20) dodaj do kolejnego długiego słowa z ARG1
+  DBRA   D1, NST     ; (10) kontynuuj dla kolejnego słowa
+```
+Zliczając czasy wszystkich instrukcji, mamy: 40 + 2 x 42 + 2 = 126 cykli zegara. Czas wykonania wynosi 15.75 μs, co daje 63492 dodawań na sekundę.
 
 Lista instrukcji może zostać względnie łatwo rozszerzona za pomocą rozkazów o najstarszych bitach kodu operacji równych 1010 i 1111. Próba wykonania któregokolwiek z nich skutkuje wywołaniem pułapki line-1010-emulator lub line-1111-emulator i odpowiedniej procedury obsługi. Rozkazy z pierwszej grupy są zdefiniowane jako operacje zmiennoprzecinkowe i w podstawowym modelu 68000 muszą być emulowane. Druga grupa jest zarezerwowana do zastosowania w przyszłości.
 
 Po tym krótkim opisie widać, że architektura mikroprocesora Motorola 68000 i całej późniejszej rodziny wyróżnia się na tle poprzednio omawianych konstrukcji. Jest przemyślana od początku do końca i zaprojektowana pod kątem potrzeb programisty i oprogramowania. Do dziś stanowi przykład nowatorskiego podejścia, które zakończyło się spektakularnym sukcesem.
 
-Intel 80286
+## Intel 80286
 
 Architektura x86 zapoczątkowana przez mikroprocesor Intel 8086 zyskała bardzo dużą popularność dzięki zastosowaniu jej w komputerach klasy IBM XT. W obliczu konkurencyjnych konstrukcji firm Zilog, a przede wszystkim Motorola, Intel musiał zaprezentować bardziej zaawansowany projekt. Intel 80286 oferował bardzo wiele usprawnień i rozszerzeń względem swojego prekursora.
 
-Przede wszystkim mikroarchitektura została przeprojektowana, bloki funkcjonalne BU (ang. bus unit - jednostka szyny), AU (ang. address unit - jednostka adresowania), IU (ang. instruction unit - jednostka rozkazów) i EU (ang. execution unit - jednostka wykonawcza) zostały wyodrębnione i połączone ze sobą w „bardziej luźny” sposób za pomocą buforów. Pozwoliło to na stosowanie kolejkowania na większą skalę i wykonywania zadań równolegle przez kilka modułów naraz. Znaczne zwiększenie wydajności uzyskano przez wbudowanie dedykowanej jednostki obliczeniowej do generowania adresów oraz wyprowadzeniu szyny adresowej i danych niezależnie, bez multipleksowania. Układ mnożący i dzielący liczby całkowite został częściowo zaimplementowany sprzętowo, co zmniejszyło czas wykonywania tych instrukcji. Oprócz obecnego już w poprzednich modelach bufora pobierania instrukcji z wyprzedzeniem został w i80286 dodany bufor zdekodowanych już instrukcji, co pozwalało zrównoleglić fazę dekodowania z fazą wykonywania. Poglądowy schemat wewnętrzny mikroprocesora zaprezentowano na Rysunku 4. 
+Przede wszystkim mikroarchitektura została przeprojektowana, bloki funkcjonalne BU (ang. bus unit - jednostka szyny), AU (ang. *address unit* - jednostka adresowania), IU (ang. *instruction unit* - jednostka rozkazów) i EU (ang. *execution unit* - jednostka wykonawcza) zostały wyodrębnione i połączone ze sobą w „bardziej luźny” sposób za pomocą buforów. Pozwoliło to na stosowanie kolejkowania na większą skalę i wykonywania zadań równolegle przez kilka modułów naraz. Znaczne zwiększenie wydajności uzyskano przez wbudowanie dedykowanej jednostki obliczeniowej do generowania adresów oraz wyprowadzeniu szyny adresowej i danych niezależnie, bez multipleksowania. Układ mnożący i dzielący liczby całkowite został częściowo zaimplementowany sprzętowo, co zmniejszyło czas wykonywania tych instrukcji. Oprócz obecnego już w poprzednich modelach bufora pobierania instrukcji z wyprzedzeniem został w i80286 dodany bufor zdekodowanych już instrukcji, co pozwalało zrównoleglić fazę dekodowania z fazą wykonywania. Poglądowy schemat wewnętrzny mikroprocesora zaprezentowano na Rysunku 4. 
 
 Obsługa kodu przeznaczonego dla koprocesora została wzbogacona o możliwość generowania pułapki/wyjątku przy napotkaniu dedykowanego dla niego rozkazu. Jeśli znacznik EM był ustawiony, każdy taki rozkaz mógł zostać emulowany przez procedurę obsługi wyjątku w sposób całkowicie transparentny dla oprogramowania. W systemach bez zainstalowanego, fizycznego, koprocesora było to bardzo wygodne rozwiązanie.
 
-Najbardziej istotną zmianą było dodanie możliwości pracy w trybie chronionym oraz dosyć rozbudowanego jak na owe czasu mechanizmu zarządzania dostępem do pamięci MMU (ang. memory management unit - jednostka zarządzania pamięcią). Według pierwotnych założeń firmy Intel mikroprocesor ten nie był projektowany do wykorzystania w komputerach osobistych, a raczej w systemach wielodostępnych (ang. multi-user), wielozadaniowych czy zaawansowanych centralach telekomunikacyjnych czy tzw. centralach abonenckich. Ostatecznie został jednak wykorzystany jako procesor w komputerach osobistych drugiej generacji firmy IBM czyli IBM AT.
+Najbardziej istotną zmianą było dodanie możliwości pracy w trybie chronionym oraz dosyć rozbudowanego jak na owe czasu mechanizmu zarządzania dostępem do pamięci MMU (ang. *memory management unit* - jednostka zarządzania pamięcią). Według pierwotnych założeń firmy Intel mikroprocesor ten nie był projektowany do wykorzystania w komputerach osobistych, a raczej w systemach wielodostępnych (ang. multi-user), wielozadaniowych czy zaawansowanych centralach telekomunikacyjnych czy tzw. centralach abonenckich. Ostatecznie został jednak wykorzystany jako procesor w komputerach osobistych drugiej generacji firmy IBM czyli IBM AT.
 
-
+![i80286 - Schemat blokowy](i80286_schemat_blokowy.png)
 Rysunek 4. Schemat blokowy mikroprocesora Intel 80286
 
-
-Mikroprocesor Intel 80286 (znany również jako iAPX286) mógł pracować w dwóch trybach: rzeczywistym i chronionym. W trybie rzeczywistym zachowywał się jak klasyczny 8086 i był to domyślny tryb, w którym uruchamiał się po resecie. Magistrala adresowa w 80286 była 24-bitowa, co pozwalało na zaadresowanie 16 MiB pamięci, natomiast tryb rzeczywisty oferował tylko 1 MiB. W trybie rzeczywistym adres efektywny wyliczany był jako suma adresu segmentu i przesunięcia, co dawało 20-bitowy adres. Maksymalny adres segmentu to 0xFFFF0 (0xFFFF x 16), co po dodaniu 16-bitowego offsetu wykracza poza jeden megabajt. Poprzednie procesory miały tylko 20-bitowy adres, nie mogły więc wykorzystać tego triku, który w i80286 pozwalał na udostępnienie tzw. HMA (ang. high memory area - obszar pamięci wysokiej), co dawało nieco miejsca na krótsze programy, najczęściej sterowniki, w systemie MS-DOS.
+Mikroprocesor Intel 80286 (znany również jako iAPX286) mógł pracować w dwóch trybach: rzeczywistym i chronionym. W trybie rzeczywistym zachowywał się jak klasyczny 8086 i był to domyślny tryb, w którym uruchamiał się po resecie. Magistrala adresowa w 80286 była 24-bitowa, co pozwalało na zaadresowanie 16 MiB pamięci, natomiast tryb rzeczywisty oferował tylko 1 MiB. W trybie rzeczywistym adres efektywny wyliczany był jako suma adresu segmentu i przesunięcia, co dawało 20-bitowy adres. Maksymalny adres segmentu to 0xFFFF0 (0xFFFF x 16), co po dodaniu 16-bitowego offsetu wykracza poza jeden megabajt. Poprzednie procesory miały tylko 20-bitowy adres, nie mogły więc wykorzystać tego triku, który w i80286 pozwalał na udostępnienie tzw. HMA (ang. *high memory area* - obszar pamięci wysokiej), co dawało nieco miejsca na krótsze programy, najczęściej sterowniki, w systemie MS-DOS.
 
 Swoje pełne możliwości mikroprocesor pokazywał dopiero po przejściu w tryb chroniony. co możliwe było przez ustawienie bitu znacznika PE w rejestrze MSW (ang.  machine status word - słowo stanu procesora). Ciekawostką jest, że raz ustawiony bit PE nie mógł zostać skasowany, więc powrót do trybu rzeczywistego był możliwy tylko poprzez reset. Ten mankament został usunięty w modelu i80386.
 
-W trybie chronionym dostępne były mechanizmy zarządzania, wirtualizacji adresu fizycznego i ochrony obszarów pamięci. Adres pamięci w dalszym ciągu reprezentowany był jako 16-bitowe przesunięcie (ang. offset) i 16-bitowy segment, lecz tym razem nie był to adres segmentu, lecz tzw. selektor, czyli identyfikator segmentu w tablicy deskryptorów. Do określenia konkretnego deskryptora wykorzystanych jest 13-bitów, co daje 8192 deskryptory, dodatkowo bit TI określa, czy deskryptor ma znajdować się w tablicy GDT (ang. global descriptor table - globalna tablica deskryptorów), czy LDT (ang. local descriptor table - lokalna tablica deskryptorów), osobnej dla każdego zadania (ang. task). Pozostałe 2 bity RPL określają żądany poziom dostępu (ang. requested privilege level), który jest porównywany z poziomem uprzywilejowania segmentu. Już na tym etapie widać, że system operacyjny czy inny program nadzorujący może mieć swoją mapę pamięci zdefiniowaną w GDT, a poszczególne programy mniej uprzywilejowane mogą mieć osobne przestrzenie adresowe zdefiniowane w ich własnych LDT. Położenie każdej z lokalnych tablic musi zostać uprzednio zdefiniowane w tablicy globalnej - daje to kontrolę nad definiowaniem wszystkich przestrzeni adresowych procesowi nadrzędnemu, mającemu uprzywilejowany dostęp do tablicy globalnej. Adres tablicy globalnej zawiera rejestr specjalny GDTR, a lokalnej dla danego zadania LDTR.
+W trybie chronionym dostępne były mechanizmy zarządzania, wirtualizacji adresu fizycznego i ochrony obszarów pamięci. Adres pamięci w dalszym ciągu reprezentowany był jako 16-bitowe przesunięcie (ang. *offset*) i 16-bitowy segment, lecz tym razem nie był to adres segmentu, lecz tzw. selektor, czyli identyfikator segmentu w tablicy deskryptorów. Do określenia konkretnego deskryptora wykorzystanych jest 13-bitów, co daje 8192 deskryptory, dodatkowo bit TI określa, czy deskryptor ma znajdować się w tablicy GDT (ang. global descriptor table - globalna tablica deskryptorów), czy LDT (ang. *local descriptor table* - lokalna tablica deskryptorów), osobnej dla każdego zadania (ang. task). Pozostałe 2 bity RPL określają żądany poziom dostępu (ang. requested privilege level), który jest porównywany z poziomem uprzywilejowania segmentu. Już na tym etapie widać, że system operacyjny czy inny program nadzorujący może mieć swoją mapę pamięci zdefiniowaną w GDT, a poszczególne programy mniej uprzywilejowane mogą mieć osobne przestrzenie adresowe zdefiniowane w ich własnych LDT. Położenie każdej z lokalnych tablic musi zostać uprzednio zdefiniowane w tablicy globalnej - daje to kontrolę nad definiowaniem wszystkich przestrzeni adresowych procesowi nadrzędnemu, mającemu uprzywilejowany dostęp do tablicy globalnej. Adres tablicy globalnej zawiera rejestr specjalny GDTR, a lokalnej dla danego zadania LDTR.
 
 Szczegółowy opis funkcjonalności MMU dla trybu chronionego znacznie wykracza poza zakres tego artykułu, z konieczności podane zostaną więc syntetycznie tylko najważniejsze informacje. Struktura deskryptora ma długość 8 bajtów i zawiera następujące informacje:
 
-rozmiar (16 bitów) - określa rozmiar segmentu od 1 B do 64 KiB.
-adres początkowy (24 bity) - fizyczny adres w 16 MiB przestrzeni.
-dostęp (8 bitów) - określa rodzaj segmentu (kodu, danych, stosu), tryb dostępu (tylko do odczytu, możliwość wykonywania kodu, odczyt zapis itd.), dostępność w pamięci fizycznej i znacznik, czy segment był wcześniej wykorzystywany (przydatne przy implementacji pamięci wirtualnej). A także określenie, czy segment jest prawidłowy i dostępny, czy też nieprawidłowy (ang. invalid). Zawiera również poziom dostępu z zakresu 0..3, który porównywany jest z poziomem uprzywilejowania kodu, który żąda dostępu. Wynik porównania określa, czy dostęp może być przyznany.
+* rozmiar (16 bitów) - określa rozmiar segmentu od 1 B do 64 KiB.
+* adres początkowy (24 bity) - fizyczny adres w 16 MiB przestrzeni.
+* dostęp (8 bitów) - określa rodzaj segmentu (kodu, danych, stosu), tryb dostępu (tylko do odczytu, możliwość wykonywania kodu, odczyt zapis itd.), dostępność w pamięci fizycznej i znacznik, czy segment był wcześniej wykorzystywany (przydatne przy implementacji pamięci wirtualnej). A także określenie, czy segment jest prawidłowy i dostępny, czy też nieprawidłowy (ang. invalid). Zawiera również poziom dostępu z zakresu 0..3, który porównywany jest z poziomem uprzywilejowania kodu, który żąda dostępu. Wynik porównania określa, czy dostęp może być przyznany.
 
 Adresy tablic deskryptorów oraz wyliczone adresy bazowe i rozmiary oparte na danych z deskryptorów są umieszczane w ukrytych rejestrach mikroprocesora przyporządkowanych do każdego z rejestrów segmentowych (dla każdego zadania), co znacznie przyspiesza wyliczanie adresów efektywnych. Jest to swego rodzaje pamięc podręczna (ang. cache) jednostki MMU.
 
-Za pomocą deskryptorów realizuje się także przekazanie sterowania do kodu o wyższym poziomie uprzywilejowania. W ten sposób implementuje się np. wywołania procedur systemu operacyjnego. Tego rodzaju deskryptory nazywa się bramkami (ang. gates) - dostępne są bramki wywołań procedur, przerwań, przełączania zadań i pułapek (ang. trap). Kolejną funkcjonalnością trybu chronionego jest efektywne przełączanie między zadaniami (ang. task switching). Każde zadanie ma swój oddzielny segment stanu TSS (ang. task state segment). Jest to 22-bajtowa struktura zawierająca:
+Za pomocą deskryptorów realizuje się także przekazanie sterowania do kodu o wyższym poziomie uprzywilejowania. W ten sposób implementuje się np. wywołania procedur systemu operacyjnego. Tego rodzaju deskryptory nazywa się bramkami (ang. *gates*) - dostępne są bramki wywołań procedur, przerwań, przełączania zadań i pułapek (ang. *trap*). Kolejną funkcjonalnością trybu chronionego jest efektywne przełączanie między zadaniami (ang. *task switching*). Każde zadanie ma swój oddzielny segment stanu TSS (ang. *task state segment*). Jest to 22-bajtowa struktura zawierająca:
 
-zawartość wszystkich rejestrów procesora dostępnych dla zadania,
-zawartość rejestru znaczników,
-selektor definiujący lokalną tablicę deskryptorów (LDT),
-wskaźniki stosu dla poziomów uprzywilejowania 0..2,
-wskaźnik do TSS poprzedniego zadania. Może być wykorzystany do zrestartowania poprzedniego zadania, jeśli aktualne, „zagnieżdżone” zadanie zostanie zakończone.
+* zawartość wszystkich rejestrów procesora dostępnych dla zadania,
+* zawartość rejestru znaczników,
+* selektor definiujący lokalną tablicę deskryptorów (LDT),
+* wskaźniki stosu dla poziomów uprzywilejowania 0..2,
+* wskaźnik do TSS poprzedniego zadania. Może być wykorzystany do zrestartowania poprzedniego zadania, jeśli aktualne, „zagnieżdżone” zadanie zostanie zakończone.
 
 Część segmentu TSS, jak adres LDT czy początkowy adres stosu, jest stała. Pozostałe dane, jak np. wartości rejestrów czy znaczników, mogą oczywiście ulegać zmianom. Przełączenie zadania może zajść przez wywołanie przerwania czy bezpośredni skok do podprogramu będącego w innym segmencie TSS, a także powrót z przerwania lub podprogramu.
 
 Pobieżny opis możliwości trybu chronionego procesora Intel 80286 daje pojęcie o elastyczności i poziomie zaawansowania jego MMU w porównaniu do poprzednio opisanych mikroprocesorów. To podejście zostanie jeszcze udoskonalone w następnym modelu Intel 80386. Najważniejsze informacje o omawianym mikroprocesorze zebrano w poniższej tabeli.
 
-Intel 80286
-rok wprowadzenia do produkcji
-1982
-ilość tranzystorów
-134000
-częstotliwość taktowania
-8 MHz (cykl zegarowy:  0.125 μs)
-najkrótszy cykl instrukcji
-0.25 μs (2 cykle zegarowe)
-indeks prędkości
-4 MIPS
-dodawanie 64-bitowe
-81633 / s
-efektywność architektury
-609
-typ architektury
-16-bitowa, CISC
-kolejność bajtów
-little-endian
-licznik programu
-16-bitowy licznik programu
-16-bitowy selektor segmentu kodu
-stos
-16-bitowy wskaźnik stosu
-16-bitowy selektor segmentu stosu
-rejestry
-7 x 16-bitowe ogólnego przeznaczenia
-4 x 16-bitowe segmentowe
-ALU
-16-bitowe ogólnego przeznaczenia oraz
-dodatkowa, dedykowana jednostka do obliczania adresu efektywnego
-znaczniki
-O - przepełnienie
-D - kierunek dla operacji łańcuchowych
-I - maska przerwań
-T - pułapka przy pracy krokowej
-S - znak
-Z - zero
-A - przeniesienie pomocnicze
-P - parzystość
-C - przeniesienie
-IOPL - priorytet operacji we/wy
-NT - zadanie zagnieżdżone
-
-oraz w rejestrze słowa stanu (MSW):
-
-TS - kontekst zadania został zmieniony
-EM - emulacja instrukcji rozszerzonych
-MP - monitorowanie instrukcji rozszerzonych
-PE - tryb chroniony
-adresowanie pamięci
-16 MiB (24-bitowy adres), adresowanie segmentowane
-adresowanie portów
-64 KiB portów wejścia/wyjścia
-przerwania
-sprzętowe niemaskowalne i maskowalne, programowe maskowalne, obsługa w/g priorytetów, razem 256 rodzajów (typów)
-tryby adresowania
-domyślne
-natychmiastowe
-rejestrowe
-bezpośrednie
-pośrednie rejestrowe (z przesunięciem)
-bazowe (z przesunięciem)
-indeksowane (z przesunięciem)
-bazowe indeksowane (z przesunięciem)
-blok danych
-względne
+|                                 |                                                                                |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| rok wprowadzenia do produkcji   | 1982                                                                           |
+| ilość tranzystorów              | 134000                                                                         |
+| częstotliwość taktowania        | 8 MHz (cykl zegarowy:  0.125 μs)                                               |
+| najkrótszy cykl instrukcji      | 0.25 μs (2 cykle zegarowe)                                                     |
+| indeks prędkości                | 4 MIPS                                                                         |
+| dodawanie 64-bitowe             | 81633 / s                                                                      |
+| efektywność architektury        | 609                                                                            |
+| typ architektury                | 16-bitowa, CISC                                                                |
+| kolejność bajtów                | little-endian                                                                  |
+| licznik programu                | 16-bit seg. kodu : 16-bit offset                                               |
+| stos                            | 16-bit seg. stosu : 16-bit offset                                              |
+| rejestry ogólnego przeznaczenia | 7 x 16-bit                                                                     |
+| rejestry segmentowe             | 4 x 16-bit                                                                     |
+| ALU ogólnego przeznaczenia      | 16-bit                                                                         |
+| ALU do obliczania adresu        | tak                                                                            |
+| adresowanie pamięci             | 16 MiB (24-bitowy adres), adresowanie segmentowane                             |
+| adresowanie portów              | 64 KiB portów wejścia/wyjścia                                                  |
+| przerwania                      | sprzęt. (nie)maskowalne, programowe maskowalne, priorytety, razem 256 rodzajów |
 dzielenie i mnożenie liczb całkowitych
 tak
 tryby pracy
@@ -539,69 +488,66 @@ tak
 systemy wieloprocesorowe
 tak
 
+Rejestr znaczników:
+
+* `O` - przepełnienie                     
+* `D` - kierunek dla operacji łańcuchowych
+* `I` - maska przerwań                    
+* `T` - pułapka przy pracy krokowej       
+* `S` - znak                              
+* `Z` - zero                              
+* `A` - przeniesienie pomocnicze          
+* `P` - parzystość                        
+* `C` - przeniesienie                     
+* `IOPL` - priorytet operacji we/wy
+* `NT` - zadanie zagnieżdżone 
+
+Rejestr słowa stanu (MSW):
+
+* `TS` - kontekst zadania został zmieniony
+* `EM` - emulacja instrukcji rozszerzonych
+* `MP` - monitorowanie instrukcji rozszerzonych
+* `PE` - tryb chroniony
+
+Tryby adresowania:
+
+* domyślne
+* natychmiastowe
+* rejestrowe
+* bezpośrednie
+* pośrednie rejestrowe (z przesunięciem)
+* bazowe (z przesunięciem)
+* indeksowane (z przesunięciem)
+* bazowe indeksowane (z przesunięciem)
+* blok danych
+* względne
 
 Kod naszego standardowego benchmarku jest identyczny jak ten dla procesora Intel 8086, zmianie uległy natomiast czasy wykonania. Wskutek przebudowy i optymalizacji mikroarchitektury, szczególnie przez dodanie dedykowanej jednostki arytmetycznej do obliczania adresów i zastosowania pipeliningu, widać tutaj bardzo istotną poprawę.
-
+```
 ; Intel 80286 (iAPX 286)
 ; dodawanie dwóch liczb 64-bitowych
 ; ARG0, ARG1 - etykiety buforów zawierających argumenty
 ; wynik zapisywany jest w ARG1, dane zorganizowane są w 16-bitowe słowa
 ; kolejność bajtów w słowie zgodna z wymaganą przez architekturę procesora
 
-
-MOV SI, offset ARG0
-; ładuj adres argumentu 0 do SI
-2
-
-
-MOV DI, offset ARG1
-; ładuj adres argumentu 1 do DI
-2
-
-
-MOV CX, 4
-; ustaw licznik słów
-2
-
-
-CLD
-; ustaw znacznik kierunku na inkrementację
-2
-
-
-CLC
-; zeruj znacznik przeniesienia
-2
+  MOV SI, offset ARG0     ; (2) ładuj adres argumentu 0 do SI
+  MOV DI, offset ARG1     ; (2) ładuj adres argumentu 1 do DI
+  MOV CX, 4               ; (2) ustaw licznik słów
+  CLD                     ; (2) ustaw znacznik kierunku na inkrementację
+  CLC                     ; (2) zeruj znacznik przeniesienia
 NST:
-LODSW
-; ładuj blokowo kolejne słowo ARG0 do AX
-5
-
-
-ADC AX,[DI]
-; dodaj kolejne słowo z ARG1 do AX
-7
-
-
-STOSW
-; zapisz blokowo AX do kolejnego słowa ARG1
-3
-
-
-LOOP NST
-; kontynuuj dla następnego słowa
-8
-
-
-
-
+  LODSW                   ; (5) ładuj blokowo kolejne słowo ARG0 do AX
+  ADC AX,[DI]             ; (7) dodaj kolejne słowo z ARG1 do AX
+  STOSW                   ; (3) zapisz blokowo AX do kolejnego słowa ARG1
+  LOOP NST                ; (8) kontynuuj dla następnego słowa
+```
 Sumując czasy wykonania, dostajemy: 10 + 4 x 23 - 4 (ostatni skok warunkowy nie zachodzi, więc zajmuje mniej cykli) = 98 cykli zegara. Czas wykonania wynosi więc 12.25  μs, co daje 81633 dodawań na sekundę. Liczba dodawań jest najwyższa z wszystkich opisanych mikroprocesorów, jednak wielkość współczynnika efektywności architektury może rozczarowywać. Jest to spowodowane tym, że tak prosta procedura, jak dodawanie wielobajtowe, nie wymaga rozbudowanych jednostek zarządzania pamięcią czy mechanizmu przełączania zadań. Do każdego pracy należy dobrać odpowiednie narzędzie i w tym przypadku widać to bardzo wyraźnie. Prowadzi to nieuchronnie do pytania, czy w każdym przypadku potrzebny jest wielozadaniowy system operacyjny oparty o wyrafinowany procesor ze sprzętową ochroną pamięci i wirtualizacją? Odpowiedź pozostawiam czytelnikowi, a kolejna omawiana konstrukcja zaprezentuje zupełnie odmienne podejście.
 
-WDC 65C816
+## WDC 65C816
 
 Firma Western Design Center, czyli WDC, została założona przez Billa Menscha, członka zespołu projektantów mikroprocesora Motorola 6800, a później MOS 6502 już pod szyldem MOS Technology. Pomimo początkowych trudności WDC przebiła się ze swoim pierwszym produktem, energooszczędną wersją MOS 6502 wykonaną w technologii CMOS. Kolejnym udanym produktem, z którego firma WDC jest do dziś chyba najbardziej znana, był właśnie omawiany WDC 65C816, czyli 16-bitowy mikroprocesor zgodny na poziomie kodu maszynowego z 6502, a jednocześnie oferujący w trybie „natywnym” znacznie rozszerzone możliwości. Nazwa 65816 nawiązywała do rdzenia „65”, oznaczającego kompatybilność z 6502, oraz „8/16”, czyli dostępne tryby 8 i 16-bitowe, „C” oznaczało technologię CMOS. W czasie kiedy WDC 65C816 wchodził na rynek, trend ku tworzeniu coraz bardziej wyrafinowanych procesorów był już wyraźny, lecz WDC postanowiło pójść własną drogą i zaproponować lepszą i szybszą konstrukcję zaprojektowaną w „starym stylu”. Uproszczony schemat blokowy WDC 65C816 zaprezentowano na Rysunku 5.
 
-
+![WDC65C816 - Schemat blokowy](wdc_65816_schemat_blokowy.png)
 Rysunek 5. Schemat blokowy mikroprocesora WDC 65C816
 
 Przede wszystkim konstrukcja jest w pełni statyczna, wykonana w procesie CMOS, charakteryzująca się znacznie mniejszym poborem prądu niż oryginalne 6502 oraz możliwością obniżenia taktowania aż do zatrzymania zegara, bez ryzyka utraty danych z wewnętrznych rejestrów. Pełna zgodność programowa, na poziomie kodu maszynowego, dawała dostęp do ogromnej biblioteki kodu stworzonego dla 6502. Wprowadzono nawet specjalną wersję 65C802, która była zgodna z 6502 na poziomie wyprowadzeń i mogła być bezpośrednim zamiennikiem. Pociągnęło to za sobą ograniczenia w możliwościach adresowania pamięci i ostatecznie spowodowało mniejszą popularność tego mikroprocesora. W dalszej części artykułu omówiona zostanie tylko wersja 16-bitowa.
@@ -612,122 +558,90 @@ Rejestry indeksowe X i Y są 16-bitowe i niezależnie od innych funkcji mogą zo
 
 W celu rozszerzenia przestrzeni adresowej do 16 MiB, czyli do 24-bitowego adresu, zastosowano technikę bankowania. Adres banku to najbardziej znaczące 8 bitów, a wartość adresu efektywnego wynikającego z instrukcji określa mniej znaczące 16 bitów. W przypadku instrukcji operujących na danych numer banku określa DBR (ang. data bank register - rejestr banku danych), w przypadku adresu instrukcji wykorzystywany jest PBR (ang. program bank register - rejestr banku programu). Licznik programu PC określa mniej znaczące 16 bitów w ramach banku określonego przez PBR. Kod programu może przekroczyć 64 KiB, jednak pojedyncza sekwencja kodu musi mieścić się w jednym banku, przepełnienie rejestru PC nie inkrementuje automatycznie wartości w rejestrze PBR.
 
-Specjalne znaczenie ma obszar 0x000000 - 0x00FFFF, czyli tzw. bank 0. Stos oraz obszar tzw. adresowania bezpośredniego są ograniczone właśnie do tego banku. Tryb adresowania bezpośredniego stanowi uogólnienie i rozszerzenie koncepcji „strony zerowej” znanej z MOS 6502. W tym trybie wartość 16-bitowego rejestru D (ang. direct - bezpośredni) dodawana jest do 8-bitowego przesunięcia, wynik jest „obcinany” do 16-bitów i stanowi adres efektywny.
+Specjalne znaczenie ma obszar 0x000000 - 0x00FFFF, czyli tzw. bank 0. Stos oraz obszar tzw. adresowania bezpośredniego są ograniczone właśnie do tego banku. Tryb adresowania bezpośredniego stanowi uogólnienie i rozszerzenie koncepcji „strony zerowej” znanej z MOS 6502. W tym trybie wartość 16-bitowego rejestru D (ang. *direct* - bezpośredni) dodawana jest do 8-bitowego przesunięcia, wynik jest „obcinany” do 16-bitów i stanowi adres efektywny.
 
 Pomimo oczywistych wad wykorzystanie banków daje taką zaletę, że adres wewnątrz banku może być krótszy, więc jako operand zajmuje mniej miejsca w pamięci. Reasumując, następująca instrukcja:
-
+```
 	 LDA $2000
-
+```
 w zależności od wartości bitu M załaduje do akumulatora bajt albo 16-bitowe słowo w formacie little-endian, spod adresu DBR|0x2000 do 16-bitowego akumulatora. W trybie 8-bitowym bardziej znaczący bajt akumulatora jest zerowany. Analogicznie funkcjonują rejestry indeksowe w zależności od wartości bitu X.
 
-W celu ułatwienia stosowania mikroprocesora w systemach wieloprocesorowych wyprowadzono na zewnątrz sygnały ułatwiające koordynację dostępu do zasobów, arbitrażu magistrali czy stosowania pamięci podręcznej (ang. cache). Dostępne są następujące sygnały modułu kontroli systemowej (ang. system control) służące do koordynacji pracy w większych systemach:
+W celu ułatwienia stosowania mikroprocesora w systemach wieloprocesorowych wyprowadzono na zewnątrz sygnały ułatwiające koordynację dostępu do zasobów, arbitrażu magistrali czy stosowania pamięci podręcznej (ang. *cache*). Dostępne są następujące sygnały modułu kontroli systemowej (ang. *system control*) służące do koordynacji pracy w większych systemach:
 
-MLB (ang. memory lock - blokada pamięci) - może być wykorzystany do zapewnienia spójności (dostępu atomowego) dla sekwencji operacji odczyt-modyfikacja-zapis w systemach wieloprocesorowych.
-
-
-VDA (ang. valid data address - prawidłowy adres danych) - na szynie adresowej jest prawidłowy adres danych. Sygnał może być wykorzystany do implementacji cache dla danych.
-
-
-VPA (ang. valid program address - prawidłowy adres programu) - na szynie adresowej znajduje się prawidłowy adres instrukcji programu. Sygnał może być wykorzystany do implementacji cache dla kodu.
-
-
-VPB (ang. vector pull - pobieranie wektora) - podczas procedury obsługi przerwania sygnał jest aktywny w cyklach, w których procesor pobiera bajty adresu procedury obsługi i ładuje je do rejestru PC. Umożliwia to zmianę wektora „w locie” i tym samym uzależnienie go od źródła zgłaszającego przerwania, a także wprowadzenie priorytetów obsługi itd.
-
-
-E (ang. emulation - emulacja) - odzwierciedla stan znacznika E, może być wykorzystany do rozszerzenia listy rozkazów w połączeniu z kodem operacji.
-
-
-MX (ang. memory/index - pamięć/indeks) - podczas opadającego zbocza sygnału zegarowego ma stan znacznika M, a podczas narastającego zbocza stan znacznika X. Sygnał może zostać wykorzystany przez logikę zarządzającą dostępem do pamięci.
+* `MLB` (ang. *memory lock* - blokada pamięci) - może być wykorzystany do zapewnienia spójności (dostępu atomowego) dla sekwencji operacji odczyt-modyfikacja-zapis w systemach wieloprocesorowych.
+* `VDA` (ang. *valid data address* - prawidłowy adres danych) - na szynie adresowej jest prawidłowy adres danych. Sygnał może być wykorzystany do implementacji cache dla danych.
+* `VPA` (ang. *valid program address* - prawidłowy adres programu) - na szynie adresowej znajduje się prawidłowy adres instrukcji programu. Sygnał może być wykorzystany do implementacji cache dla kodu.
+* `VPB` (ang. *vector pull* - pobieranie wektora) - podczas procedury obsługi przerwania sygnał jest aktywny w cyklach, w których procesor pobiera bajty adresu procedury obsługi i ładuje je do rejestru PC. Umożliwia to zmianę wektora „w locie” i tym samym uzależnienie go od źródła zgłaszającego przerwania, a także wprowadzenie priorytetów obsługi itd.
+* `E` (ang. *emulation* - emulacja) - odzwierciedla stan znacznika E, może być wykorzystany do rozszerzenia listy rozkazów w połączeniu z kodem operacji.
+* `MX` (ang. *memory/index* - pamięć/indeks) - podczas opadającego zbocza sygnału zegarowego ma stan znacznika M, a podczas narastającego zbocza stan znacznika X. Sygnał może zostać wykorzystany przez logikę zarządzającą dostępem do pamięci.
 
 Projektanci, a w zasadzie główny projektant Bill Mensch, dołożyli starań, by tak prosta konstrukcja, jaką był MOS 6502, po rozszerzeniu stała się bardziej wydajna, uniwersalna, lecz przy minimalnym wzroście poziomu komplikacji. Niestety w głównym nurcie rozwoju komputerów osobistych WDC 65C816 nie trafił idealnie w swój czas i jego potencjał nie został w pełni wykorzystany. Zastosowano go w komputerze Apple IIgs, który jednak ze względu na politykę firmy był skazany na nieuchronne wycofanie z oferty. Konkurencyjny projekt Apple Macintosh był silnie promowany, do tego stopnia, że częstotliwość zegara w Apple IIgs została celowo obniżona z 4 Mhz do 2.8 MHz, by nie mógł z nim konkurować wydajnością. Wkrótce ukazały się wersje WDC 65C816 z taktowaniem od 5 do nawet 14 MHz przy niewielkiej różnicy w cenie. Apple jednak nie zdecydowało się ich wykorzystać, pozostając przy zegarze 2.8 MHz do końca produkcji modelu IIgs. Będąc zdecydowanie prostszym i mniej zaawansowanym mikroprocesorem, WDC 65C816 może przy takim samym zegarze, wykonać więcej dodawań 64-bitowych niż Motorola 68000. Nawet tak prosty benchmark pokazuje, że zagrożenie dla Macintosha, przy prostszych zadaniach, było wówczas realne. Podstawowe dane omawianego mikroprocesora podane są w poniższej tabeli.
 
-Western Digital Center WDC 65C816
-rok wprowadzenia do produkcji
-1983
-ilość tranzystorów
-22000
-częstotliwość taktowania
-4 MHz (cykl zegarowy:  0.25 μs)
-najkrótszy cykl instrukcji
-0.5 μs (2 cykle zegarowe)
-indeks prędkości
-2 MIPS
-dodawanie 64-bitowe
-39215 / s
-efektywność architektury
-1783
-typ architektury
-8/16-bitowa, CISC
-kolejność bajtów
-little-endian
-licznik programu
-16-bitowy licznik programu
-8-bitowy adres banku programu
-stos
-16-bitowy wskaźnik stosu
-rejestry
-2 x 8-bitowe ogólnego przeznaczenia
-2 x 16-bitowe indeksowe
-2 x 8-bitowe banków pamięci
-1 x 16-bitowy strony bezpośredniej (DP)
-ALU
-16-bitowe ogólnego przeznaczenia
-znaczniki
-N - znak
-V - przepełnienie
-M - tryb dostępu do pamięci: 8/16-bit
-B - przerwanie programowe
-X - tryb rejestrów indeksowych: 8/16-bit
-D - tryb dziesiętny
-I - maska przerwań
-Z - zero
-C - przeniesienie
-adresowanie pamięci
-16 MiB (24-bitowy adres), adresowanie z bankowaniem
-adresowanie portów
-mapowane w obszarze pamięci
-przerwania
-niemaskowalne, maskowalne, programowe
-tryby adresowania
-domyślne
-natychmiastowe
-bezpośrednie 8-bitowe
-bezpośrednie
-bezpośrednie indeksowane
-pośrednie
-pośrednie indeksowane
-indeksowane pośrednie
-blokowe
-względne
-dzielenie i mnożenie liczb całkowitych
-nie
-tryby pracy
-emulacji 6502/natywny 16-bitowy
-praca z koprocesorem
-tak
-systemy wieloprocesorowe
-tak
+|                                        |                                                  |
+| -------------------------------------- | ------------------------------------------------ |
+| rok wprowadzenia do produkcji          | 1983                                             |
+| ilość tranzystorów                     | 22000                                            |
+| częstotliwość taktowania               | 4 MHz (cykl zegarowy:  0.25 μs)                  |
+| najkrótszy cykl instrukcji             | 0.5 μs (2 cykle zegarowe)                        |
+| indeks prędkości                       | 2 MIPS                                           |
+| dodawanie 64-bitowe                    | 39215 / s                                        |
+| efektywność architektury               | 1783                                             |
+| typ architektury                       | 8/16-bit, CISC                                   |
+| kolejność bajtów                       | little-endian                                    |
+| licznik programu                       | 8-bit bank : 16-bit offset                       |
+| stos                                   | 16-bit                                           |
+| rejestry ogólnego przeznaczenia        | 2 x 8-bit                                        |
+| rejestry indeksowe                     | 2 x 16-bit                                       |
+| rejestry banków pamięci                | 2 x 8-bit, 16-bit strony bezp. DP                |
+| ALU                                    | 16-bit ogólnego przeznaczenia                    |
+| adresowanie pamięci                    | 16 MiB (24-bit adres), adresowanie z bankowaniem |
+| adresowanie portów                     | w obszarze pamięci                               |
+| przerwania                             | niemaskowalne, maskowalne, programowe            |
+| dzielenie i mnożenie liczb całkowitych | nie                                              |
+| tryby pracy                            | emulacja 6502 / natywny 16-bit                   |
+| praca z koprocesorem                   | tak                                              |
+| systemy wieloprocesorowe               | tak                                              |
+|                                        |                                                  |
 
+Tryby adresowania:
+
+* domyślne
+* natychmiastowe
+* bezpośrednie 8-bitowe
+* bezpośrednie
+* bezpośrednie indeksowane
+* pośrednie
+* pośrednie indeksowane
+* indeksowane pośrednie
+* blokowe
+* względne
+
+Znaczniki:
+
+* `N` - znak
+* `V` - przepełnienie
+* `M` - tryb dostępu do pamięci: 8/16-bit
+* `B` - przerwanie programowe
+* `X` - tryb rejestrów indeksowych: 8/16-bit
+* `D` - tryb dziesiętny
+* `I` - maska przerwań
+* `Z` - zero
+* `C` - przeniesienie
 
 Dostęp do dodatkowych funkcji i znaczników mikroprocesora realizuje 78 nowych operacji, z których kilka zostanie przedstawione poniżej:
 
-MVP (ang. move previous - przenieś wstecz) - przenieś blok pamięci z dekrementacją indeksów. 16-bitowy akumulator C musi zawierać długość przenoszonego bloku minus jeden, a rejestry X i Y końcowe adresy obszarów źródłowego i docelowego. Instrukcja ma dwa 8-bitowe operandy określające bank źródłowy i docelowy.
+`MVP` (ang. *move previous* - przenieś wstecz) - przenieś blok pamięci z dekrementacją indeksów. 16-bitowy akumulator C musi zawierać długość przenoszonego bloku minus jeden, a rejestry X i Y końcowe adresy obszarów źródłowego i docelowego. Instrukcja ma dwa 8-bitowe operandy określające bank źródłowy i docelowy.
 
+`MVN` (ang. *move next* - przenieś wprzód) - przenieś blok pamięci z inkrementacją indeksów. Przeznaczenie rejestrów jest analogiczne jak w instrukcji MVP z tą różnicą, że rejestry X, Y zawierają adresy początków obszarów.
 
-MVN (ang. move next - przenieś wprzód) - przenieś blok pamięci z inkrementacją indeksów. Przeznaczenie rejestrów jest analogiczne jak w instrukcji MVP z tą różnicą, że rejestry X, Y zawierają adresy początków obszarów.
+`COP` (ang. *coprocessor enable* - włącz koprocesor) - wywołuje programowe przerwanie, adres procedury obsługi określa specjalny wektor dla instrukcji COP. Przerwanie może zostać przechwycone przez układy zewnętrzne i wykorzystane do współpracy z zewnętrznym koprocesorem.
 
+`PHB`, `PHD`, `PHK`, `PLB`, `PLD`, `PLK` - odłóż na stosie lub pobierz ze stosu rejestry odpowiednio: segmentu danych (DBR), rejestru adresowania bezpośredniego (D) lub segmentu programu (PBR).
 
-COP (ang. coprocessor enable - włącz koprocesor) - wywołuje programowe przerwanie, adres procedury obsługi określa specjalny wektor dla instrukcji COP. Przerwanie może zostać przechwycone przez układy zewnętrzne i wykorzystane do współpracy z zewnętrznym koprocesorem.
-
-
-PHB,PHD,PHK,PLB,PLD,PLK - odłóż na stosie lub pobierz ze stosu rejestry odpowiednio: segmentu danych (DBR), rejestru adresowania bezpośredniego (D) lub segmentu programu (PBR).
-
-
-JSL, RTL - skocz do podprogramu i powróć z podprogramu wykorzystując „długi” adres, czyli odkładając na stos i odtwarzając z niego 16-bitowe przesunięcie wraz z 8-bitowym segmentem.
-
+`JSL`, `RTL` - skocz do podprogramu i powróć z podprogramu wykorzystując „długi” adres, czyli odkładając na stos i odtwarzając z niego 16-bitowe przesunięcie wraz z 8-bitowym segmentem.
 
 Zostały dodane również instrukcje transferu obsługujące nowe rejestry oraz nowe znaczniki. Kod standardowego benchmarku dla WDC 65C816 przedstawiony jest poniżej.
-
+```
 ; Western Digital Center WDC65816
 ; dodawanie dwóch liczb 64-bitowych
 ; ARG0, ARG1 - etykiety buforów zawierających argumenty
@@ -738,81 +652,40 @@ Zostały dodane również instrukcje transferu obsługujące nowe rejestry oraz 
 ; rejestry indeksowe ustawione są w tryb 8-bitowy (znacznik X=1)
 ; dostęp do pamięci i akumulator ustawione są w tryb 16-bitowy (znacznik M=0)
 
-
-SEP   #$20
-; ustaw 16-bitowy dostęp do pamięci i rej. A
-3
-
-
-LDX   #0
-; zeruj indeks słowa
-2
-
-
-CLC
-; zeruj znacznik przeniesienia
-2
+  SEP   #$20       ; (3) ustaw 16-bitowy dostęp do pamięci i rej. A
+  LDX   #0         ; (2) zeruj indeks słowa
+  CLC              ; (2) zeruj znacznik przeniesienia
 NST:
-LDA   ARG0, X
-; ładuj do A kolejne słowo z ARG0
-5
-
-
-ADC   ARG1, X
-; dodaj do A kolejne słowo z ARG1
-5
-
-
-STA   ARG1, X
-; zapisz wynik do bieżącego słowa z ARG1
-5
-
-
-INX
-; zwiększ indeks słowa o 1
-2
-
-
-INX
-; zwiększ indeks słowa o 1
-2
-
-
-CPX   #4
-; porównaj indeks słowa z długością argumentu
-2
-
-
-BNE   NST
-; kontynuuj jeśli nie wszystkie słowa dodano
-3
-
-
+  LDA   ARG0, X    ; (5) ładuj do A kolejne słowo z ARG0
+  ADC   ARG1, X    ; (5) dodaj do A kolejne słowo z ARG1
+  STA   ARG1, X    ; (5) zapisz wynik do bieżącego słowa z ARG1
+  INX              ; (2) zwiększ indeks słowa o 1
+  INX              ; (2) zwiększ indeks słowa o 1
+  CPX   #4         ; (2) porównaj indeks słowa z długością argumentu
+  BNE   NST        ; (3) kontynuuj jeśli nie wszystkie słowa dodano
+```
 Sumując czasy wykonania, dostajemy: 7 + 4 x 24 - 1(ostatni skok warunkowy nie zachodzi więc zajmuje mniej cykli) = 102 cykle zegara. Czas wykonania wynosi więc 25.5  μs, co daje 39215 dodawań na sekundę.
 
 W chwili pisania tego artykułu mikroprocesor ten jest wciąż produkowany przez firmę Western Design Center i dostępny bezpośrednio w sklepie firmowym oraz w wielu znanych sieciach dystrybucyjnych.
 
-Podsumowanie
+## Podsumowanie
 
 Główny nurt rozwoju procesorów 16-bitowych to konstrukcje Intela wykorzystywane w komputerach osobistych klasy PC/XT oraz AT. Rachunek ekonomiczny, kompatybilność z poprzednimi modelami oraz bieżące wykorzystanie trendów rynkowych i technologicznych wymuszały niejednokrotnie zagmatwanie architektury i zbyt dużą ostrożność we wprowadzaniu nowych rozwiązań. Firmy mające mniejszy udział w rynku tradycyjnie musiały podejmować ryzyko i stawiać na innowacje (jak Motorola) lub na większą efektywność i uniwersalność za mniejszą cenę (jak Zilog). W tej klasyfikacji mikroprocesor WDC jest nostalgiczną próbą zatrzymania czasu przez wykazanie, że stare ścieżki wciąż prowadzą do celu, choć może nie tak wygodnie i szybko jak nowoczesne autostrady.
 
-Źródła i bibliografia
+## Źródła i bibliografia
 
 W powstaniu niniejszego artykułu wykorzystane zostały następujące publikacje i źródła:
-
-
-16-bit Microprocessor Systems ..., Flik & Liebig, Springer-Verlag 1985.
-The 8086 Family User’s Manual, Intel Corporation 1978, 1979.
-Z8000 CPU User’s Reference Manual, 1980-1982 Zilog Inc.
-The Z8000 Microprocessor. A Design Handbook. Fawcett. Zilog Inc. 1982.
-Design Philosophy Behind Motorola 68000, Starnes, Byte Magazine 1983.
-Motorola M68000 Family Programmer’s Reference Manual, Motorola Inc. 1992.
-Intel Microprocessors, Architecture, Programming, Interfacing… (wyd. 8) , Brey, Pearson Education, 1987-2009.
-Intel iAPX 286 Programmer’s Reference Manual, Intel Inc. 1985.
-Intel 80286 High Performance Microprocessor Datasheet, Intel Corp. 1988.
-Programming the 65816, Including the 6502…, The Western Design Center Inc.  2007.
-65xx W65C816S 8/16-bit Microprocessor, The Western Design Center Inc. 1981-2018.
-https://defuse.ca/online-x86-assembler.htm 
-https://en.wikipedia.org/wiki/Transistor_count
-Wikipedia - wikipedia.org
-Wikichip - wikichip.org
+- 16-bit Microprocessor Systems ..., Flik & Liebig, Springer-Verlag 1985.
+- The 8086 Family User’s Manual, Intel Corporation 1978, 1979.
+- Z8000 CPU User’s Reference Manual, 1980-1982 Zilog Inc.
+- The Z8000 Microprocessor. A Design Handbook. Fawcett. Zilog Inc. 1982.
+- Design Philosophy Behind Motorola 68000, Starnes, Byte Magazine 1983.
+- Motorola M68000 Family Programmer’s Reference Manual, Motorola Inc. 1992.
+- Intel Microprocessors, Architecture, Programming, Interfacing… (wyd. 8) , Brey, Pearson Education,1987-2009.
+- Intel iAPX 286 Programmer’s Reference Manual, Intel Inc. 1985.
+- Intel 80286 High Performance Microprocessor Datasheet, Intel Corp. 1988.
+- Programming the 65816, Including the 6502…, The Western Design Center Inc.  2007.
+- 65xx W65C816S 8/16-bit Microprocessor, The Western Design Center Inc. 1981-2018.
+- [Defuse](https://defuse.ca/online-x86-assembler.htm)
+- [Wikipedia](https://en.wikipedia.org/wiki/Transistor_count)
+- [Wikichip](wikichip.org)

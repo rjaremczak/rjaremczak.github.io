@@ -291,7 +291,7 @@ Podstawowe dane podane są poniżej:
 | przerwania                    | niemaskowalne, maskowalne wektoryzowane (3 tryby) |
 | tryby adresowania             | 9 oraz tryb pojedynczych bitów                    |
 | architektura                  | von Neumanna                                      |
-
+|                               |                                                   |
 Z80 posiada 16-bitowe instrukcje ładowania wartości natychmiastowej do pary rejestrów. Posiada również instrukcje dodawania takich par do siebie wraz z przeniesieniem. Jednak nie są dostępne w nich tryby adresowania indeksowanego czy pośredniego, wskutek tego kod z ich użyciem wymagałby większej ilości cykli niż ten zaprezentowany poniżej.
 
 W naszej standardowej procedurze dodawania dwóch liczb 64-bitowych widać nowy sposób zapisu mnemonicznego. Ponieważ Z80 był bezpośrednim konkurentem i8080, sytuacja prawna, wykorzystana przez firmę Intel, wymusiła stworzenie dla Z80 zupełnie innego zestawu nazw instrukcji, przy zachowaniu pełnej binarnej zgodności z i8080. Ostatecznie okazało się to pożyteczne, gdyż nowy zestaw jest bardziej konsekwentny i czytelny, podobny nieco do pierwotnego zapisu i8008, który z kolei bazował na assemblerze Datapoint 2200. Wszystkie rejestry, również pary, są explicite podane za pomocą pełnych nazw, adresowanie pośrednie oznaczone nawiasami itd. Efekt zastosowania nowego sposobu zapisu możemy obejrzeć poniżej.
