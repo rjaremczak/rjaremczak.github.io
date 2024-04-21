@@ -54,7 +54,7 @@ Wewnętrzna architektura składa się z 16-bitowych rejestrów ogólnego przezna
 | typ architektury                       | 16-bitowa, CISC                                         |
 | kolejność bajtów                       | little-endian                                           |
 | licznik programu                       | 16-bit segment : 16-bit offset                          |
-| stos                                   | 16-bit segment : 16-bit offset                          |
+| wskaźnik stosu                         | 16-bit segment : 16-bit offset                          |
 | rejestry ogólnego przeznaczenia        | 7 x 16-bit                                              |
 | rejestry segmentowe                    | 4 x 16-bit                                              |
 | ALU                                    | 16-bit ogólnego przeznaczenia                           |
@@ -131,7 +131,6 @@ Poniższy kod realizujący nasz standardowy benchmark pokazuje w praktyce wykorz
 ; wynik zapisywany jest w ARG1, dane zorganizowane są w 16-bitowe słowa
 ; kolejność bajtów w słowie zgodna z wymaganą przez architekturę procesora
 ; zakładamy, że segmenty ES i DS są sobie równe
-
 
   MOV SI, offset ARG0        ; (4) ładuj adres argumentu 0 do SI
   MOV DI, offset ARG1        ; (4) ładuj adres argumentu 1 do DI

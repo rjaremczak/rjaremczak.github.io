@@ -1,30 +1,26 @@
-32 bity: CISC vs. RISC
+# 32 bity: CISC vs. RISC
+
 Począwszy od pierwszej 4-bitowej konstrukcji, rozwój mikroprocesorów przebiegał zasadniczo dwiema niezależnymi ścieżkami. Pierwsza koncentruje się wokół hardware’u i zaimplementowaniu w nim jak największej liczby funkcji. Druga zorientowana jest na software, ponieważ oprogramowanie, w odróżnieniu od sprzętu, można zaktualizować. Dlatego sprzęt powinien realizować tylko to, co musi, oraz co – ze względu na wydajność – powinien.
 
-W poprzednich odcinkach…
+## W poprzednich odcinkach…
 
 Wprowadzony w pierwszym cyklu współczynnik nazwany „efektywnością architektury” w przypadku konstrukcji 32-bitowych z przetwarzaniem potokowym (ang. pipelining) nie jest doskonałym wskaźnikiem pokazującym wydajność rdzenia. Szeroko dostępne, standaryzowane benchmarki sprawdzą się w tym przypadku lepiej, nawet standardowy, uśredniony współczynnik CPI (ang. cycles per instruction – liczba cykli na instrukcję) czy IPS (ang. instructions per second – liczba instrukcji na sekundę) pozwoli na lepsze porównanie wydajności procesorów. Zdaniem autora jednak współczynnik efektywności zdefiniowany następująco:
 
-efektywność architektury =
-ilość 64-bitowych dodawań na sekundę
-
-ilość tranzystorów w tysiącach
-
-
+$$\text{efektywność architektury} = \frac{\text{ilość 64-bitowych dodawań na sekundę}}{\text{ilość tranzystorów w tysiącach}}$$
 
 pozwala na dokonanie oceny samej architektury w pewien specyficzny sposób. Pozwala na oszacowanie efektywności wykorzystania elementów składowych mikroprocesora do wykonywania prostego przetwarzania danych. Wszystkie mechanizmy i bloki funkcjonalne dostępne w złożonych mikroprocesorach niekoniecznie dają przewagę na tym polu, a niejednokrotnie bywają sporym balastem. Przykładem jest mechanizm stronicowania pamięci i przechowywania jej w pliku wymiany. Pochodzący z wielodostępnych systemów serwerowych sposób wirtualnego zwiększenia dostępnej pamięci nie ma praktycznego zastosowania w dzisiejszych, jednostanowiskowych stacjach roboczych, szczególnie w dobie stosunkowo tanich modułów pamięci DRAM.
 
-CISC: Intel 80386
+## CISC: Intel 80386
 
 Mikroprocesor Intel 80386 (iAPX 386) jest modelowym przykładem konstrukcji typu CISC (ang. complex instruction set computer – komputer o złożonej liście rozkazów). Kategoria ta została zdefiniowana dużo później niż konstrukcje, które ostatecznie do niej zakwalifikowano. W pewnym momencie rozwoju technologii trend prący do wzrostu komplikacji rdzenia uległ odwróceniu, a w kontraście do architektur uproszczonych RISC zdefiniowano właśnie termin CISC. Najczęściej wymieniane cechy, klasyfikujące dany mikroprocesor do tej kategorii, są następujące:
 
-rozbudowana lista rozkazów (nawet kilkaset),
-instrukcje o zróżnicowanej długości i czasie wykonania,
-instrukcje złożone, wymagające wykonania kilku mikrooperacji, realizujące więcej niż jedną czynność naraz,
-konieczność stosowania mikrokodu do dekodowania instrukcji,
-duża liczba trybów adresowania,
-instrukcje mogą operować bezpośrednio na komórkach pamięci,
-stosunkowo mała liczba rejestrów wewnętrznych.
+* rozbudowana lista rozkazów (nawet kilkaset),
+* instrukcje o zróżnicowanej długości i czasie wykonania,
+* instrukcje złożone, wymagające wykonania kilku mikrooperacji, realizujące więcej niż jedną czynność naraz,
+* konieczność stosowania mikrokodu do dekodowania instrukcji,
+* duża liczba trybów adresowania,
+* instrukcje mogą operować bezpośrednio na komórkach pamięci,
+* stosunkowo mała liczba rejestrów wewnętrznych.
 
 Wiele z tych cech ma swoje źródło w architekturach komputerów mainframe z lat 60-tych XX wieku, na których bazowały wczesne architektury 16-bitowe. Były to głównie linie DEC VAX oraz PDP.
 
@@ -44,7 +40,6 @@ Adres logiczny składa się z 16-bitowego selektora segmentu oraz 32-bitowego pr
 
 W trybie chronionym selektor służy do wybrania odpowiedniego deskryptora segmentu z tablicy lokalnej (LDT) lub globalnej (GDT). W deskryptorze zdefiniowane są różne parametry segmentu, w tym jego adres bazowy oraz rozmiar. Korzystając z danych deskryptora, formowany jest 32-bitowy, płaski (liniowy) adres efektywny. Jeśli stronicowanie jest wyłączone, adres ten staje się bezpośrednio adresem fizycznym i jest podawany na szynę adresową mikroprocesora. Mechanizm stronicowania jest wykorzystywany do tworzenia logicznej przestrzeni adresowej dla zadania, wraz z określeniem praw dostępu do odpowiednich obszarów.
 
-
 Jeśli mechanizm stronicowania jest włączony (ustawiony bit PE w rejestrze CR0), to uzyskany z modułu segmentacji adres liniowy jest poddawany dodatkowej translacji. Mechanizm stronicowania opiera się na podziale obszaru pamięci na bloki, tzw. strony (ang. page), o stałym rozmiarze 4 KiB. Podobnie jak w mechanizmie segmentacji, istnieją lokalne i globalne katalogi tablic stron. Każdy katalog tablic stron zawiera 1024 (210) elementów. Podobnie każda tablica stron zawiera 1024 (210) elementów wyznaczających fizyczny adres strony. Adres liniowy interpretowany jest więc jako 10-bitowy numer katalogu tablic stron, 10-bitowy indeks strony w tym katalogu oraz 12-bitowe przesunięcie w ramach strony. Daje to razem 32 bity. Mechanizm ten jest wykorzystywany głównie do implementacji pamięci wirtualnej połączonej z przenoszeniem niewykorzystywanych aktualnie stron na dysk (ang. page swapping). W przypadku działania wielu zadań w trybie V86 dzięki mechanizmowi stronicowania możliwa jest separacja ich przestrzeni adresowych.
 
 Jak widać z powyższego, pobieżnego omówienia zintegrowane w strukturze MMU zapewnia wyrafinowane metody ochrony i wirtualizacji pamięci. Jest to wyraźny ukłon w stronę twórców wielodostępnych systemów operacyjnych. 
@@ -57,156 +52,104 @@ W celu wywołania przez proces użytkownika funkcji systemu operacyjnego, czyli 
 
 W celu ułatwienia analizy pracy programów czy debugowania wprowadzono sprzętowe wsparcie dla obsługi pułapek instrukcji (ang. breakpoints), trybu pracy krokowej oraz pułapek wychwytujących dostęp do obszarów pamięci. Procesor może generować pułapkę po wykonaniu każdej instrukcji, po przełączeniu do określonego zadania lub po wystąpieniu warunku określonego w jednym z rejestrów sterujących debugowaniem DR0..7. 
 
-
-
+![Intel 80386 - Schemat blokowy](intel%2080386%20-%20schemat%20blokowy.png)
 Rysunek 1. Schemat blokowy mikroprocesora Intel 80386
 
 Jak widać, mikroprocesor Intel 80386 jest nie tylko złożony pod względem zestawu instrukcji, ale również, a może przede wszystkim, ze względu na zintegrowany układ zarządzania pamięcią i dodatkowe moduły znajdujące się w jednej strukturze z rdzeniem.
 
-Intel 80386
-rok wprowadzenia do produkcji
-1985
-ilość tranzystorów
-275000
-częstotliwość taktowania
-16 MHz (cykl zegarowy:  62.5 ns)
-najkrótszy cykl instrukcji
-125 ns (2 cykle zegarowe)
-indeks prędkości
-8 MIPS
-dodawanie 64-bitowe
-250000/s
-efektywność architektury
-909
-typ architektury
-32-bitowa, CISC
-kolejność bajtów
-little-endian
-licznik programu
-32-bitowy licznik programu
-16-bitowy selektor segmentu kodu
-stos
-32-bitowy wskaźnik stosu
-16-bitowy selektor segmentu stosu
-rejestry
-8 x 32-bitowe ogólnego przeznaczenia
-6 x 16-bitowe selektory segmentów
-sprzętowe moduły obliczeniowe
-32-bitowe ALU
-mnożenie/dzielenie
-przesuwnik bitowy
-obliczanie adresu efektywnego
-znaczniki
-O – przepełnienie
-D – kierunek dla operacji łańcuchowych
-I – maska przerwań
-T – pułapka przy pracy krokowej
-S – znak
-Z – zero
-A – przeniesienie pomocnicze
-P – parzystość
-C – przeniesienie
-IOPL – priorytet operacji we/wy
-NT – zadanie zagnieżdżone
-R – używane w obsłudze punktów wstrzymania
-VM – tryb wirtualny V86
+|                                 |                                                         |
+| ------------------------------- | ------------------------------------------------------- |
+| rok wprowadzenia do produkcji   | 1985                                                    |
+| ilość tranzystorów              | 275000                                                  |
+| częstotliwość taktowania        | 16 MHz (cykl zegarowy:  62.5 ns)                        |
+| najkrótszy cykl instrukcji      | 125 ns (2 cykle zegarowe)                               |
+| indeks prędkości                | 8 MIPS                                                  |
+| dodawanie 64-bitowe             | 250000/s                                                |
+| efektywność architektury        | 909                                                     |
+| typ architektury                | 32-bitowa, CISC                                         |
+| kolejność bajtów                | little-endian                                           |
+| licznik programu                | 16-bit segment : 32-bit offset                          |
+| wskaźnik stosu                  | 16-bit segment : 32-bit offset                          |
+| rejestry ogólnego przeznaczenia | 8 x 32-bit                                              |
+| rejestry/selektory segmentowe   | 6 x 16-bit                                              |
+| ALU                             | 32-bit ogólnego przeznaczenia                           |
+| moduły sprzętowe                | mnożenie/dzielenie, przesuwnik, adres efektywny         |
+| adresowanie pamięci             | 4 GiB (32-bit adres), segmentowe, stronicowanie pamięci |
+| adresowanie portów              | 64 KiB portów wejścia/wyjścia                           |
+| przerwania sprzętowe            | maskowalne, niemaskowalne                               |
+| przerwania programowe           | maskowalne, priorytetowe, razem 256 (kodów)             |
+| praca z koprocesorem            | tak                                                     |
+| systemy wieloprocesorowe        | tak                                                     |
+|                                 |                                                         |
+Znaczniki:
+
+* `O` – przepełnienie
+* `D` – kierunek dla operacji łańcuchowych
+* `I` – maska przerwań
+* `T` – pułapka przy pracy krokowej
+* `S` – znak
+* `Z` – zero
+* `A` – przeniesienie pomocnicze
+* `P` – parzystość
+* `C` – przeniesienie
+* `IOPL` – priorytet operacji we/wy
+* `NT` – zadanie zagnieżdżone
+* `R` – używane w obsłudze punktów wstrzymania
+* `VM` – tryb wirtualny V86
 
 oraz w rejestrze kontrolnym CR0:
 
-PG – stronicowanie włączone
-ET – tryb pracy z koprocesorem
-EM – tryb emulacji instrukcji koprocesora
-MP – monitorowanie instrukcji koprocesora
-PE – tryb chroniony
-adresowanie pamięci
-4 GiB (32-bitowy adres), adresowanie segmentowane, stronicowanie pamięci
-adresowanie portów
-64 KiB portów wejścia/wyjścia
-przerwania
-sprzętowe niemaskowalne
-sprzętowe maskowalne
-programowe maskowalne
+* `PG` – stronicowanie włączone
+* `ET` – tryb pracy z koprocesorem
+* `EM` – tryb emulacji instrukcji koprocesora
+* `MP` – monitorowanie instrukcji koprocesora
+* `PE` – tryb chroniony
 
-obsługa w/g priorytetów, razem 256 rodzajów (typów) przerwań identyfikowanych kodem
-tryby adresowania
-domyślne
-natychmiastowe
-rejestrowe
-bezpośrednie
-pośrednie rejestrowe (z przesunięciem)
-bazowe (z przesunięciem)
-indeksowane (z przesunięciem)
-bazowe indeksowane (z przesunięciem)
-blok danych
-względne
-tryby pracy
-rzeczywisty
-wirtualny 8086 (V86)
-chroniony (4 poziomy)
-praca z koprocesorem
-tak
-systemy wieloprocesorowe
-tak
+Tryby adresowania:
 
+* domyślne
+* natychmiastowe
+* rejestrowe
+* bezpośrednie
+* pośrednie rejestrowe (z przesunięciem)
+* bazowe (z przesunięciem)
+* indeksowane (z przesunięciem)
+* bazowe indeksowane (z przesunięciem)
+* blok danych
+* względne
+
+Tryby pracy:
+
+* rzeczywisty
+* wirtualny 8086 (V86)
+* chroniony (4 poziomy)
 
 Lista instrukcji została omówiona w ostatnim odcinku cyklu, przy prezentacji poprzednich mikroprocesorów rodziny x86. W i80386 rejestry ogólnego przeznaczenia zostały rozszerzone do 32-bitów oraz wprowadzono nowe, pomocnicze rejestry segmentowe. W istotny sposób zmniejszono ilość cykli potrzebnych do wykonania większości instrukcji. Sam kod procedury dodawania liczb 64-bitowych przedstawiono poniżej.
 
+```
 ; Intel 80386 (iAPX 386)
 ; dodawanie dwóch liczb 64-bitowych
 ; ARG0, ARG1 - etykiety buforów zawierających argumenty
 ; wynik zapisywany jest w ARG1, dane zorganizowane są w 32-bitowe słowa
 ; kolejność bajtów w słowie zgodna z wymaganą przez architekturę procesora
 
-
-LEA ESI, ARG0
-; ładuj adres argumentu 0 do ESI
-2
-
-
-LEA EDI, ARG1
-; ładuj adres argumentu 1 do EDI
-2
-
-
-MOV CX, 2
-; ustaw licznik słów
-2
-
-
-CLD
-; ustaw znacznik kierunku na inkrementację
-2
-
-
-CLC
-; zeruj znacznik przeniesienia
-2
+  LEA ESI, ARG0              ; (2) ładuj adres argumentu 0 do ESI
+  LEA EDI, ARG1              ; (2) ładuj adres argumentu 1 do EDI
+  MOV CX, 2                  ; (2) ustaw licznik słów
+  CLD                        ; (2) ustaw znacznik kierunku na inkrementację
+  CLC                        ; (2) zeruj znacznik przeniesienia
 NST:
-LODSD
-; ładuj blokowo kolejne słowo ARG0 do EAX
-5
-
-
-ADC EAX,[EDI]
-; dodaj kolejne słowo z ARG1 do AX
-6
-
-
-STOSD
-; zapisz blokowo AX do kolejnego słowa ARG1
-5
-
-
-LOOP NST
-; kontynuuj dla następnego słowa
-11
-
+  LODSD                      ; (5) ładuj blokowo kolejne słowo ARG0 do EAX
+  ADC EAX,[EDI]              ; (6) dodaj kolejne słowo z ARG1 do AX
+  STOSD                      ; (5) zapisz blokowo AX do kolejnego słowa ARG1
+  LOOP NST                   ; (11) kontynuuj dla następnego słowa
+```
 
 Sumując czasy wykonania, dostajemy: 10 + 2 x 27 = 64 cykle zegara. Czas wykonania wynosi więc 4 μs, co daje 250000 dodawań na sekundę.
 
 Reasumując, należy przyznać, że Intel 80386 był jak na owe czasy konstrukcją bardzo zaawansowaną. Jednak przez wzgląd na zachowanie zgodności z poprzednikami jego model programowy i mikroarchitektura były nadmiernie rozbudowane i niekonsekwentne. Nowoczesne rozwiązania sąsiadowały ze starymi, a nawet przestarzałymi koncepcjami rodem z mikroprocesorów 8-bitowych. Model segmentacji, przez wymóg zgodności z 16-bitowym i80286, jest niespójny, np. aby umożliwić definiowanie segmentów o większych rozmiarach, musiano dodać specjalny bit ziarnistości (ang. granularity). Cała funkcjonalność związana z implementacją trybu rzeczywistego, zgodnego z i8086 oraz tryb V86 są reliktami, obciążającymi architekturę i rdzeń niepotrzebnym balastem. Oczywiście niepotrzebnym z punktu widzenia efektywności mikroprocesora jako takiego – względy marketingowe związane z zapewnieniem kompatybilności z poprzednimi modelami bez wątpienia miały tutaj pierwszorzędne znaczenie. Zastosowanie mikroprocesora Intel 80386 w prostszych konstrukcjach, które miały być po prostu wydajne i oferować dobre parametry w jednostanowiskowych zastosowaniach, było marnowaniem jego potencjału. Trend aby oferować rozwiązania prostsze, lecz bardziej uniwersalne, zyskał na popularności, a przykład takiego właśnie podejścia zostanie zaprezentowany w dalszej części artykułu.
 
-RISC: VTI VL86C010
+## RISC: VTI VL86C010
 
 Jako przykład mikroprocesora zrealizowanego w architekturze RISC (ang. reduced instruction set computer – komputer o zredukowanej liczbie rozkazów) wybrany został VLSI Technology Inc. (w skrócie VTI) model VL86C010. Jest to procesor w pełni 32-bitowy, którego struktura zawiera 10 razy mniej tranzystorów niż, omawianego powyżej, mikroprocesora Intel 80386. VL86C010 został zaprojektowany przez firmę Acorn jako układ implementujący model programowy ARMv2 oraz mikro-architekturę ARM2. Warto tutaj wspomnieć, że ARM to skrót od Acorn RISC Machine, a później Advanced RISC Machine. Początki architektury ARM to projekt brytyjskiej firmy Acorn Computers Ltd. zainspirowany architekturą 8-bitowego MOS 6502, a mający na celu stworzenie bardziej wydajnego, lecz prostego mikroprocesora o przejrzystej architekturze i uniwersalnym modelu programowym. Ścieżka ewolucji, zaprezentowana w poprzednich odcinkach cyklu, znajduje tutaj swoją kontynuację w postaci konsekwentnego dążenia do efektywnego wykorzystania zasobów.
 
@@ -214,437 +157,269 @@ Sama koncepcja RISC ma swoje źródło w badaniach efektywności wykorzystania l
 
 Aby nie zmuszać klientów do płacenia za nieużywaną funkcjonalność, która dodatkowo pobierała sporą ilość prądu i emitowała ciepło, co dodatkowo ograniczało maksymalną częstotliwość taktowania, wiele firm zaczęło oferować uproszczone konstrukcje typu RISC. Można wyróżnić następujące, charakterystyczne cechy tego typu architektury:
 
-Jednostka dekodująca powinna być realizowana sprzętowo, za pomocą układów logicznych zamiast mikrokodu. Powoduje to skrócenie czasu dekodowania i znaczne uproszczenie układu.
+* jednostka dekodująca powinna być realizowana sprzętowo, za pomocą układów logicznych zamiast mikrokodu. Powoduje to skrócenie czasu dekodowania i znaczne uproszczenie układu.
 
+* sprzętowa jednostka dekodująca wymusza ograniczenie listy rozkazów oraz ujednolicenie formatu instrukcji. W praktyce każdy rozkaz powinien mieć jednakową długość (najczęściej pojedyncze słowo) oraz zunifikowany cykl wykonywania. Dzięki temu pobieranie z wyprzedzeniem nie wymaga dekodowania, a czas wykonywania poszczególnych instrukcji jest w miarę jednolity.
 
-Sprzętowa jednostka dekodująca wymusza ograniczenie listy rozkazów oraz ujednolicenie formatu instrukcji. W praktyce każdy rozkaz powinien mieć jednakową długość (najczęściej pojedyncze słowo) oraz zunifikowany cykl wykonywania. Dzięki temu pobieranie z wyprzedzeniem nie wymaga dekodowania, a czas wykonywania poszczególnych instrukcji jest w miarę jednolity.
+* operacje na danych są ograniczone tylko do rejestrów wewnętrznych.
 
+* liczba rejestrów wewnętrznych powinna być duża (kilkadziesiąt).
 
-Operacje na danych są ograniczone tylko do rejestrów wewnętrznych.
+* dostęp do pamięci jest realizowany tylko za pośrednictwem rejestrów wewnętrznych (architektura typu load-store).
 
-
-Liczba rejestrów wewnętrznych powinna być duża (kilkadziesiąt).
-
-
-Dostęp do pamięci jest realizowany tylko za pośrednictwem rejestrów wewnętrznych (architektura typu load-store).
-
-
-Tryby adresowania pamięci są uniwersalne, najczęściej z pre/post inkrementacją/dekrementacją.
+* tryby adresowania pamięci są uniwersalne, najczęściej z pre/post inkrementacją/dekrementacją.
 
 Powyższy zestaw cech jest konsekwencją faktu, że rozbicie bardziej złożonego zadania na więcej prostych instrukcji jest najczęściej i tak szybsze niż wykorzystanie skomplikowanych, dedykowanych instrukcji zaimplementowanych wewnątrz procesora. Prostszy procesor wykona je szybciej dzięki wydajniejszej jednostce dekodującej i elastyczniejszej architekturze, co zapewnia mu większą przepustowość w dostępie do pamięci i większą liczbę instrukcji wykonywanych na sekundę. Przyjęte założenia okazały się słuszne, dodatkowo okazało się, że prostszy rdzeń pobiera mniej mocy w przeliczeniu na megaherc, w związku z tym może być taktowany szybszym zegarem lub może być realizowany w tańszej technologii, co również przekłada się na wzrost efektywności.
 
 Na Rysunku 2 przedstawiono poglądowy schemat modelu programowego mikroprocesora VL86C010. Całkowita liczba 32-bitowych rejestrów to 27, jednak nie wszystkie mogą być jednocześnie wykorzystywane. Rejestry R0..R15 są w każdym trybie pracy dostępne jednocześnie i są, poza pewnymi wyjątkami, rejestrami ogólnego przeznaczenia.
 
-
-
+![VL86C010 - Schemat blokowy](VL86C010%20-%20schemat%20blokowy.png)
 Rysunek 2. Schemat blokowy mikroprocesora VLSI Technology Inc. (VTI) VL86C010 reprezentującego przykład mikroarchitektury ARM2
 
 Istnieje konwencja przypisująca niektórym rejestrom specjalne funkcje, co nie wyklucza ich użycia w dowolnym, innym celu. Tak więc:
 
-R0..R11 – rejestry ogólnego przeznaczenia bez przypisanych specjalnych funkcji.
-R12 (FP) – wskaźnik ramki danych (ang. frame pointer).
-R13 (SP) – wskaźnik stosu (ang. stack pointer).
-R14 (LK) – wskaźnik adresu powrotu z podprogramu (ang. link).
-R15 (PC, PSR) – licznik programu (ang. program counter) i rejestr stanu procesora (ang. processor status register).
+* `R0..R11` – rejestry ogólnego przeznaczenia bez przypisanych specjalnych funkcji.
+* `R12 (FP)` – wskaźnik ramki danych (ang. frame pointer).
+* `R13 (SP)` – wskaźnik stosu (ang. stack pointer).
+* `R14 (LK)` – wskaźnik adresu powrotu z podprogramu (ang. link).
+* `R15 (PC, PSR)` – licznik programu (ang. program counter) i rejestr stanu procesora (ang. processor status register).
 
 Każdy z dostępnych trybów pracy ma swój własny podzbiór rejestrów, które zastępują niektóre rejestry trybu użytkownika. Dostępne są następujące tryby pracy:
 
-Użytkownika (ang. user) – standardowy tryb wykonywania programu pracujący na najniższym poziomie uprzywilejowania.
+* użytkownika (ang. user) – standardowy tryb wykonywania programu pracujący na najniższym poziomie uprzywilejowania.
 
+* FIRQ (ang. fast interrupt request) – tryb szybkiej obsługi przerwania, wykorzystywany do obsługi przerwań wymagających niskiej latencji. Ma własne rejestry R8..R14, aby zminimalizować konieczność przechowywania modyfikowanych rejestrów na stosie. Rejestr R14 zawiera adres powrotu z przerwania.
 
-FIRQ (ang. fast interrupt request) – tryb szybkiej obsługi przerwania, wykorzystywany do obsługi przerwań wymagających niskiej latencji. Ma własne rejestry R8..R14, aby zminimalizować konieczność przechowywania modyfikowanych rejestrów na stosie. Rejestr R14 zawiera adres powrotu z przerwania.
+* IRQ (ang. interrupt request) – tryb normalnej obsługi przerwania. Ma własne kopie rejestru R14, gdzie przechowywany jest adres powrotu z procedury obsługi przerwania, oraz R13, zwyczajowo wykorzystywany jako wskaźnik stosu.
 
+* nadzorcy (ang. supervisor) – tryb pracy uprzywilejowanej, wyzwalany przez pułapki (ang. traps) programowe oraz wyjątki takie jak np. próba wykonania instrukcji niedozwolonej czy dostępu do pamięci poza dozwolonym zakresem 0x0000000 – 0x3FFFFFF.
 
-IRQ (ang. interrupt request) – tryb normalnej obsługi przerwania. Ma własne kopie rejestru R14, gdzie przechowywany jest adres powrotu z procedury obsługi przerwania, oraz R13, zwyczajowo wykorzystywany jako wskaźnik stosu.
+Zapisywania adresu powrotu w rejestrze zamiast na stosie jest swego rodzaju powrotem do koncepcji stosu sprzętowego, znanego już z 4-bitowego mikroprocesora Intel 4004. W przypadku procedur obsługi przerwania daje to bardzo znaczącą redukcję czasu obsługi. Do przechowywania adresów powrotu wykorzystywany jest rejestr R14. Jako wskaźnik stosu wykorzystywany jest rejestr R13, natomiast R12 jako wskaźnik tzw. ramki stosu (ang. stack frame). W skrócie, R13 zawiera aktualny, a R12 poprzedni adres szczytu stosu. W ten sposób obszar pomiędzy R12 i R13 może być wykorzystany do alokowania tzw. zmiennych automatycznych. Są to zmienne dealokowane automatycznie po powrocie z podprogramu, ponieważ ich obszar pamięci umieszczony jest na stosie. Tego typu mechanizm alokacji jest bardzo powszechny i występuje w praktycznie każdym rodzaju procesora.
 
+Rejestr `R15` jest jedynym, który nie ma kopii i jest bezpośrednio dostępny w każdym trybie pracy. Ten 32-bitowy rejestr jest funkcjonalnym złożeniem rejestru licznika programu `PC` i rejestru stanu procesora `PSR`:
 
-Nadzorcy (ang. supervisor) – tryb pracy uprzywilejowanej, wyzwalany przez pułapki (ang. traps) programowe oraz wyjątki takie jak np. próba wykonania instrukcji niedozwolonej czy dostępu do pamięci poza dozwolonym zakresem 0x0000000 – 0x3FFFFFF.
+- tryb pracy procesora (ang. processor mode) – bity 0..1, określają aktualny tryb pracy: użytkownika, FIRQ, IRQ lub nadzorcy.
 
-Koncepcja zapisywania adresu powrotu w rejestrze zamiast na stosie jest swego rodzaju powrotem do koncepcji stosu sprzętowego, znanego już z 4-bitowego mikroprocesora Intel 4004. W przypadku procedur obsługi przerwania daje to bardzo znaczącą redukcję czasu obsługi. Do przechowywania adresów powrotu wykorzystywany jest rejestr R14. Jako wskaźnik stosu wykorzystywany jest rejestr R13, natomiast R12 jako wskaźnik tzw. ramki stosu (ang. stack frame). W skrócie, R13 zawiera aktualny, a R12 poprzedni adres szczytu stosu. W ten sposób obszar pomiędzy R12 i R13 może być wykorzystany do alokowania tzw. zmiennych automatycznych. Są to zmienne dealokowane automatycznie po powrocie z podprogramu, ponieważ ich obszar pamięci umieszczony jest na stosie. Tego typu mechanizm alokacji jest bardzo powszechny i występuje w praktycznie każdym rodzaju procesora.
+- licznik programu – bity 2..25, adres instrukcji musi być wyrównany do pełnych czterech bajtów, dlatego wystarczą 24 najbardziej znaczące bity pełnego, 26-bitowego adresu.
 
-Rejestr R15 jest jedynym, który nie ma kopii i jest bezpośrednio dostępny w każdym trybie pracy. Ten 32-bitowy rejestr jest funkcjonalnym złożeniem rejestru licznika programu PC i rejestru stanu procesora PSR:
-
-Tryb pracy procesora (ang. processor mode) – bity 0..1, określają aktualny tryb pracy: użytkownika, FIRQ, IRQ lub nadzorcy.
-
-
-Licznik programu – bity 2..25, adres instrukcji musi być wyrównany do pełnych czterech bajtów, dlatego wystarczą 24 najbardziej znaczące bity pełnego, 26-bitowego adresu.
-
-
-Znaczniki – bity 26..31, zawierają znaczniki (flagi) procesora, odpowiednio: F, I, O, C, Z, N.
+- znaczniki – bity 26..31, zawierają znaczniki (flagi) procesora, odpowiednio: `F`,`I`,`O`,`C`,`Z`,`N`.
 
 Takie połączenie w jednym, 32-bitowym rejestrze dwóch niezależnych struktur danych ma, pomimo oczywistych wad, jedną zaletę. Pozwala na zapisanie stanu i adresu powrotu mikroprocesora w jednym słowie, za pomocą jednej, standardowej instrukcji przesłania danych.
 
-VLSI Technology Inc. (VTI) VL86C010
-rok wprowadzenia do produkcji
-1986
-ilość tranzystorów
-27000
-częstotliwość taktowania
-10 MHz (cykl zegarowy:  100 ns)
-najkrótszy cykl instrukcji
-100 ns (1 cykl zegarowy)
-indeks prędkości
-10 MIPS
-dodawanie 64-bitowe
- 277 777/s
-efektywność architektury
-10288
-typ architektury
-32-bitowa, RISC, load-store
-kolejność bajtów
-little-endian
-licznik programu
-24-bitowy licznik 32-bitowych słów
-stos
-32-bitowy wskaźnik, którym może być dowolny rejestr, zwyczajowo jest to R13
-rejestry
-27 rejestrów 32-bitowych
-sprzętowe moduły obliczeniowe
-32-bitowe ALU
-mnożenie/dzielenie
-przesuwnik bitowy
-obliczanie adresu efektywnego
-znaczniki
-M0,M1 – tryb pracy procesora
-F – maska przerwania szybkiego
-I – maska przerwania normalnego
-O – przepełnienie
-C – przeniesienie
-Z – zero
-N – znak
-adresowanie pamięci
-64 MiB (24-bitowy adres słowa 32-bitowego), tryb adresowania bezpośredniego(fizycznego) lub logicznego w zależności od trybu pracy i obecności MMU w systemie.
-adresowanie portów
-mapowane w obszarze pamięci
-przerwania
-sprzętowe maskowalne szybkie
-sprzętowe maskowalne
-programowe maskowalne
-wyjątek/pułapka
+|                                |                                                 |
+| ------------------------------ | ----------------------------------------------- |
+| rok wprowadzenia do produkcji  | 1986                                            |
+| ilość tranzystorów             | 27000                                           |
+| częstotliwość taktowania       | 10 MHz (cykl zegarowy:  100 ns)                 |
+| najkrótszy cykl instrukcji     | 100 ns (1 cykl zegarowy)                        |
+| indeks prędkości               | 10 MIPS                                         |
+| dodawanie 64-bitowe            | 277 777/s                                       |
+| efektywność architektury       | 10288                                           |
+| typ architektury               | 32-bitowa, RISC, load-store                     |
+| kolejność bajtów               | little-endian                                   |
+| licznik programu               | 24-bit licznik 32-bitowych słów                 |
+| stos                           | 32-bit wskaźnik, dowolny rejestr, zazwyczaj R13 |
+| rejestry                       | 27 x 32-bit                                     |
+| ALU                            | 32-bit ogólnego przeznaczenia                   |
+| sprzętowe moduły obliczeniowe  | mnożenie/dzielenie, przesuwnik, adres efektywny |
+| adresowanie pamięci            | 64 MiB (24-bit adres słowa 32-bitowego)         |
+| adresowanie portów             | mapowane w obszarze pamięci                     |
+| przerwania sprzętowe           | maskowalne szybkie, maskowalne                  |
+| przerwania programowe          | maskowalne, wyjątek/pułapka                     |
+| obsługa wg stałych priorytetów | tak                                             |
+| systemy wieloprocesorowe       | nie                                             |
+|                                |                                                 |
 
-obsługa wg stałych priorytetów
-tryby adresowania
-domyślne
-względne (względem PC)
-bazowe z przesunięciem i postinkrementacją/postdekrementacją
-bazowe z przesunięciem i preinkrementacją/predekrementacją
-bazowe z indeksowaniem i postinkrementacją/postdekrementacją
-bazowe z indeksowaniem i preinkrementacją/predekrementacją
-tryby pracy
-nadzorcy
-użytkownika
-obsługi przerwania szybkiego (FIRQ)
-obsługi przerwania (IRQ)
-praca z koprocesorem
-tak
-systemy wieloprocesorowe
-nie
+Znaczniki:
 
+* `M0,M1` – tryb pracy procesora
+* `F` – maska przerwania szybkiego
+* `I` – maska przerwania normalnego
+* `O` – przepełnienie
+* `C` – przeniesienie
+* `Z` – zero
+* `N` – znak
+
+Tryby adresowania:
+
+* domyślne
+* względne (względem PC)
+* bazowe z przesunięciem i postinkrementacją/postdekrementacją
+* bazowe z przesunięciem i preinkrementacją/predekrementacją
+* bazowe z indeksowaniem i postinkrementacją/postdekrementacją
+* bazowe z indeksowaniem i preinkrementacją/predekrementacją
+
+``tryb adresowania bezpośredniego(fizycznego) lub logicznego w zależności od trybu pracy i obecności MMU w systemie.``
+
+Tryby pracy:
+
+* nadzorcy
+* użytkownika
+* obsługi przerwania szybkiego (FIRQ)
+* obsługi przerwania (IRQ)
+* praca z koprocesorem
 
 Tym, co jest w przypadku tego mikroprocesora najciekawsze, a co jest charakterystyczne dla całej rodziny RISC, jest prostota i regularność listy rozkazów. Prostota i regularność umożliwia implementację dekodera instrukcji w formie sprzętowej, jako układu logicznego, zamiast dekodera opartego na mikrokodzie.
 
 Każda instrukcja mikroprocesora VL86C010 ma 32-bity; pozwala to uprościć układ pobierania i kolejkowania instrukcji oraz pobierania z wyprzedzeniem. Nie jest potrzebna informacja z układu dekodującego o rozmiarze instrukcji do pobrania, ponieważ jest on stały. Kolejną generalizacją jest umieszczenie w kodzie każdej instrukcji 4-bitowego kodu warunkowego. Bity 28..31 każdej instrukcji określają warunek, który musi wystąpić, aby była ona wykonana przez procesor. Jeśli warunek nie wystąpi, instrukcja jest ignorowana, a przetwarzanie przechodzi do następnej. Kody binarne warunków wraz z opisami podane są poniżej:
 
 
-kod
-skrót
-opis
-znaczniki
-0000
-EQ (ang. equal)
-równe
-Z=1
-0001 
-NE (ang. not equal)
-różne
-Z=0
-0010 
-CS (ang. carry set)
-przeniesienie
-C=1
-0011 
-CC (ang. carry clear)
-brak przeniesienia
-C=0
-0100 
-MI (ang. minus)
-mniejsze od zera
-N=1
-0101 
-PL (ang. plus)
-nie mniejsze od zera
-N=0
-0110 
-VS (ang. overflow set)
-przepełnienie
-V=1
-0111 
-VC (ang. overflow clear)
-brak przepełnienia
-V=0
-1000 
-HI (ang. unsigned higher)
-większe (bez znaku)
-C=1,Z=0
-1001 
-LS (ang. unsigned less)
-nie większe (bez znaku)
-C=0,Z=1
-1010 
-GE (ang. greater or equal)
-większe lub równe
-N=V
-1011 
-LT (ang. less than)
-mniejsze
-N≠V
-1100 
-GT (ang. greater than)
-większe
-Z=0 i N=V
-1101 
-LE (ang. less or equal)
-mniejsze lub równe
-Z=0 lub N≠V
-1110 
-AL (ang. always)
-zawsze
+| kod  | skrót                        | opis                    | znaczniki   |
+| ---- | ---------------------------- | ----------------------- | ----------- |
+| 0000 | EQ (ang. *equal*)            | równe                   | Z=1         |
+| 0001 | NE (ang. *not equal*)        | różne                   | Z=0         |
+| 0010 | CS (ang. *carry set*)        | przeniesienie           | C=1         |
+| 0011 | CC (ang. *carry clear*)      | brak przeniesienia      | C=0         |
+| 0100 | MI (ang. *minus*)            | mniejsze od zera        | N=1         |
+| 0101 | PL (ang. *plus*)             | nie mniejsze od zera    | N=0         |
+| 0110 | VS (ang. *overflow set*)     | przepełnienie           | V=1         |
+| 0111 | VC (ang. *overflow clear*)   | brak przepełnienia      | V=0         |
+| 1000 | HI (ang. *unsigned higher*)  | większe (bez znaku)     | C=1,Z=0     |
+| 1001 | LS (ang. *unsigned less*)    | nie większe (bez znaku) | C=0,Z=1     |
+| 1010 | GE (ang. *greater or equal*) | większe lub równe       | N=V         |
+| 1011 | LT (ang. *less than*)        | mniejsze                | N≠V         |
+| 1100 | GT (ang. *greater than*)     | większe                 | Z=0 i N=V   |
+| 1101 | LE (ang. *less or equal*)    | mniejsze lub równe      | Z=0 lub N≠V |
+| 1110 | AL (ang. *always*)           | zawsze                  |             |
+| 1111 | NV (ang. *never*)            | nigdy                   |             |
+|      |                              |                         |             |
 
-
-1111 
-NV (ang. never)
-nigdy
-
-
-
-
-Podając warunek NV, każda instrukcja staje się instrukcją NOP znaną z innych modeli programowych.
+Podając warunek `NV`, każda instrukcja staje się instrukcją `NOP` znaną z innych modeli programowych.
 
 Zestaw instrukcji zasadniczo można podzielić na następujące kategorie:
 
-Przetwarzające dane (ang. data processing) – operują wyłącznie na rejestrach wewnętrznych. W każdej z nich określone są dwa operandy źródłowe (argumenty) oraz miejsce zapisania wyniku. Przy wybraniu R15 jako operandu wynikowego nie wszystkie jego bity mogą zostać ustawione w trybie użytkownika. Jednym z operandów źródłowych może być 8-bitowa wartość natychmiastowa (literał). Również do jednego z argumentów może zostać zastosowane przesunięcie realizowane przez sprzętowy przesuwnik bitowy (ang. barrel shifter). Do tej kategorii danych, oprócz instrukcji transferów między rejestrami, zalicza się również wszystkie operacje realizowane przez jednostkę arytmetyczno-logiczną (ALU).
+* **przetwarzające dane** (ang. *data processing*) – operują wyłącznie na rejestrach wewnętrznych. W każdej z nich określone są dwa operandy źródłowe (argumenty) oraz miejsce zapisania wyniku. Przy wybraniu R15 jako operandu wynikowego nie wszystkie jego bity mogą zostać ustawione w trybie użytkownika. Jednym z operandów źródłowych może być 8-bitowa wartość natychmiastowa (literał). Również do jednego z argumentów może zostać zastosowane przesunięcie realizowane przez sprzętowy przesuwnik bitowy (ang. *barrel shifter*). Do tej kategorii danych, oprócz instrukcji transferów między rejestrami, zalicza się również wszystkie operacje realizowane przez jednostkę arytmetyczno-logiczną (ALU).
 
+* **przesyłające dane** (ang. *data transfer*) – realizują ładowanie danych z pamięci do rejestru (ang. *load*) oraz zapisywanie wartości rejestru do pamięci (ang. *store*). Adres efektywny jest obliczany jako suma wartości rejestru bazowego i 12-bitowego przesunięcia, które może być wartością natychmiastową lub zapisaną w innym rejestrze. W przypadku gdy przesunięciem jest wartość rejestru, może ona być dodatkowo przesunięta bitowo o określoną w instrukcji wartość. Rejestr przesunięcia może być modyfikowany przed lub po obliczeniu efektywnego adresu, może też nie być modyfikowany wcale. Przykłady trybów adresowania zostaną pokazane w dalszej części artykułu. Instrukcja wykonywana w trybie uprzywilejowanym może określać, czy adres efektywny ma być adresem fizycznym czy logicznym, podlegającym dalszej translacji przez zewnętrzne MMU. Odpowiedni bit kodu instrukcji jest podawany na pin TRAN mikroprocesora do wykorzystania przez układy zewnętrzne.
 
-Przesyłające dane (ang. data transfer) – realizują ładowanie danych z pamięci do rejestru (ang. load) oraz zapisywanie wartości rejestru do pamięci (ang. store). Adres efektywny jest obliczany jako suma wartości rejestru bazowego i 12-bitowego przesunięcia, które może być wartością natychmiastową lub zapisaną w innym rejestrze. W przypadku gdy przesunięciem jest wartość rejestru, może ona być dodatkowo przesunięta bitowo o określoną w instrukcji wartość. Rejestr przesunięcia może być modyfikowany przed lub po obliczeniu efektywnego adresu, może też nie być modyfikowany wcale. Przykłady trybów adresowania zostaną pokazane w dalszej części artykułu. Instrukcja wykonywana w trybie uprzywilejowanym może określać, czy adres efektywny ma być adresem fizycznym czy logicznym, podlegającym dalszej translacji przez zewnętrzne MMU. Odpowiedni bit kodu instrukcji jest podawany na pin TRAN mikroprocesora do wykorzystania przez układy zewnętrzne.
+* **transferu blokowego** (ang. *block transfer*) – umożliwiają przesłanie grupy rejestrów do/z pamięci operacyjnej. Każdy z rejestrów od `R0` do `R15` ma jeden bit w kodzie instrukcji. Mechanizm transferu blokowego umożliwia efektywne składowanie rejestrów na stosie oraz przyspieszenie przesyłania danych. Dostępne są tryby adresowania z post/pre inkrementacją lub dekrementacją.
 
+* **skoków** (ang. *branch*) – instrukcje skoków realizowane są z zachowaniem adresu powrotu (ang. *link*) lub bez. Adres docelowy podany jest jako 24-bitowe przesunięcie względem licznika rozkazów. Przesunięcie jest określone w 32-bitowych słowach, więc efektywnie jest 26-bitowe. Adres powrotu razem z aktualną wartością `PSR` jest zachowywany w rejestrze `R14`. Powrót z tak wywołanego podprogramu realizowany jest przez instrukcję `MOV PC,R14`, która po prostu ładuje do `PC` wartość zapisaną uprzednio w `R14`. Nie ma dedykowanej instrukcji powrotu z podprogramu. W celu odtworzenia również znaczników należy dodać “S” do mnemonika instrukcji (konwencja ta zostanie omówiona na przykładach w dalszej części artykułu).
 
-Transferu blokowego (ang. block transfer) – umożliwiają przesłanie grupy rejestrów do/z pamięci operacyjnej. Każdy z rejestrów od R0 do R15 ma jeden bit w kodzie instrukcji. Mechanizm transferu blokowego umożliwia efektywne składowanie rejestrów na stosie oraz przyspieszenie przesyłania danych. Dostępne są tryby adresowania z post/pre inkrementacją lub dekrementacją.
-
-
-Skoków (ang. branch) – instrukcje skoków realizowane są z zachowaniem adresu powrotu (ang. link) lub bez. Adres docelowy podany jest jako 24-bitowe przesunięcie względem licznika rozkazów. Przesunięcie jest określone w 32-bitowych słowach, więc efektywnie jest 26-bitowe. Adres powrotu razem z aktualną wartością PSR jest zachowywany w rejestrze R14. Powrót z tak wywołanego podprogramu realizowany jest przez instrukcję MOV PC,R14, która po prostu ładuje do PC wartość zapisaną uprzednio w R14. Nie ma dedykowanej instrukcji powrotu z podprogramu. W celu odtworzenia również znaczników należy dodać “S” do mnemonika instrukcji (konwencja ta zostanie omówiona na przykładach w dalszej części artykułu).
-
-
-Przerwań programowych (ang. software interrupt) – stosowane głównie do realizowania wywołań funkcji systemowych, które muszą być wykonane w trybie uprzywilejowanym. Stan PC i PSR, czyli wartość rejestru R15, jest zapisywana w rejestrze R14 trybu nadzorcy, następnie PC jest ładowane wartością odpowiednią dla wywoływanego przerwania, a procesor przechodzi w tryb nadzorcy.
-
+* **przerwań programowych** (ang. *software interrupt*) – stosowane głównie do realizowania wywołań funkcji systemowych, które muszą być wykonane w trybie uprzywilejowanym. Stan PC i PSR, czyli wartość rejestru R15, jest zapisywana w rejestrze R14 trybu nadzorcy, następnie PC jest ładowane wartością odpowiednią dla wywoływanego przerwania, a procesor przechodzi w tryb nadzorcy.
 
 Jak widać na przykładzie umieszczenia warunku wykonania w kodzie każdej instrukcji, programowanie mikroprocesora typu RISC jest trochę podobne do programowania w mikrokodzie. Każda instrukcja ma 32-bity, co jest w wielu przypadkach wielkością o wiele za dużą, jednak dzięki temu układ dekodujący może być szybki i zaimplementowany sprzętowo. VL86C010 jest mikroprocesorem o architekturze load-store, w którym istotną rolę pełnią dostępne przy transferach między rejestrami i pamięcią tryby adresowania. Lista instrukcji przesyłania danych została zebrana w poniższej tabeli.
 
 
-instrukcja
-opis
-LDR
-załaduj do rejestru wartość z pamięci
-STR
-zapisz zawartość rejestru do pamięci
-LDM
-załaduj do listy rejestrów wartości z kolejnych komórek pamięci
-SRM
-zapisz listę rejestrów do kolejnych komórek pamięci
-
-
+| Instrukcja | Opis                                                            |
+| ---------- | --------------------------------------------------------------- |
+| `LDR`      | załaduj do rejestru wartość z pamięci                           |
+| `STR`      | zapisz zawartość rejestru do pamięci                            |
+| `LDM`      | załaduj do listy rejestrów wartości z kolejnych komórek pamięci |
+| `SRM`      | zapisz listę rejestrów do kolejnych komórek pamięci             |
+|            |                                                                 |
 
 Jednym z argumentów jest zawsze rejestr (lub rejestry) wewnętrzny, drugim zaś adres efektywny. Sposób wyliczania adresu efektywnego zależy od wybranego trybu adresowania:
 
-Adresowanie względne (względem PC) – suma wartość licznika rozkazów i  12-bitowego przesunięcia.
+* adresowanie względne (względem PC) – suma wartość licznika rozkazów i  12-bitowego przesunięcia.
 
+* adresowanie bazowe rejestrowe z postinkrementacją – wartość rejestru bazowego. Po wykonaniu rozkazu do rejestru bazowego dodawane jest 12-bitowe przesunięcie.
 
-Adresowanie bazowe rejestrowe z postinkrementacją – wartość rejestru bazowego. Po wykonaniu rozkazu do rejestru bazowego dodawane jest 12-bitowe przesunięcie.
+* adresowanie bazowe rejestrowe z preinkrementacją – suma rejestru bazowego i 12-bitowego przesunięcia. Obliczona wartość może zostać wpisana do rejestru bazowego.
 
+* adresowanie bazowe rejestrowe, indeksowane z postinkrementacją – wartość rejestru bazowego. Po wykonaniu rozkazu do rejestru bazowego dodawana jest wartość rejestru indeksowego.
 
-Adresowanie bazowe rejestrowe z preinkrementacją – suma rejestru bazowego i 12-bitowego przesunięcia. Obliczona wartość może zostać wpisana do rejestru bazowego.
-
-
-Adresowanie bazowe rejestrowe, indeksowane z postinkrementacją – wartość rejestru bazowego. Po wykonaniu rozkazu do rejestru bazowego dodawana jest wartość rejestru indeksowego.
-
-
-Adresowanie pośrednie rejestrowe, indeksowane z preinkrementacją – suma rejestru bazowego i rejestru indeksowego. Obliczona wartość może zostać wpisana do rejestru bazowego.
-
+* adresowanie pośrednie rejestrowe, indeksowane z preinkrementacją – suma rejestru bazowego i rejestru indeksowego. Obliczona wartość może zostać wpisana do rejestru bazowego.
 
 Wartość offsetu lub rejestru indeksowego może być przesunięta bitowo i dopiero potem wykorzystana do wyliczenia adresu. Daje to możliwość skalowania kroku np. przy dostępie do tablic w trybie adresowania indeksowego. Przesunięcie może być wartością dodatnią lub ujemną, steruje tym osobny bit w kodzie instrukcji. Instrukcje przesyłające dane mogą operować na pojedynczych bajtach lub na 32-bitowych słowach, jest to również definiowane przez osobny bit. W przypadku przesyłania danych o rozmiarze bajtu możliwe jest wykorzystanie adresów niewyrównanych do pełnych 4-bajtów. Transfery blokowe, obejmujące kilka rejestrów, mają nieco okrojony zbiór dostępnych trybów adresowania. W trakcie takiego transferu mogą również wystąpić wyjątki związane z dostępem do zabronionego obszaru pamięci.
 
 Kolejną grupą rozkazów są rozkazy przetwarzające dane. W przypadku tego mikroprocesora zalicza się do nich także instrukcje transferu między rejestrami. Wszystkie instrukcje tej kategorii zebrane zostały w poniższej tabeli.
 
-instrukcja
-opis
-ADC
-dodawanie z przeniesieniem
-ADD
-dodawanie
-AND
-iloczyn logiczny
-BIC
-skasuj bit
-CMN
-porównanie oparte na sumie argumentów
-CMP
-porównanie oparte na różnicy argumentów (standardowe)
-EOR
-suma modulo 2, czyli XOR
-MLA
-mnożenie z akumulacją wyniku
-MUL
-mnożenie
-MOV
-transfer danych między rejestrami
-MVN
-transfer danych między rejestrami z negacją
-ORR
-suma logiczna, OR
-RSB
-odejmowanie z odwróceniem kolejności argumentów
-SUB
-odejmowanie
-RSC
-odejmowanie z odwróceniem kolejności argumentów i przeniesieniem
-SBC
-odejmowanie z przeniesieniem
-TEQ
-test na równość argumentów (XOR bez zapisania wyniku)
-TST
-test z wykorzystaniem maski bitowej
+| instrukcja | opis                                                             |
+| ---------- | ---------------------------------------------------------------- |
+| `ADC`      | dodawanie z przeniesieniem                                       |
+| `ADD`      | dodawanie                                                        |
+| `AND`      | iloczyn logiczny                                                 |
+| `BIC`      | skasuj bit                                                       |
+| `CMN`      | porównanie oparte na sumie argumentów                            |
+| `CMP`      | porównanie oparte na różnicy argumentów (standardowe)            |
+| `EOR`      | suma modulo 2, czyli XOR                                         |
+| `MLA`      | mnożenie z akumulacją wyniku                                     |
+| `MUL`      | mnożenie                                                         |
+| `MOV`      | transfer danych między rejestrami                                |
+| `MVN`      | transfer danych między rejestrami z negacją                      |
+| `ORR`      | suma logiczna, OR                                                |
+| `RSB`      | odejmowanie z odwróceniem kolejności argumentów                  |
+| `SUB`      | odejmowanie                                                      |
+| `RSC`      | odejmowanie z odwróceniem kolejności argumentów i przeniesieniem |
+| `SBC`      | odejmowanie z przeniesieniem                                     |
+| `TEQ`      | test na równość argumentów (XOR bez zapisania wyniku)            |
+| `TST`      | test z wykorzystaniem maski bitowej                              |
+|            |                                                                  |
 
-
-Zestaw instrukcji jest prosty, lecz w połączeniu z elastycznością w definiowaniu drugiego argumentu oraz możliwością zastosowania do niego przesunięcia daje wszechstronne i elastyczne narzędzie dla programisty czy kompilatora. Do drugiego argumentu instrukcji przetwarzającej dane można zastosować przesunięcie o określoną ilość bitów. Wartość przesunięcia może być zdefiniowana jako literał lub może być pobrana z innego rejestru. Do wyboru są tryby przesunięcia w prawo, w lewo, z wykorzystaniem znacznika C lub wartości 1. Możliwy jest również obrót z wykorzystaniem znacznika C jako dodatkowego bitu.
+Zestaw instrukcji jest prosty, lecz w połączeniu z elastycznością w definiowaniu drugiego argumentu oraz możliwością zastosowania do niego przesunięcia daje wszechstronne i elastyczne narzędzie dla programisty czy kompilatora. Do drugiego argumentu instrukcji przetwarzającej dane można zastosować przesunięcie o określoną ilość bitów. Wartość przesunięcia może być zdefiniowana jako literał lub może być pobrana z innego rejestru. Do wyboru są tryby przesunięcia w prawo, w lewo, z wykorzystaniem znacznika `C` lub wartości 1. Możliwy jest również obrót z wykorzystaniem znacznika `C` jako dodatkowego bitu.
 
 W niniejszym artykule nie ma miejsca na systematyczny wykład assemblera mikroprocesora VL86C010, w tym miejscu autor odsyła do stosownej literatury. Ogólny styl i możliwości, jakie daje architektura ARMv2, zaprezentowane zostały na poniższych, wybranych fragmentach kodu. 
 
 Przykład 1:
-
+```
 TEQ		R1, 0
 RSBMI	R1, R1, 0
-
-Sprawdź (TEQ), czy R1 ma wartość 0. Instrukcja ustawia również znacznik znaku N. Następnie wykonaj odejmowanie z odwróceniem kolejności operandów (RSB), tylko jeśli testowanie wykryło wartość ujemną (MI). Wynik operacji 0 - R1 wpisz do rejestru R1. Biorąc pod uwagę, że przy odejmowaniu R1 musi być wartością ujemną, cały powyższy kod przekształca liczbę zapisaną w R1 na jej wartość absolutną. Możliwość zadeklarowania dowolnej instrukcji jako wykonywanej warunkowo, dodając do niej odpowiedni postfix, pokazuje w tym przykładzie swoją użyteczność.
+```
+Sprawdź (`TEQ`), czy `R1` ma wartość `0`. Instrukcja ustawia również znacznik znaku `N`. Następnie wykonaj odejmowanie z odwróceniem kolejności operandów (`RSB`), tylko jeśli testowanie wykryło wartość ujemną (`MI`). Wynik operacji `0` - `R1` wpisz do rejestru `R1`. Biorąc pod uwagę, że przy odejmowaniu `R1` musi być wartością ujemną, cały powyższy kod przekształca liczbę zapisaną w `R1` na jej wartość absolutną. Możliwość zadeklarowania dowolnej instrukcji jako wykonywanej warunkowo, dodając do niej odpowiedni postfix, pokazuje w tym przykładzie swoją użyteczność.
 
 Przykład 2:
-
+```
 ADD		R1, R1, R1 LSL 1
 MOV		R1, R1 LSL 1
-
-Pierwsza instrukcja dodaje (ADD) wartość rejestru R1 do wartości rejestru R1 przesuniętej w lewo (LSL) o jeden bit. W efekcie mamy R1 + 2*R1 = 3*R1 i taka wartość zostaje wpisana do R1. Następnie prześlij (MOV) do rejestru R1 wartość R1 przesuniętą w lewo (LSL) o jeden bit, czyli pomnożoną przez 2. Wartość w rejestrze R1 zostaje pomnożona najpierw przez 3, a potem przez 2, czyli w efekcie przez 6. Za pomocą dwóch instrukcji, z wykorzystaniem sprzętowego przesuwnika bitowego można zrealizować błyskawiczne mnożenie przez 6.
+```
+Pierwsza instrukcja dodaje (`ADD`) wartość rejestru `R1` do wartości rejestru `R1` przesuniętej w lewo (`LSL`) o jeden bit. W efekcie mamy `R1 + 2*R1 = 3*R1` i taka wartość zostaje wpisana do `R1`. Następnie prześlij (`MOV`) do rejestru `R1` wartość `R1` przesuniętą w lewo (`LSL`) o jeden bit, czyli pomnożoną przez `2`. Wartość w rejestrze `R1` zostaje pomnożona najpierw przez `3`, a potem przez `2`, czyli w efekcie przez `6`. Za pomocą dwóch instrukcji, z wykorzystaniem sprzętowego przesuwnika bitowego można zrealizować błyskawiczne mnożenie przez 6.
 
 Przykład 3:
 LDR		R1, [R0, 8]
 STR		R1, [R2, R3 LSL 2]!
 
-Załaduj rejestr (LDR), w tym przypadku R1 wartością z komórki pamięci o adresie zapisanym w rejestrze R0 z przesunięciem 8. Nie modyfikuj wartości rejestru R0. Następnie zapisz tak pobraną wartość rejestru (STR) R1 do komórki pamięci o adresie zapisanym w rejestrze R2 powiększoną o wartość rejestru R3 przesuniętą uprzednio w lewo (LSL) o 2 bity. Po wykonaniu instrukcji zapisz (!) tak wyliczony adres efektywny do rejestru bazowego R2. Powyższe instrukcje pokazują elastyczność i siłę wyrazu modelu programowego opartego na łączeniu funkcji podstawowych bloków mikroarchitektury w jednej instrukcji. 
+Załaduj rejestr (`LDR`), w tym przypadku `R1` wartością z komórki pamięci o adresie zapisanym w rejestrze `R0` z przesunięciem `8`. Nie modyfikuj wartości rejestru `R0`. Następnie zapisz tak pobraną wartość rejestru (`STR`) `R1` do komórki pamięci o adresie zapisanym w rejestrze `R2` powiększoną o wartość rejestru `R3` przesuniętą uprzednio w lewo (`LSL`) o `2` bity. Po wykonaniu instrukcji zapisz (!) tak wyliczony adres efektywny do rejestru bazowego `R2`. Powyższe instrukcje pokazują elastyczność i siłę wyrazu modelu programowego opartego na łączeniu funkcji podstawowych bloków mikroarchitektury w jednej instrukcji. 
 
 Struktura asemblera ARMv2 jest nieco podobna w swojej regularności do asemblera mikroprocesora Motorola 68000, który został opisany w poprzednim odcinku cyklu. Separacja instrukcji przetwarzających dane od instrukcji przesyłających daje czysty i elegancki kod. Pomimo że często musi zawierać więcej operacji, jest dzięki swojej prostocie wykonywany szybciej. Widać to na przykładzie podanego niżej, standardowego programu testowego. Widoczna niedogodność to konieczność zapisywania i odtwarzania znacznika przeniesienia między kolejnymi operacjami dodawania z powodu braku np. dedykowanej instrukcji skoku po odliczeniu do zera.
-
+```
 ; VLSI Technology Inc. VL86C010 (ARMv2)
 ; dodawanie dwóch liczb 64-bitowych
 ; ARG0, ARG1 - etykiety buforów zawierających argumenty
 ; wynik zapisywany jest w ARG1, dane zorganizowane są w 32-bitowe słowa
 ; kolejność bajtów w słowie zgodna z wymaganą przez architekturę procesora
 
-
-LEA  R0, ARG0
-; ładuj adres argumentu 0 do R0
-2
-
-
-LEA  R1, ARG1
-; ładuj adres argumentu 1 do R1
-2
-
-
-ADD  R2, R1, 8
-; ładuj adres po końcu bufora argumentu 1
-1
-
-
-MOV  R5, 0
-; zeruj bufor znacznika C (rejestr R5)
-1
+  LEA  R0, ARG0                  ; (2) ładuj adres argumentu 0 do R0
+  LEA  R1, ARG1                  ; (2) ładuj adres argumentu 1 do R1
+  ADD  R2, R1, 8                 ; (1) ładuj adres po końcu bufora argumentu 1
+  MOV  R5, 0                     ; (1) zeruj bufor znacznika C (rejestr R5)
 NST:
-LDR  R3, [R0],4
-; ładuj kolejne słowo ARG0 do R3, R0 = R0+4
-3
-
-
-LDR  R4, [R1]
-; ładuj kolejne słowo ARG1 do R4
-3
-
-
-MOVS R5, R5 LSL 1
-; odtwórz znacznik C z MSB rejestru R5
-1
-
-
-ADCS R4, R3, R4
-; dodaj słowa ARG0 i ARG1 wynik zapisz w R4
-1
-
-
-STR  R4, [R1],4
-; zapisz R4 do słowa ARG1, R1 = R1+4
-2
-
-
-MOVS R5, R5 RRX 1
-; zapisz znacznik C w MSB rejestru R5
-1
-
-
-CMP  R1, R2
-; sprawdź, czy już dodano wszystkie słowa
-1
-
-
-BNE  NST
-; kontynuuj, jeśli nie
-3
-
-
+  LDR  R3, [R0],4                ; (3) ładuj kolejne słowo ARG0 do R3, R0 = R0+4
+  LDR  R4, [R1]                  ; (3) ładuj kolejne słowo ARG1 do R4
+  MOVS R5, R5 LSL 1              ; (1) odtwórz znacznik C z MSB rejestru R5
+  ADCS R4, R3, R4                ; (1) dodaj słowa ARG0 i ARG1 wynik zapisz w R4
+  STR  R4, [R1],4                ; (2) zapisz R4 do słowa ARG1, R1 = R1+4
+  MOVS R5, R5 RRX 1              ; (1) zapisz znacznik C w MSB rejestru R5
+  CMP  R1, R2                    ; (1) sprawdź, czy już dodano wszystkie słowa
+  BNE  NST                       ; (3) kontynuuj, jeśli nie
+```
 Sumując czasy wykonania, dostajemy: 6 + 2 x 15 = 36 cykli zegara. Czas wykonania wynosi więc 3.6 μs, co daje 277 777 dodawań na sekundę. Obliczając, zgodnie z przyjętą metodologią, wskaźnik efektywności, dostajemy wartość ponad 10-krotnie większą niż uzyskał Intel 80386. Tak miażdżąca przewaga wynika z faktu, że w przypadku VL86C010 płacimy tylko za to, czego potrzebujemy w tak prostym teście. Wskaźnik efektywności dla prostych zadań oddaje ten fakt z bezlitosną precyzją.
 
 Kolejną, nie omówioną wcześniej klasą instrukcji są operacje komunikacji z koprocesorem. Do sterowania komunikacją służa wyprowadzone na zewnątrz linie:
 
-Wejście CPA (ang. co-processor absent – koprocesor nieobecny) – jeśli koprocesor nie jest fizycznie zainstalowany, nie będzie w stanie zasygnalizować swojej obecności po wykryciu przeznaczonej dla niego instrukcji. W takim przypadku wymiana potwierdzeń (ang. handshake) między procesorem a koprocesorem jest przerywana i wywoływany jest wyjątek/pułapka związany z niedozwoloną instrukcją. W przeciwnym razie procesor główny aktywuje linię CPI i oczekuje na zakończenie wykonywania instrukcji, testując linię CPB.
+Wejście CPA (ang. *co-processor absent* – koprocesor nieobecny) – jeśli koprocesor nie jest fizycznie zainstalowany, nie będzie w stanie zasygnalizować swojej obecności po wykryciu przeznaczonej dla niego instrukcji. W takim przypadku wymiana potwierdzeń (ang. handshake) między procesorem a koprocesorem jest przerywana i wywoływany jest wyjątek/pułapka związany z niedozwoloną instrukcją. W przeciwnym razie procesor główny aktywuje linię CPI i oczekuje na zakończenie wykonywania instrukcji, testując linię CPB.
 
+Wejście CPB (ang. *co-processor busy* – koprocesor zajęty) – koprocesor aktywuje tę linię podczas przetwarzania przeznaczonej dla niego instrukcji. Daje to sygnał procesorowi do wstrzymania wykonywania aż do jej zakończenia. Koprocesor powinien aktywować sygnał dopiero w momencie, gdy jest gotów na odbieranie danych związanych z konkretną instrukcją. Procesor główny jest wstrzymywany, by dać czas koprocesorowi na przygotowanie.
 
-Wejście CPB (ang. co-processor busy – koprocesor zajęty) – koprocesor aktywuje tę linię podczas przetwarzania przeznaczonej dla niego instrukcji. Daje to sygnał procesorowi do wstrzymania wykonywania aż do jej zakończenia. Koprocesor powinien aktywować sygnał dopiero w momencie, gdy jest gotów na odbieranie danych związanych z konkretną instrukcją. Procesor główny jest wstrzymywany, by dać czas koprocesorowi na przygotowanie.
+Wyjście CPI (ang. *co-processor instruction* – instrukcja koprocesora) – procesor główny aktywuje tę linię podczas przetwarzania instrukcji przez koprocesor. W tym czasie program jest wstrzymywany, a dalsze przetwarzanie uzależnione od stanu linii CPA i CPB.
 
+Instrukcje służące do komunikacji z koprocesorem:
 
-Wyjście CPI (ang. co-processor instruction – instrukcja koprocesora) – procesor główny aktywuje tę linię podczas przetwarzania instrukcji przez koprocesor. W tym czasie program jest wstrzymywany, a dalsze przetwarzanie uzależnione od stanu linii CPA i CPB.
-
-
-Instrukcje służące do komunikacji z koprocesorem zostały zebrane w poniższej tabeli.
-
-instrukcja
-opis
-CDO
-instrukcja zleca wykonanie operacji przez koprocesor na danych, które zawarte są w jego wewnętrznych rejestrach. Procesor główny nie oczekuje na zakończenie takiej operacji ani żaden wynik nie jest automatycznie do niego przesyłany z koprocesora
-LDC/STC
-instrukcje przesyłają pojedyncze bajty lub słowa 32-bitowe z/do rejestrów wewnętrznych koprocesora
-MCR/MRC
-instrukcje realizują transfer danych między rejestrami procesora głównego a rejestrami koprocesora. W efekcie wykonania takiej instrukcji rejestry procesora głównego mogą zostać zmodyfikowane
-
+* `CDO` - instrukcja zleca wykonanie operacji przez koprocesor na danych, które zawarte są w jego wewnętrznych rejestrach. Procesor główny nie oczekuje na zakończenie takiej operacji ani żaden wynik nie jest automatycznie do niego przesyłany z koprocesora
+* `LDC/STC` - instrukcje przesyłają pojedyncze bajty lub słowa 32-bitowe z/do rejestrów wewnętrznych koprocesora
+* `MCR/MRC` - instrukcje realizują transfer danych między rejestrami procesora głównego a rejestrami koprocesora. W efekcie wykonania takiej instrukcji rejestry procesora głównego mogą zostać zmodyfikowane
 
 Jak widać, architektura load-store ma swoje odzwierciedlenie również w obszarze komunikacji z koprocesorem.
 
-Podsumowanie
+## Podsumowanie
 
 Przez wszystkie poprzednie odcinki cyklu o ewolucji mikroprocesorów obserwowaliśmy zmaganie się ze sobą dwóch paradygmatów. Terminy RISC i CISC oddają podejście projektantów poszczególnych architektur i modeli programowych na tyle dobrze, że możemy w końcu w miarę precyzyjnie nazwać te dwa odmienne trendy. Mikroprocesory RISC, jako prostsze, a więc tańsze i bardziej energooszczędne zdominowały dosyć szybko segment urządzeń mobilnych, czyli ten obszar, w którym wydajność nie mogła być osiągana kosztem dużego poboru mocy. Zdobywanie doświadczenia w tworzeniu efektywnych konstrukcji opłaciło się, gdy pojawiła się technologiczna bariera dla zwiększania częstotliwości taktowania. Mikroprocesory RISC, pozbawione bagażu kompatybilności wstecznej i przerośniętej listy rozkazów, pokazały swoją przewagę w sytuacji, gdy „surowa moc” nie była już dla architektur CISC dostępna bez ograniczeń. W chwili pisania tego artykułu znajdujemy się w przededniu pierwszego szturmu na bastion CISC, w którym nowy mikroprocesor RISC firmy Apple ma wyprzeć z komputerów tej firmy zadomowione tam od lat mikroprocesory firmy Intel. 
 
-Źródła i bibliografia
+## Źródła i bibliografia
 
 W powstaniu niniejszego artykułu wykorzystane zostały następujące publikacje i źródła:
-
-
-Introduction to the 80386. Including the 80386 Data Sheet, Intel Corporation 1986.
-80386 Hardware Reference Manual, Intel Corporation 1987.
-Acorn RISC Machine (ARM) Family Data Manual, VLSI Technology Inc. 1990.
-Wikipedia – wikipedia.org
-Wikichip – wikichip.org
-![alt text](<wzór na efektywność architektury.png>) ![alt text](<VL86C010 - schemat blokowy.png>) ![alt text](<intel 80386 - schemat blokowy.png>)
+- Introduction to the 80386. Including the 80386 Data Sheet, Intel Corporation 1986.
+- 80386 Hardware Reference Manual, Intel Corporation 1987.
+- Acorn RISC Machine (ARM) Family Data Manual, VLSI Technology Inc. 1990.
+- [Wikipedia](wikipedia.org)
+- [Wikichip](wikichip.org)
