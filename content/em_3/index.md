@@ -170,7 +170,7 @@ Koordynację pracy obu procesorów, szczególnie podczas konieczności pobierani
 
 Powyżej zaprezentowany schemat współpracy procesora głównego z koprocesorem, który efektywnie rozszerza dostępny zestaw instrukcji, jest stosowany w mniej lub bardziej podobny sposób przez pozostałe, omówione w dalszej części artykułu, konstrukcje. Firma Intel oferuje oprócz koprocesora numerycznego również koprocesor wejścia/wyjścia - Intel 8089.
 
-W celu koordynacji dostępu do współdzielonych zasobów w systemach wieloprocesorowych dostępny jest modyfikator instrukcji (ang. *prefix*) LOCK, który sygnalizuje wyłączny dostęp do szyny i w połączeniu z instrukcją XCHG (wymiana danych pomiędzy rejestrem i pamięcią) pozwala na implementację semaforów. 
+W celu koordynacji dostępu do współdzielonych zasobów w systemach wieloprocesorowych dostępny jest modyfikator instrukcji (ang. *prefix*) `LOCK`, który sygnalizuje wyłączny dostęp do szyny i w połączeniu z instrukcją `XCHG` (wymiana danych pomiędzy rejestrem i pamięcią) pozwala na implementację semaforów. 
 
 Podsumowując, architektura mikroprocesora Intel 8086 jest znacznie bardziej zaawansowana niż jej 8-bitowych poprzedników. Charakterystycznym rysem konstrukcji Intela pozostaje w dalszym ciągu tendencja do tworzenia wyspecjalizowanych rozwiązań i dedykowanych dla nich rejestrów czy instrukcji mających w wydajny i zwięzły sposób realizować określone funkcje. Pozwala to tworzyć naprawdę wydajne rozwiązania, lecz nieuchronnie prowadzi do rozrastania się zestawu „wyspecjalizowanych narzędzi”, różniących się od siebie i wymagających opanowania każdego z osobna. Jest to podejście charakterystyczne dla projektantów rozwiązań sprzętowych, które raz wdrożone pozostają w zasadzie niezmienne, stąd potrzeba „obejść” i „rozszerzeń” staje się jedyną drogą rozwoju.
 
@@ -191,7 +191,7 @@ W skład systemu z Z8001 może wchodzić więcej niż jeden układu MMU, co umo�
 ![Z8001 - Schemat blokowy](z8001_schemat_blokowy.png)
 Rysunek 2. Schemat blokowy mikroprocesora Zilog Z8001
 
-Zaimplementowanie odrębnego trybu użytkownika i trybu systemowego, wybieranego za pomocą znacznika S/N, ułatwia stosowanie Z8001 w systemach operacyjnych typu UNIX, które wymagają kontroli dostępu do systemowych funkcji i struktur danych. W trybie systemowym wszystkie instrukcje i dostęp do wszystkich zasobów jest dozwolony. W trybie użytkownika dostęp do układów wejścia/wyjścia i określonych obszarów pamięci oraz pewnych instrukcji jest zabroniony. Dodatkowo procesor w trybie chronionym ma osobny, systemowy wskaźnik stosu (R14’/R15’). Ma również dostęp do wskaźnika stosu trybu użytkownika za pomocą instrukcji LDCTL (ang. load control - ładuj dane kontrolne). Z poziomu użytkownika dostęp do systemowego wskaźnika stosu nie jest możliwy. 
+Zaimplementowanie odrębnego trybu użytkownika i trybu systemowego, wybieranego za pomocą znacznika S/N, ułatwia stosowanie Z8001 w systemach operacyjnych typu UNIX, które wymagają kontroli dostępu do systemowych funkcji i struktur danych. W trybie systemowym wszystkie instrukcje i dostęp do wszystkich zasobów jest dozwolony. W trybie użytkownika dostęp do układów wejścia/wyjścia i określonych obszarów pamięci oraz pewnych instrukcji jest zabroniony. Dodatkowo procesor w trybie chronionym ma osobny, systemowy wskaźnik stosu (R14’/R15’). Ma również dostęp do wskaźnika stosu trybu użytkownika za pomocą instrukcji `LDCTL` (ang. load control - ładuj dane kontrolne). Z poziomu użytkownika dostęp do systemowego wskaźnika stosu nie jest możliwy. 
 
 Z trybem chronionym wiąże się również mechanizm pułapek (ang. *trap*). W Z8001 występują następujące ich rodzaje:
 
@@ -216,7 +216,6 @@ Mechanizm przerwań, który co do zasady jest podobny do mechanizmu pułapek, le
 * `VI` - przerwanie maskowalne, wektoryzowane. 16-bitowe słowo identyfikujące rodzaj przerwania jest dostępne na stosie oraz jest wykorzystywane przez mikroprocesor do określenia adresu procedury obsługi (wektora) przerwania.
 
 Sumaryczne przedstawienie podstawowych danych omawianego mikroprocesora znajduje się w poniższej tabeli.
-
 |                                        |                                                                    |
 | -------------------------------------- | ------------------------------------------------------------------ |
 | rok wprowadzenia do produkcji          | 1979                                                               |
@@ -374,27 +373,27 @@ Poniżej zaprezentowano na przykładach kilka charakterystycznych dla asemblera 
 ```
 	MOVEM.L D0/D4-D7/A4/A5,40(A6)
 ```
-Prześlij (MOVE) wiele (M) słów 32-bitowych (.L) kolejno z rejestrów: D0, D4, D5, D6, D7, A4, A5 do pamięci, począwszy od adresu będącego sumą wartości rejestru A6 i przesunięcia 40. To wszystko w jednej instrukcji! Uwagę zwraca również kolejność operandów, inna niż w większości procesorów, określająca najpierw źródło, a później przeznaczenie przesyłanych danych.
+Prześlij (`MOVE`) wiele (`M`) słów 32-bitowych (`.L`) kolejno z rejestrów: `D0`, `D4`, `D5`, `D6`, `D7`, `A4`, `A5` do pamięci, począwszy od adresu będącego sumą wartości rejestru `A6` i przesunięcia `40`. To wszystko w jednej instrukcji! Uwagę zwraca również kolejność operandów, inna niż w większości procesorów, określająca najpierw źródło, a później przeznaczenie przesyłanych danych.
 ```
 	MOVEQ 123,D2
 ```
-Prześlij (MOVE) szybko (Q) 8-bitową wartość natychmiastową do rejestru D0. Wartość jest częścią 16-bitowej instrukcji, więc czas wykonania jest najkrótszy z możliwych i wynosi 4 cykle zegara.
+Prześlij (`MOVE`) szybko (`Q`) 8-bitową wartość natychmiastową do rejestru `D0`. Wartość jest częścią 16-bitowej instrukcji, więc czas wykonania jest najkrótszy z możliwych i wynosi 4 cykle zegara.
 ```
 	MOVE.W (A5)+,D1
 ```
-Prześlij (MOVE) szybko (Q) daną 16-bitową (.W) spod adresu zawartego w A5 do rejestru D1. Następnie zwiększ A5 o 2 (post-inkrementacja), ponieważ rozmiar przesyłanych danych to 2 bajty.
+Prześlij (`MOVE`) szybko (`Q`) daną 16-bitową (`.W`) spod adresu zawartego w `A5` do rejestru `D1`. Następnie zwiększ `A5` o 2 (post-inkrementacja), ponieważ rozmiar przesyłanych danych to 2 bajty.
 ```
 	MOVE.L D1,-(A7)
 ```
-Odpowiednik instrukcji typu PUSH. Odejmij od rejestru A7 wartość 4, a następnie prześlij (MOVE) słowo 32-bitowe (.L) z rejestru D1 pod adres znajdujący się w rejestrze A7, czyli na wierzchołek stosu. Wartość pre-dekrementacji wynika z rozmiaru przesyłanej porcji danych w bajtach.
+Odpowiednik instrukcji typu PUSH. Odejmij od rejestru A7 wartość 4, a następnie prześlij (`MOVE`) słowo 32-bitowe (`.L`) z rejestru `D1` pod adres znajdujący się w rejestrze `A7`, czyli na wierzchołek stosu. Wartość pre-dekrementacji wynika z rozmiaru przesyłanej porcji danych w bajtach.
 ```
 	 ADDX.L -(A2),-(A5)
 ```
-Zmniejsz o 4 rejestry A2 i A5, następnie dodaj (ADD) z uwzględnieniem rozszerzenia/przeniesienia (X) 32-bitową (.L) zawartość pamięci pod adresem A2 do zawartości pamięci pod adresem A5. Wynik zapisz w pamięci pod adresem A5.
+Zmniejsz o 4 rejestry A2 i A5, następnie dodaj (`ADD`) z uwzględnieniem rozszerzenia/przeniesienia (`X`) 32-bitową (`.L`) zawartość pamięci pod adresem `A2` do zawartości pamięci pod adresem `A5`. Wynik zapisz w pamięci pod adresem `A5`.
 ```
 	 ADDQ.B #1,D4
 ```
-Odpowiednik instrukcji typu INC. Dodaj (ADD) szybko (Q) bajt (.B) o wartości 1 do rejestru D4. Operand jest zawarty w kodzie instrukcji, która w całości mieści się na 16-bitach, jej czas wykonania to 4 cykle zegara, czyli najkrótszy z możliwych. W ten sposób można dodawać lub odejmować (SUBQ) wartości od 1 do 8.
+Odpowiednik instrukcji typu INC. Dodaj (`ADD`) szybko (`Q`) bajt (`.B`) o wartości `1` do rejestru `D4`. Operand jest zawarty w kodzie instrukcji, która w całości mieści się na 16-bitach, jej czas wykonania to 4 cykle zegara, czyli najkrótszy z możliwych. W ten sposób można dodawać lub odejmować (SUBQ) wartości od 1 do 8.
 
 Siłą tego modelu programowego jest jego regularność i uniwersalizm. Jest intuicyjny, łatwy do nauczenia się i poprawnego stosowania. Nie bazuje na wielości wyspecjalizowanych rozwiązań, lecz na swobodnym składaniu instrukcji i trybów adresowania w logiczną i zwartą w zapisie operację. Poniżej znajduje się kod standardowego, 64-bitowego dodawania:
 ```
