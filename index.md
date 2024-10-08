@@ -12,12 +12,3 @@ Po sukcesie mikrokomputerów 8-bitowych przyszła pora na przejmowanie przez mik
 
 ## [32-bity - CISC vs RISC](content/em_4/index.md)
 Począwszy od pierwszej 4-bitowej konstrukcji, rozwój mikroprocesorów przebiegał zasadniczo dwiema niezależnymi ścieżkami. Pierwsza koncentruje się wokół hardware’u i zaimplementowaniu w nim jak największej liczby funkcji. Druga zorientowana jest na software, ponieważ oprogramowanie, w odróżnieniu od sprzętu, można zaktualizować. Dlatego sprzęt powinien realizować tylko to, co musi, oraz co – ze względu na wydajność – powinien.
-
-## [Mikroprocesor w stylu "retro"](content/emulator_mo65x/index.md)
-Używając wysokopoziomowych języków programowania i wyszukanych abstrakcji, często tracimy z oczu procesor, a to on ostatecznie wykonuje napisany przez nas program. Bohaterem tego artykułu jest MOS 6510, mikroprocesor o architekturze, której prostotę i piękno oddaje następujący cytat:
-
-*Wydaje się, że doskonałość osiąga się nie wtedy, kiedy nie można już nic dodać, ale raczej wtedy, gdy nie można nic ująć.”*
-
-<p style="text-align: right">Antoine de Saint-Exupéry</p>
-
-## [Starsze artykuły i projekty](older/older.md)
