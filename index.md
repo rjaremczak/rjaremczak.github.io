@@ -1,5 +1,6 @@
-# Artykuły i projekty
-Projekty oraz artykuły - również publikowane w prasie.
+# Pierwsze mikroprocesory
+Artykuły publikowane w prasie oraz całkiem nowe
+
 
 ## [Intel 4004 -  początek czwartej generacji](content/em_1/index.md)
 Z perspektywy współczesnych 64-bitowych, wielordzeniowych mikroprocesorów nawet konstrukcje 16-bitowe wydają się archaiczne. Komputery 8-bitowe lat 70-tych i 80-tych XX wieku wyglądają jak zabawki, mające tylko wartość sentymentalną. Przy nich Intel 4004, konstrukcja 4-bitowa, prezentuje się już tylko groteskowo i prymitywnie. Jednak przy przetwarzaniu liczb dziesiętnych podstawową porcją danych jest pojedyncza cyfra, a ta daje się doskonale zapisać właśnie na 4 bitach.

@@ -1,6 +1,8 @@
 title: mindpart
-description: Projekty i artykuły z domeny publicznej.
-remote_theme: pages-themes/midnight@v0.2.0
+description: O komputerach i procesorach z dobrych czasów ;-)
+logo: /assets/img/logo.png
+lang: pl-PL
+remote_theme: pages-themes/minimal@v0.2.0
 show_downloads: false
 plugins:
 - jekyll-remote-theme
