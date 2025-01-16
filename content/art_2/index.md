@@ -70,7 +70,6 @@ Koncepcja komputera osobistego ogólnego przeznaczenia, opartego na mikroproceso
 | przerwania                    | niemaskowalne                                        |
 | tryby adresowania             | 4                                                    |
 | architektura                  | von Neumanna                                         |
-|                               |                                                      |
 
 Potencjał tego mikroprocesora został wykorzystany przez niezależnych projektantów i konstruktorów. Komputer ogólnego przeznaczenia oparty na i8008 powstał w 1973 roku. Był to projekt MICRAL, którego twórcą był Thi T. Truong, imigrant z Wietnamu, który we Francji otworzył firmę zajmującą się elektroniką. Była to jak na owe czasy dobrze przemyślana i uniwersalna konstrukcja, stanowiąca kompletny system wyposażony w gniazda rozszerzeń. W założeniu miała zastępować minikomputery w prostszych systemach kontroli i sterowania. Kolejnym przykład to komputer zaprojektowany przez hobbystę, był to Mark-8 z 1974 roku. Prawdopodobnie pojawienie się MICRAL-a i konstrukcji w rodzaju Mark-8 zainspirowało (lub zmusiło) kierownictwo Intela do dostrzeżenia innych, bardziej uniwersalnych zastosowań mikroprocesorów. 
 
@@ -151,7 +150,6 @@ Podstawowa specyfikacja i8080 przedstawiona jest poniżej.
 | przerwania                    | maskowalne                         |
 | tryby adresowania             | 6                                  |
 | architektura                  | von Neumanna                       |
-|                               |                                    |
 
 Rozbudowanie zestawu instrukcji i modelu programowego pozwoliło na tworzenie znacznie bardziej zwartego i wydajnego kodu niż było to możliwe w przypadku poprzedniego i8008. Widać to wyraźnie na przykładzie naszego benchmarku, czyli procedury dodającej dwie 64-bitowe liczby binarne.
 
@@ -225,7 +223,6 @@ Specyfikacja tego mikroprocesora pokazana jest poniżej.
 | przerwania                    | niemaskowalne, maskowalne         |
 | tryby adresowania             | 6                                 |
 | architektura                  | von Neumanna                      |
-|                               |                                   |
 
 Kod dla procesora M6800 jest przejrzysty i zwięzły, co widać  na przykładzie poniższego benchmarku. Prosty model programowy (ang. Instruction Set Architecture - ISA) wymusza w pewien sposób styl programowania. Dodatkowym atutem są instrukcje skoków warunkowych (ang. branch), które operują 8-bitowym adresem względnym, przez co są krótsze i szybsze w wykonaniu.
 
@@ -291,7 +288,7 @@ Podstawowe dane podane są poniżej:
 | przerwania                    | niemaskowalne, maskowalne wektoryzowane (3 tryby) |
 | tryby adresowania             | 9 oraz tryb pojedynczych bitów                    |
 | architektura                  | von Neumanna                                      |
-|                               |                                                   |
+
 Z80 posiada 16-bitowe instrukcje ładowania wartości natychmiastowej do pary rejestrów. Posiada również instrukcje dodawania takich par do siebie wraz z przeniesieniem. Jednak nie są dostępne w nich tryby adresowania indeksowanego czy pośredniego, wskutek tego kod z ich użyciem wymagałby większej ilości cykli niż ten zaprezentowany poniżej.
 
 W naszej standardowej procedurze dodawania dwóch liczb 64-bitowych widać nowy sposób zapisu mnemonicznego. Ponieważ Z80 był bezpośrednim konkurentem i8080, sytuacja prawna, wykorzystana przez firmę Intel, wymusiła stworzenie dla Z80 zupełnie innego zestawu nazw instrukcji, przy zachowaniu pełnej binarnej zgodności z i8080. Ostatecznie okazało się to pożyteczne, gdyż nowy zestaw jest bardziej konsekwentny i czytelny, podobny nieco do pierwotnego zapisu i8008, który z kolei bazował na assemblerze Datapoint 2200. Wszystkie rejestry, również pary, są explicite podane za pomocą pełnych nazw, adresowanie pośrednie oznaczone nawiasami itd. Efekt zastosowania nowego sposobu zapisu możemy obejrzeć poniżej.

@@ -4,9 +4,9 @@ Po sukcesie mikrokomputerów 8-bitowych przyszła pora na przejmowanie przez mik
 
 ## Problemy z klasyfikacją i metodologia pomiarowa
 
-Zanim przejdziemy do omówienia wybranych reprezentantów kolejnego etapu ewolucji mikroprocesorów, należy doprecyzować i wyjaśnić kilka kwestii. 
+Zanim przejdziemy do omówienia wybranych reprezentantów kolejnego etapu ewolucji mikroprocesorów, należy doprecyzować i wyjaśnić kilka kwestii.
 
-Wszędzie tam, gdzie fizyczne wyprowadzenia procesora mają więcej niż jedną funkcję, jest to oznaczone linią przerywaną. Takie multipleksowanie sygnałów stosuje się głównie ze względu na ograniczoną liczbę wyprowadzeń, rzadziej z powodu decyzji projektantów mikroarchitektury. 
+Wszędzie tam, gdzie fizyczne wyprowadzenia procesora mają więcej niż jedną funkcję, jest to oznaczone linią przerywaną. Takie multipleksowanie sygnałów stosuje się głównie ze względu na ograniczoną liczbę wyprowadzeń, rzadziej z powodu decyzji projektantów mikroarchitektury.
 
 Podawany dla każdego modelu indeks prędkości jest prostym odzwierciedleniem najkrótszego czasu wykonania instrukcji przy danej częstotliwości taktowania. Każdy cykl instrukcji składa się z jednego lub więcej cykli maszynowych (np. cykl pobrania kodu rozkazu z pamięci), a te z kolei z jednego lub więcej cykli zegara. Najkrótszy lub podstawowy cykl instrukcji oddaje istotną cechę architektury, dlatego został wybrany jako podstawowy wyznacznik prędkości.
 
@@ -14,15 +14,15 @@ Podobnie jak w poprzednich odcinkach cyklu, podstawowym benchmarkiem jest dodawa
 
 $$\text{efektywność architektury} = \frac{\text{ilość 64-bitowych dodawań na sekundę}}{\text{ilość tranzystorów w tysiącach}}$$
 
-Przy obliczaniu czasu wykonania, mechanizm pobierania wstępnego i kolejkowania jest brany pod uwagę tylko o tyle, o ile jest on uwzględniony w czasach wykonania podanych w materiałach producenta. Jest to zabieg celowy, z jednej strony mający na celu wyeliminowanie czynników o charakterze niedeterministycznym, a z drugiej możliwość porównania architektur prostych i bardziej wyrafinowanych. Autor jest świadomy potencjalnie dużego wpływu na rzeczywistą, średnią wydajność, jaką może mieć zastosowanie wyżej wymienionych technologii. Wybór takiego współczynnika ma na celu pokazanie, jak wielki narzut na „surową” moc obliczeniową mają mechanizmy związane z wielozadaniowością, trybem chronionym czy stronicowaniem, które są wbudowane w nowoczesne mikroprocesory. Jest to cena, jaką płacimy za wszechstronność i elastyczność rozwiązań sprzętowych, którą warto jest sobie uświadomić. 
+Przy obliczaniu czasu wykonania, mechanizm pobierania wstępnego i kolejkowania jest brany pod uwagę tylko o tyle, o ile jest on uwzględniony w czasach wykonania podanych w materiałach producenta. Jest to zabieg celowy, z jednej strony mający na celu wyeliminowanie czynników o charakterze niedeterministycznym, a z drugiej możliwość porównania architektur prostych i bardziej wyrafinowanych. Autor jest świadomy potencjalnie dużego wpływu na rzeczywistą, średnią wydajność, jaką może mieć zastosowanie wyżej wymienionych technologii. Wybór takiego współczynnika ma na celu pokazanie, jak wielki narzut na „surową” moc obliczeniową mają mechanizmy związane z wielozadaniowością, trybem chronionym czy stronicowaniem, które są wbudowane w nowoczesne mikroprocesory. Jest to cena, jaką płacimy za wszechstronność i elastyczność rozwiązań sprzętowych, którą warto jest sobie uświadomić.
 
 Ważnym aspektem klasyfikacji procesorów jest przypisanie ich do rodziny 8, 16 lub 32-bitowej. Czasami bywa to jednak niejednoznaczne i trudne, istnieje bowiem kilka kryteriów, których można użyć. Może to być szerokość szyny danych (zewnętrznej lub wewnętrznej), rozmiar danych przetwarzanych przez wewnętrzne ALU (ang. Arithmetic Logic Unit - jednostka arytmetyczno-logiczna) lub rozmiar rejestrów mikroprocesora. Mikroprocesor może zostać przypisany do więcej niż jednej kategorii i w związku z tym jego zaklasyfikowanie jest w pewnym stopniu umowne.
 
 ## Intel 8086
 
-Poprzednie konstrukcje firmy Intel, od i4004 począwszy, przez i8008 oraz i8080, pokazują przyjęty przez nią kierunek rozwojowy. Ta filozofia sprowadza się do wykorzystania najnowszej technologii w celu stworzenia architektury, która w krótkim terminie pozwoli uchwycić i utrzymać istotny segment rynku. Wymaga to najczęściej kompatybilności z poprzednimi modelami, co umożliwia wykorzystanie gotowej już bazy programów i użytkowników. Marketingowo takie podejście jest najczęściej skuteczne, jednak z inżynieryjnego punktu widzenia ma swoje, dosyć istotne, wady. 
+Poprzednie konstrukcje firmy Intel, od i4004 począwszy, przez i8008 oraz i8080, pokazują przyjęty przez nią kierunek rozwojowy. Ta filozofia sprowadza się do wykorzystania najnowszej technologii w celu stworzenia architektury, która w krótkim terminie pozwoli uchwycić i utrzymać istotny segment rynku. Wymaga to najczęściej kompatybilności z poprzednimi modelami, co umożliwia wykorzystanie gotowej już bazy programów i użytkowników. Marketingowo takie podejście jest najczęściej skuteczne, jednak z inżynieryjnego punktu widzenia ma swoje, dosyć istotne, wady.
 
-Pierwotnie Intel rozpoczął ambitny projekt iAPX 432, który miał posłużyć do stworzenia konkurencji dla maszyn klasy mainframe, jednak jego ukończenie wciąż się przeciągało. Był to w owym czasie bardzo zaawansowany projekt, co znalazło odzwierciedlenie w nazwie, którą można by przetłumaczyć jako „Zaawansowana Architektura Przetwarzająca firmy Intel” (ang. Intel’s Advanced Processing Architecture - gdzie „X” to prawdopodobnie greckie „chi” w słowie architecture). Prace nad projektem rozpoczęły się w 1975 roku, procesor miał składać się z dwóch niezależnych układów scalonych: sekwencera/dekodera oraz jednostki wykonawczej. Miał zawierać wszystkie wyrafinowane mechanizmy wspomagające programowanie w językach wysokiego poziomu włącznie z implementacją garbage collectora, wielozadaniowości i programowania obiektowego na poziomie mikrokodu. Miał powstać dedykowany system operacyjny iMAX 432, napisany w języku Ada, który wykorzystałby wszystkie zalety iAPX 432. 
+Pierwotnie Intel rozpoczął ambitny projekt iAPX 432, który miał posłużyć do stworzenia konkurencji dla maszyn klasy mainframe, jednak jego ukończenie wciąż się przeciągało. Był to w owym czasie bardzo zaawansowany projekt, co znalazło odzwierciedlenie w nazwie, którą można by przetłumaczyć jako „Zaawansowana Architektura Przetwarzająca firmy Intel” (ang. Intel’s Advanced Processing Architecture - gdzie „X” to prawdopodobnie greckie „chi” w słowie architecture). Prace nad projektem rozpoczęły się w 1975 roku, procesor miał składać się z dwóch niezależnych układów scalonych: sekwencera/dekodera oraz jednostki wykonawczej. Miał zawierać wszystkie wyrafinowane mechanizmy wspomagające programowanie w językach wysokiego poziomu włącznie z implementacją garbage collectora, wielozadaniowości i programowania obiektowego na poziomie mikrokodu. Miał powstać dedykowany system operacyjny iMAX 432, napisany w języku Ada, który wykorzystałby wszystkie zalety iAPX 432.
 
 Po sukcesie Z80 firmy Zilog, który był binarnie zgodny z popularnym i8080, a jednocześnie tańszy, bardziej wszechstronny i szybszy, Intel musiał szybko zaproponować nowy produkt. Niestety projekt iAPX 432 z powodu zbyt dużego poziomu złożoności okazał się nierealistyczny i został zarzucony na rzecz prostszego, lecz będącego w zasięgu, projektu i8086. Widoczną spuścizną iAPX 432 została zmiana konwencji nazewniczej - i tak Intel 8086 jest znany również jako iAPX 86. W ofercie pojawił się również i8088 (iAPX 88), który był zewnętrznie 8-bitowy i stanowił „budżetową” wersję i8086, w pełni zgodną programowo, lecz o nieco mniejszej wydajności.
 
@@ -108,6 +108,7 @@ MOV CX, 1000        ; ładuj licznik bajtów do przesłania
 CLD                 ; ustaw znacznik kierunku na inkrementację
 REP MOVSB           ; wykonaj transfer blokowy DS:SI -> ES:DI
 ```
+
 Efektywny adres w trybie adresowania segmentowego jest wyliczany w następujący sposób:
 
 <b>20-bit adres efektywny = 16-bit adres segmentu x 16 + 16-bit offset</b>
@@ -124,6 +125,7 @@ Do wyboru są następujące rejestry segmentowe:
 Każdy z nich ma swoje domyślne zastosowanie w kontekście określonych operacji - ma to zresztą odzwierciedlenie w ich nazwach. Tak np. adres aktualnie wykonywanej instrukcji określa para CS:IP, aktualny wierzchołek stosu określa para SS:SP. Dla instrukcji MOV domyślnym segmentem jest DS, można jednak explicite podać inny segment.
 
 Poniższy kod realizujący nasz standardowy benchmark pokazuje w praktyce wykorzystanie idei transferów blokowych.
+
 ```
 ; Intel 8086 (iAPX 86)
 ; dodawanie dwóch liczb 64-bitowych
@@ -143,6 +145,7 @@ NST:
   STOSW                      ; (11) zapisz blokowo AX do kolejnego słowa ARG1
   LOOP NST                   ; (17) kontynuuj dla następnego słowa
 ```
+
 Sumując czasy wykonania dostajemy: 16 + 4 x 54 - 12 (ostatni skok warunkowy nie zachodzi, więc zajmuje mniej cykli) = 220 cykli zegara. Czas wykonania wynosi więc 44 μs, co daje 22727 dodawań na sekundę.
 
 Istnieją również instrukcje blokowe, wykorzystujące ten sam schemat adresowania i inkrementacji/dekrementacji, realizujące skanowanie (wyszukiwanie zera) i porównywanie. W tym kontekście operacje te zwane są również łańcuchowymi (ang. *string operations*).
@@ -151,7 +154,7 @@ System przerwań został wzbogacony o możliwość identyfikacji źródła za po
 
 Ważnym krokiem w rozwoju architektury mikroprocesorów, zrealizowanym na przykładzie i8086, było ułatwienie tworzenia systemów wieloprocesorowych. Nie było to jednak w owych czasach rozwiązanie często stosowane, dlatego wyposażono i8086 w dwa tryby pracy: minimalny i maksymalny. Wyboru trybu pracy dokonywało się przez podanie odpowiedniego stanu na wyprowadzenie MN/MX. Tryb minimalny był dedykowany dla nieskomplikowanych systemów jednoprocesorowych, w którym sygnały dostępu do magistrali: HOLD/HLDA i sygnały sterujące: DT/R, DEN, ALE, M/IO generuje sam mikroprocesor. W trybie maksymalnym na zewnątrzy wyprowadzone były syntetyczne sygnały określające wewnętrzny stan mikroprocesora: S0..S2, QS0..1, RQ/GT0..1 wykorzystywane przez dodatkowe układy, jak Intel 8288 (kontroler magistrali) czy Intel 8289 (arbiter). Były to elementy tzw. architektury Intel Multibus. Tego typu rozwiązania nie były stosowane w konstrukcjach 8-bitowych, były jednak standardem w minikomputerach i maszynach klasy mainframe. Mikroprocesor nie był jednak wyposażony w tzw. tryb chroniony (ang. protected mode), ograniczający dostęp do określonych instrukcji i zasobów dla programów użytkownika.
 
-Idea współpracy mikroprocesora z innymi jednostkami przetwarzającymi, tzw. koprocesorami (ang. *co-processor*), zaowocowała również wprowadzeniem do sprzedaży koprocesora Intel 8087, który zajmował się sprzętową realizacją arytmetyki zmiennoprzecinkowej (ang. *floating-point arithmetic*). Ta klasa procesorów często określana jest jako FPU (ang. *floating-point unit* - jednostka zmiennoprzecinkowa) w odróżnieniu od CPU (ang. *central processing unit*  - centralna jednostka przetwarzająca, procesor). 
+Idea współpracy mikroprocesora z innymi jednostkami przetwarzającymi, tzw. koprocesorami (ang. *co-processor*), zaowocowała również wprowadzeniem do sprzedaży koprocesora Intel 8087, który zajmował się sprzętową realizacją arytmetyki zmiennoprzecinkowej (ang. *floating-point arithmetic*). Ta klasa procesorów często określana jest jako FPU (ang. *floating-point unit* - jednostka zmiennoprzecinkowa) w odróżnieniu od CPU (ang. *central processing unit*  - centralna jednostka przetwarzająca, procesor).
 
 Zazwyczaj koprocesor pobiera swoje rozkazy za pośrednictwem procesora głównego (ang. *host processor*), który realizuje dostęp do operandów łącznie z wyliczaniem ich adresu efektywnego i pobieraniem ich z pamięci. W przypadku i8086 sekwencja obsługi instrukcji koprocesora rozpoczyna się od instrukcji ESC i wygląda następująco:
 
@@ -169,7 +172,7 @@ Koordynację pracy obu procesorów, szczególnie podczas konieczności pobierani
 
 Powyżej zaprezentowany schemat współpracy procesora głównego z koprocesorem, który efektywnie rozszerza dostępny zestaw instrukcji, jest stosowany w mniej lub bardziej podobny sposób przez pozostałe, omówione w dalszej części artykułu, konstrukcje. Firma Intel oferuje oprócz koprocesora numerycznego również koprocesor wejścia/wyjścia - Intel 8089.
 
-W celu koordynacji dostępu do współdzielonych zasobów w systemach wieloprocesorowych dostępny jest modyfikator instrukcji (ang. *prefix*) `LOCK`, który sygnalizuje wyłączny dostęp do szyny i w połączeniu z instrukcją `XCHG` (wymiana danych pomiędzy rejestrem i pamięcią) pozwala na implementację semaforów. 
+W celu koordynacji dostępu do współdzielonych zasobów w systemach wieloprocesorowych dostępny jest modyfikator instrukcji (ang. *prefix*) `LOCK`, który sygnalizuje wyłączny dostęp do szyny i w połączeniu z instrukcją `XCHG` (wymiana danych pomiędzy rejestrem i pamięcią) pozwala na implementację semaforów.
 
 Podsumowując, architektura mikroprocesora Intel 8086 jest znacznie bardziej zaawansowana niż jej 8-bitowych poprzedników. Charakterystycznym rysem konstrukcji Intela pozostaje w dalszym ciągu tendencja do tworzenia wyspecjalizowanych rozwiązań i dedykowanych dla nich rejestrów czy instrukcji mających w wydajny i zwięzły sposób realizować określone funkcje. Pozwala to tworzyć naprawdę wydajne rozwiązania, lecz nieuchronnie prowadzi do rozrastania się zestawu „wyspecjalizowanych narzędzi”, różniących się od siebie i wymagających opanowania każdego z osobna. Jest to podejście charakterystyczne dla projektantów rozwiązań sprzętowych, które raz wdrożone pozostają w zasadzie niezmienne, stąd potrzeba „obejść” i „rozszerzeń” staje się jedyną drogą rozwoju.
 
@@ -177,20 +180,20 @@ Podsumowując, architektura mikroprocesora Intel 8086 jest znacznie bardziej zaa
 
 Firma Zilog została założona przez pracowników firmy Intel pracujących nad pierwszym mikroprocesorem - Intel 4004. Pierwszym komercyjnym sukcesem firmy Zilog był Z80, binarnie kompatybilny z Intel 8080, lecz przy tym bardziej uniwersalny, szybszy i tańszy. Udoskonalanie istniejących konstrukcji pozwalające uczyć się na błędach poprzedników i jednocześnie wykorzystywać postęp technologiczny jest bardzo efektywną strategią. Jednak w przypadku rodziny Z8000 firma Zilog postanowiła zrezygnować z tej drogi i zaproponować autentycznie nowe, nie obarczone wymogami wstecznej kompatybilności, rozwiązanie. W ramach rodziny Z8000 powstały na początku dwie konstrukcje: bardziej rozwinięta Z8001 i ograniczona oraz tańsza Z8002. W tym artykule omówiona zostanie tylko pierwsza z nich.
 
-Poglądowy schemat architektury mikroprocesora Z8001 pokazany jest na Rysunku 2. Projektanci, jak widać, nie potrafili całkowicie oderwać się od poprzednich 8-bitowych konstrukcji i wybrali segmentowy model adresowania pamięci.  Jest on nieco podobny do tego znanego z i8086, lecz bardziej uniwersalny. Ograniczenie bezpośredniego adresowania do 64 KiB pozwala na zmniejszenie długości operandów, a co za tym idzie - na skrócenie czasu przetwarzania instrukcji. Wprowadza jednak niejednorodności przy obsłudze większych bloków pamięci, a taką potrzebę w roku 1979 można już było bez trudu przewidzieć. 
+Poglądowy schemat architektury mikroprocesora Z8001 pokazany jest na Rysunku 2. Projektanci, jak widać, nie potrafili całkowicie oderwać się od poprzednich 8-bitowych konstrukcji i wybrali segmentowy model adresowania pamięci.  Jest on nieco podobny do tego znanego z i8086, lecz bardziej uniwersalny. Ograniczenie bezpośredniego adresowania do 64 KiB pozwala na zmniejszenie długości operandów, a co za tym idzie - na skrócenie czasu przetwarzania instrukcji. Wprowadza jednak niejednorodności przy obsłudze większych bloków pamięci, a taką potrzebę w roku 1979 można już było bez trudu przewidzieć.
 
 Wewnętrzna architektura Z8001 jest bardziej regularna od tej znanej z poprzednich konstrukcji Intela. Wyposażono ją dodatkowo w blok dekodujący instrukcje z wyprzedzeniem (ang. look-ahead instruction decoder). Zawiera blok 16 rejestrów 16-bitowych w większości ogólnego przeznaczenia. Rejestry R14/R15 są dedykowane jako wskaźnik stosu (segment i przesunięcie), rejestry R0..7 mogą być dostępne jako indywidualne rejestry 8-bitowe, czyli odpowiednio RL0..7 i RH0..7. Dodatkowym atutem jest możliwość agregacji rejestrów w 32-bitowe pary, np. RR2. Dostępny jest także tryb łączenia czterech kolejnych rejestrów w 64-bitowe pary, np. RQ12. Pary 64-bitowe są stosowane do przechowywania wyniku mnożenia dwóch 32-bitowych liczb lub wyniku ich dzielenia w formacie iloraz:reszta. Fakt, że pomimo posiadania 16-bitowej jednostki arytmetyczno-logicznej dostępne są działania na 32-bitowych operandach, zasługuje na podkreślenie.
 
 Procesor może pracować w trybie bez segmentacji, oferując wtedy jednolite, 16-bitowe adresowanie. Ogranicza to przestrzeń adresową do 64 KiB, lecz przyspiesza wykonywanie instrukcji, szczególnie tych operujących na komórkach pamięci. Włączenia trybu pracy z segmentacją dokonuje się za pomocą ustawienia znacznika SEG.
 
-W trybie z segmentacją 23-bitowy adres fizyczny powstaje przez złożenie 7-bitowego numeru segmentu i 16-bitowego adresu przesunięcia względem początku segmentu. Numer segmentu jest wyprowadzony bezpośrednio na zewnątrz mikroprocesora i może być wykorzystany wprost do adresowania 8 MiB pamięci. Przy wykorzystaniu zewnętrznego układu MMU Z8010 (ang. memory management unit - jednostka zarządzania pamięcią) numer segmentu może być wykorzystany do wybrania jednego ze zdefiniowanych uprzednio deskryptorów segmentu pamięci. MMU dokonuje procesu translacji 23-bitowego adresu logicznego na 24-bitowy adres fizyczny w oparciu o znajdującą się w nim tablicę 64 deskryptorów.  Każdy z nich definiuje obszar jednego segmentu pamięci, jego typ, parametry dostępu i poziom uprzywilejowania. 
+W trybie z segmentacją 23-bitowy adres fizyczny powstaje przez złożenie 7-bitowego numeru segmentu i 16-bitowego adresu przesunięcia względem początku segmentu. Numer segmentu jest wyprowadzony bezpośrednio na zewnątrz mikroprocesora i może być wykorzystany wprost do adresowania 8 MiB pamięci. Przy wykorzystaniu zewnętrznego układu MMU Z8010 (ang. memory management unit - jednostka zarządzania pamięcią) numer segmentu może być wykorzystany do wybrania jednego ze zdefiniowanych uprzednio deskryptorów segmentu pamięci. MMU dokonuje procesu translacji 23-bitowego adresu logicznego na 24-bitowy adres fizyczny w oparciu o znajdującą się w nim tablicę 64 deskryptorów.  Każdy z nich definiuje obszar jednego segmentu pamięci, jego typ, parametry dostępu i poziom uprzywilejowania.
 
 W skład systemu z Z8001 może wchodzić więcej niż jeden układu MMU, co umożliwia zdefiniowanie więcej niż 64 deskryptorów. Dodatkowo Z8010 oferuje sprzętową kontrolę przepełnienia stosu i automatyczną kontrolę dostępu do pamięci z uwzględnieniem poziomu uprzywilejowania i charakteru tego dostępu (np. dostęp do segmentu kodu tylko do odczytu).
 
 ![Z8001 - Schemat blokowy](z8001_schemat_blokowy.png)
 Rysunek 2. Schemat blokowy mikroprocesora Zilog Z8001
 
-Zaimplementowanie odrębnego trybu użytkownika i trybu systemowego, wybieranego za pomocą znacznika S/N, ułatwia stosowanie Z8001 w systemach operacyjnych typu UNIX, które wymagają kontroli dostępu do systemowych funkcji i struktur danych. W trybie systemowym wszystkie instrukcje i dostęp do wszystkich zasobów jest dozwolony. W trybie użytkownika dostęp do układów wejścia/wyjścia i określonych obszarów pamięci oraz pewnych instrukcji jest zabroniony. Dodatkowo procesor w trybie chronionym ma osobny, systemowy wskaźnik stosu (R14’/R15’). Ma również dostęp do wskaźnika stosu trybu użytkownika za pomocą instrukcji `LDCTL` (ang. load control - ładuj dane kontrolne). Z poziomu użytkownika dostęp do systemowego wskaźnika stosu nie jest możliwy. 
+Zaimplementowanie odrębnego trybu użytkownika i trybu systemowego, wybieranego za pomocą znacznika S/N, ułatwia stosowanie Z8001 w systemach operacyjnych typu UNIX, które wymagają kontroli dostępu do systemowych funkcji i struktur danych. W trybie systemowym wszystkie instrukcje i dostęp do wszystkich zasobów jest dozwolony. W trybie użytkownika dostęp do układów wejścia/wyjścia i określonych obszarów pamięci oraz pewnych instrukcji jest zabroniony. Dodatkowo procesor w trybie chronionym ma osobny, systemowy wskaźnik stosu (R14’/R15’). Ma również dostęp do wskaźnika stosu trybu użytkownika za pomocą instrukcji `LDCTL` (ang. load control - ładuj dane kontrolne). Z poziomu użytkownika dostęp do systemowego wskaźnika stosu nie jest możliwy.
 
 Z trybem chronionym wiąże się również mechanizm pułapek (ang. *trap*). W Z8001 występują następujące ich rodzaje:
 
@@ -215,6 +218,7 @@ Mechanizm przerwań, który co do zasady jest podobny do mechanizmu pułapek, le
 * `VI` - przerwanie maskowalne, wektoryzowane. 16-bitowe słowo identyfikujące rodzaj przerwania jest dostępne na stosie oraz jest wykorzystywane przez mikroprocesor do określenia adresu procedury obsługi (wektora) przerwania.
 
 Sumaryczne przedstawienie podstawowych danych omawianego mikroprocesora znajduje się w poniższej tabeli.
+
 |                                        |                                                                    |
 | -------------------------------------- | ------------------------------------------------------------------ |
 | rok wprowadzenia do produkcji          | 1979                                                               |
@@ -237,7 +241,6 @@ Sumaryczne przedstawienie podstawowych danych omawianego mikroprocesora znajduje
 | tryby pracy                            | normalny/systemowy - segmentowany/niesegmentowany                  |
 | praca z koprocesorem                   | tak                                                                |
 | systemy wieloprocesorowe               | tak                                                                |
-|                                        |                                                                    |
 
 Znaczniki:
 
@@ -267,6 +270,7 @@ Tryby adresowania:
 * względne
 
 Zestaw instrukcji jest imponujący - zawiera instrukcje transferu blokowego LDIR z licznikiem słów, gdzie tak licznik, jak i rejestry zawierające adres źródłowy i docelowy mogą być wyspecyfikowane w instrukcji. Podobnie działają instrukcje porównywania i wyszukiwania blokowego, a także instrukcja TRIRB/TRDRB realizująca translacje ciągu bajtów w oparciu o 256-bajtową tabelę kodów. Jednak pomimo takiej różnorodności wiele instrukcji ma ściśle określone tryby adresowania operandów i w związku z tym, wskutek braku instrukcji blokowej, której operandem byłby rejestr (jak np. LODS/STOS w i8086), pętla naszego benchmarku musiała zostać zrealizowana w sposób klasyczny.
+
 ```
 ; Zilog Z8001
 ; dodawanie dwóch liczb 64-bitowych
@@ -286,9 +290,10 @@ NST:
   CP     R1, #8        ; (7) porównaj przesunięcie z rozmiarem argumentów
   JR     NE, NST       ; (6) jeśli < 8 kontynuuj
 ```
+
 Zliczając czasy wszystkich instrukcji, mamy: 14 + 4 x 54 = 230 cykli zegara. Czas wykonania wynosi więc około 38.3 μs, co daje 26086 dodawań na sekundę.
 
-Mikroprocesor Zilog Z8001 oferuje znacznie więcej niż współczesny mu Intel 8086 i to przy użyciu znacznie mniejszej liczby tranzystorów w strukturze. Udało się tego dokonać dzięki odmiennej od konkurencji metodzie projektowania układu wykonawczego, realizującego na poziomie mikroarchitektury instrukcje procesora. 
+Mikroprocesor Zilog Z8001 oferuje znacznie więcej niż współczesny mu Intel 8086 i to przy użyciu znacznie mniejszej liczby tranzystorów w strukturze. Udało się tego dokonać dzięki odmiennej od konkurencji metodzie projektowania układu wykonawczego, realizującego na poziomie mikroarchitektury instrukcje procesora.
 
 Zazwyczaj układ wykonawczy mikroprocesora oparty jest na tzw. mikrokodzie, który z kolej inicjuje wykonanie serii określonych sekwencji tzw. nanokodu. Podział ten i konwencja nazewnicza jest umowna, sprowadza się jednak do tego, że nanokod jest sekwencją wielobitowych słów, które bezpośrednio sterują poszczególnymi blokami mikroarchitektury procesora. Matryca bitowa określająca nanokod zajmuje stosunkowo dużo miejsca w układzie scalonym, dlatego metodą na zaoszczędzenie tego miejsca jest kodowanie w ten sposób tylko unikalnych sekwencji. Sekwencje nanokodu są grupowane i wywoływane przez mikrokod, którego komendy są już krótsze, a co za tym idzie całe sekwencje zajmują mniej miejsca. Oprócz oszczędności miejsca taka metoda jest znacznie wygodniejsza w fazie projektowania i umożliwia dokonywanie zmian praktycznie do ostatniej chwili przed oddaniem mikroprocesora do masowej produkcji. Alternatywą jest projektowanie klasycznej logiki opartej na bramkach logicznych, rejestrach i innych nisko-poziomowych blokach stosowanych układach mających tzw. strukturę nieregularną (ang. *random logic*). Układ logiczny wykonany jako struktura nieregularna wymaga zazwyczaj mniejszej ilości tranzystorów i jest szybszy, jego projektowanie natomiast jest zadaniem bardzo czasochłonnym, szczególnie przy układach VLSI (ang. *very large scale of integration* - bardzo duża skala integracji), jakimi są mikroprocesory. Projektanci firmy Zilog podjęli się tej tytanicznej pracy, by maksymalnie wykorzystać elementy półprzewodnikowe znajdujące się w strukturze mikroprocesora. Przyjęte przez nich rozwiązanie hybrydowe pozwoliło znacznie zredukować liczbę tranzystorów, a więc i cenę mikroprocesora. Jednak odbyło się to kosztem zmniejszenia elastyczności listy rozkazów pod względem dostępnych dla nich trybów adresowania operandów. Zmniejszeniu uległa tzw. ortogolnalność dla bardziej wyspecjalizowanych czy rzadziej wykorzystywanych instrukcji, co ogranicza możliwość ich stosowania w kodzie programu.
 
@@ -303,7 +308,7 @@ Pierwszą decyzją było wprowadzenie płaskiego (ang. *flat*), 32-bitowego adre
 ![M68000 - Schemat blokowy](motorola_68000_schemat_blokowy.png)
 Rysunek 3. Schemat blokowy mikroprocesora Motorola 68000
 
-Na zewnątrz obudowy wyprowadzono tylko 24-bity adresu, lecz model programowy i mikroarchitektura były gotowe na kolejne modele, w których miano udostępnić pełne 32 bity. Dawało to już na starcie możliwość bezpośredniego zaadresowania 16 MiB pamięci z perspektywą rozszerzenia do pełnych 4 GiB w kolejnych modelach rodziny M68000. Z powodu decyzji o zgodności z peryferiami serii M6800 najmłodszy bit adresu został zastąpiony dwoma osobnymi sygnałami LDS/UDS, które służyły do wybierania mniej lub bardziej znaczącego bajtu na 16-bitowej szynie danych. W celu przyspieszenia operacji wyliczania adresu efektywnego zastosowano dwie dodatkowe, dedykowane 16-bitowe jednostki arytmetyczne. W ten sposób główne ALU nie musiało być wykorzystywane w tym celu, a proces wyliczania adresu mógł przebiegać równolegle z wykonywaniem operacji arytmetyczno-logicznych wynikających z instrukcji. Dodatkowe jednostki arytmetyczne można było wykorzystać wprost np. za pomocą instrukcji LEA (ang. *load effective address* - ładuj adres efektywny), co pozwalało zachować wprost wynik obliczeń w rejestrze. 
+Na zewnątrz obudowy wyprowadzono tylko 24-bity adresu, lecz model programowy i mikroarchitektura były gotowe na kolejne modele, w których miano udostępnić pełne 32 bity. Dawało to już na starcie możliwość bezpośredniego zaadresowania 16 MiB pamięci z perspektywą rozszerzenia do pełnych 4 GiB w kolejnych modelach rodziny M68000. Z powodu decyzji o zgodności z peryferiami serii M6800 najmłodszy bit adresu został zastąpiony dwoma osobnymi sygnałami LDS/UDS, które służyły do wybierania mniej lub bardziej znaczącego bajtu na 16-bitowej szynie danych. W celu przyspieszenia operacji wyliczania adresu efektywnego zastosowano dwie dodatkowe, dedykowane 16-bitowe jednostki arytmetyczne. W ten sposób główne ALU nie musiało być wykorzystywane w tym celu, a proces wyliczania adresu mógł przebiegać równolegle z wykonywaniem operacji arytmetyczno-logicznych wynikających z instrukcji. Dodatkowe jednostki arytmetyczne można było wykorzystać wprost np. za pomocą instrukcji LEA (ang. *load effective address* - ładuj adres efektywny), co pozwalało zachować wprost wynik obliczeń w rejestrze.
 
 Zaprojektowano kolejkę pobierania wstępnego o długości dwóch słów 16-bitowych. Układ pobierania z wyprzedzeniem był odpowiedzialny za załadowanie do niej kolejnej instrukcji. Jeśli możliwe było rozgałęzienie, w przypadku instrukcji warunkowych, pobrane mogły być instrukcje dla obu wariantów. Bufor miał 2 x 16 bitów, ponieważ długość każdej instrukcji, nie licząc operandów, to właśnie 16 bitów.
 
@@ -317,7 +322,7 @@ Tryb pracy uprzywilejowanej, czyli nadzorcy, jest trybem, w którym możliwe jes
 
 System przerwań bazuje na 3-bitowym identyfikatorze priorytetu, gdzie wartość 0 oznacza brak przerwania, a 7 przerwanie niemaskowalne (odpowiednik NMI w innych systemach). Przerwanie o priorytecie wyższym może przerwać procedurę obsługi przerwania o priorytecie niższym. Konsekwentnie program główny, pracujący na poziomie 0, może zostać przerwany przez każdy wyższy priorytet.
 
-W systemach wieloprocesorowych instrukcja TAS (ang. *test and set* - sprawdź i ustaw) stanowiła podstawę implementacji semaforów zapewniających wyłączny dostęp do współdzielonych zasobów. 
+W systemach wieloprocesorowych instrukcja TAS (ang. *test and set* - sprawdź i ustaw) stanowiła podstawę implementacji semaforów zapewniających wyłączny dostęp do współdzielonych zasobów.
 
 Skrócona specyfikacja mikroprocesora podana jest w poniższej tabeli.
 
@@ -344,7 +349,6 @@ Skrócona specyfikacja mikroprocesora podana jest w poniższej tabeli.
 | tryby pracy                            | nadzorcy/użytkownika                                  |
 | praca z koprocesorem                   | tak                                                   |
 | systemy wieloprocesorowe               | tak                                                   |
-|                                        |
 
 Znaczniki:
 
@@ -369,32 +373,45 @@ Tryby adresowania:
 Tym, co najbardziej fascynuje w architekturze Motoroli 68000, jest zestaw instrukcji i ortogonalność względem trybów adresowania. Projektanci słusznie uznali instrukcję przesłania (transferu) danych między dwoma lokalizacjami za podstawowy element składowy programu. Rozwijając konsekwentnie tę ideę, wyeliminowali nawet tak powszechnie występujące instrukcje jak operacje na stosie, czyli PUSH i POP, które stały się przypadkiem szczególnym użycia instrukcji MOVE. Nie istnieją również osobne instrukcje inkrementacji i dekrementacji, ponieważ w uniwersalny sposób realizują te funkcje warianty instrukcji ADD i SUB.
 
 Poniżej zaprezentowano na przykładach kilka charakterystycznych dla asemblera M68000 konstrukcji:
+
 ```
-	MOVEM.L D0/D4-D7/A4/A5,40(A6)
+ MOVEM.L D0/D4-D7/A4/A5,40(A6)
 ```
+
 Prześlij (`MOVE`) wiele (`M`) słów 32-bitowych (`.L`) kolejno z rejestrów: `D0`, `D4`, `D5`, `D6`, `D7`, `A4`, `A5` do pamięci, począwszy od adresu będącego sumą wartości rejestru `A6` i przesunięcia `40`. To wszystko w jednej instrukcji! Uwagę zwraca również kolejność operandów, inna niż w większości procesorów, określająca najpierw źródło, a później przeznaczenie przesyłanych danych.
+
 ```
-	MOVEQ 123,D2
+ MOVEQ 123,D2
 ```
+
 Prześlij (`MOVE`) szybko (`Q`) 8-bitową wartość natychmiastową do rejestru `D0`. Wartość jest częścią 16-bitowej instrukcji, więc czas wykonania jest najkrótszy z możliwych i wynosi 4 cykle zegara.
+
 ```
-	MOVE.W (A5)+,D1
+ MOVE.W (A5)+,D1
 ```
+
 Prześlij (`MOVE`) szybko (`Q`) daną 16-bitową (`.W`) spod adresu zawartego w `A5` do rejestru `D1`. Następnie zwiększ `A5` o 2 (post-inkrementacja), ponieważ rozmiar przesyłanych danych to 2 bajty.
+
 ```
-	MOVE.L D1,-(A7)
+ MOVE.L D1,-(A7)
 ```
+
 Odpowiednik instrukcji typu PUSH. Odejmij od rejestru A7 wartość 4, a następnie prześlij (`MOVE`) słowo 32-bitowe (`.L`) z rejestru `D1` pod adres znajdujący się w rejestrze `A7`, czyli na wierzchołek stosu. Wartość pre-dekrementacji wynika z rozmiaru przesyłanej porcji danych w bajtach.
+
 ```
-	 ADDX.L -(A2),-(A5)
+  ADDX.L -(A2),-(A5)
 ```
+
 Zmniejsz o 4 rejestry A2 i A5, następnie dodaj (`ADD`) z uwzględnieniem rozszerzenia/przeniesienia (`X`) 32-bitową (`.L`) zawartość pamięci pod adresem `A2` do zawartości pamięci pod adresem `A5`. Wynik zapisz w pamięci pod adresem `A5`.
+
 ```
-	 ADDQ.B #1,D4
+  ADDQ.B #1,D4
 ```
+
 Odpowiednik instrukcji typu INC. Dodaj (`ADD`) szybko (`Q`) bajt (`.B`) o wartości `1` do rejestru `D4`. Operand jest zawarty w kodzie instrukcji, która w całości mieści się na 16-bitach, jej czas wykonania to 4 cykle zegara, czyli najkrótszy z możliwych. W ten sposób można dodawać lub odejmować (SUBQ) wartości od 1 do 8.
 
 Siłą tego modelu programowego jest jego regularność i uniwersalizm. Jest intuicyjny, łatwy do nauczenia się i poprawnego stosowania. Nie bazuje na wielości wyspecjalizowanych rozwiązań, lecz na swobodnym składaniu instrukcji i trybów adresowania w logiczną i zwartą w zapisie operację. Poniżej znajduje się kod standardowego, 64-bitowego dodawania:
+
 ```
 ; Motorola 68000
 ; dodawanie dwóch liczb 64-bitowych
@@ -412,6 +429,7 @@ NST:
   ADDX.L D0, (A1)+   ; (20) dodaj do kolejnego długiego słowa z ARG1
   DBRA   D1, NST     ; (10) kontynuuj dla kolejnego słowa
 ```
+
 Zliczając czasy wszystkich instrukcji, mamy: 40 + 2 x 42 + 2 = 126 cykli zegara. Czas wykonania wynosi 15.75 μs, co daje 63492 dodawań na sekundę.
 
 Lista instrukcji może zostać względnie łatwo rozszerzona za pomocą rozkazów o najstarszych bitach kodu operacji równych 1010 i 1111. Próba wykonania któregokolwiek z nich skutkuje wywołaniem pułapki line-1010-emulator lub line-1111-emulator i odpowiedniej procedury obsługi. Rozkazy z pierwszej grupy są zdefiniowane jako operacje zmiennoprzecinkowe i w podstawowym modelu 68000 muszą być emulowane. Druga grupa jest zarezerwowana do zastosowania w przyszłości.
@@ -422,7 +440,7 @@ Po tym krótkim opisie widać, że architektura mikroprocesora Motorola 68000 i 
 
 Architektura x86 zapoczątkowana przez mikroprocesor Intel 8086 zyskała bardzo dużą popularność dzięki zastosowaniu jej w komputerach klasy IBM XT. W obliczu konkurencyjnych konstrukcji firm Zilog, a przede wszystkim Motorola, Intel musiał zaprezentować bardziej zaawansowany projekt. Intel 80286 oferował bardzo wiele usprawnień i rozszerzeń względem swojego prekursora.
 
-Przede wszystkim mikroarchitektura została przeprojektowana, bloki funkcjonalne BU (ang. bus unit - jednostka szyny), AU (ang. *address unit* - jednostka adresowania), IU (ang. *instruction unit* - jednostka rozkazów) i EU (ang. *execution unit* - jednostka wykonawcza) zostały wyodrębnione i połączone ze sobą w „bardziej luźny” sposób za pomocą buforów. Pozwoliło to na stosowanie kolejkowania na większą skalę i wykonywania zadań równolegle przez kilka modułów naraz. Znaczne zwiększenie wydajności uzyskano przez wbudowanie dedykowanej jednostki obliczeniowej do generowania adresów oraz wyprowadzeniu szyny adresowej i danych niezależnie, bez multipleksowania. Układ mnożący i dzielący liczby całkowite został częściowo zaimplementowany sprzętowo, co zmniejszyło czas wykonywania tych instrukcji. Oprócz obecnego już w poprzednich modelach bufora pobierania instrukcji z wyprzedzeniem został w i80286 dodany bufor zdekodowanych już instrukcji, co pozwalało zrównoleglić fazę dekodowania z fazą wykonywania. Poglądowy schemat wewnętrzny mikroprocesora zaprezentowano na Rysunku 4. 
+Przede wszystkim mikroarchitektura została przeprojektowana, bloki funkcjonalne BU (ang. bus unit - jednostka szyny), AU (ang. *address unit* - jednostka adresowania), IU (ang. *instruction unit* - jednostka rozkazów) i EU (ang. *execution unit* - jednostka wykonawcza) zostały wyodrębnione i połączone ze sobą w „bardziej luźny” sposób za pomocą buforów. Pozwoliło to na stosowanie kolejkowania na większą skalę i wykonywania zadań równolegle przez kilka modułów naraz. Znaczne zwiększenie wydajności uzyskano przez wbudowanie dedykowanej jednostki obliczeniowej do generowania adresów oraz wyprowadzeniu szyny adresowej i danych niezależnie, bez multipleksowania. Układ mnożący i dzielący liczby całkowite został częściowo zaimplementowany sprzętowo, co zmniejszyło czas wykonywania tych instrukcji. Oprócz obecnego już w poprzednich modelach bufora pobierania instrukcji z wyprzedzeniem został w i80286 dodany bufor zdekodowanych już instrukcji, co pozwalało zrównoleglić fazę dekodowania z fazą wykonywania. Poglądowy schemat wewnętrzny mikroprocesora zaprezentowano na Rysunku 4.
 
 Obsługa kodu przeznaczonego dla koprocesora została wzbogacona o możliwość generowania pułapki/wyjątku przy napotkaniu dedykowanego dla niego rozkazu. Jeśli znacznik EM był ustawiony, każdy taki rozkaz mógł zostać emulowany przez procedurę obsługi wyjątku w sposób całkowicie transparentny dla oprogramowania. W systemach bez zainstalowanego, fizycznego, koprocesora było to bardzo wygodne rozwiązanie.
 
@@ -457,48 +475,44 @@ Część segmentu TSS, jak adres LDT czy początkowy adres stosu, jest stała. P
 
 Pobieżny opis możliwości trybu chronionego procesora Intel 80286 daje pojęcie o elastyczności i poziomie zaawansowania jego MMU w porównaniu do poprzednio opisanych mikroprocesorów. To podejście zostanie jeszcze udoskonalone w następnym modelu Intel 80386. Najważniejsze informacje o omawianym mikroprocesorze zebrano w poniższej tabeli.
 
-|                                 |                                                                                |
-| ------------------------------- | ------------------------------------------------------------------------------ |
-| rok wprowadzenia do produkcji   | 1982                                                                           |
-| ilość tranzystorów              | 134000                                                                         |
-| częstotliwość taktowania        | 8 MHz (cykl zegarowy:  0.125 μs)                                               |
-| najkrótszy cykl instrukcji      | 0.25 μs (2 cykle zegarowe)                                                     |
-| indeks prędkości                | 4 MIPS                                                                         |
-| dodawanie 64-bitowe             | 81633 / s                                                                      |
-| efektywność architektury        | 609                                                                            |
-| typ architektury                | 16-bitowa, CISC                                                                |
-| kolejność bajtów                | little-endian                                                                  |
-| licznik programu                | 16-bit seg. kodu : 16-bit offset                                               |
-| stos                            | 16-bit seg. stosu : 16-bit offset                                              |
-| rejestry ogólnego przeznaczenia | 7 x 16-bit                                                                     |
-| rejestry segmentowe             | 4 x 16-bit                                                                     |
-| ALU ogólnego przeznaczenia      | 16-bit                                                                         |
-| ALU do obliczania adresu        | tak                                                                            |
-| adresowanie pamięci             | 16 MiB (24-bitowy adres), adresowanie segmentowane                             |
-| adresowanie portów              | 64 KiB portów wejścia/wyjścia                                                  |
-| przerwania                      | sprzęt. (nie)maskowalne, programowe maskowalne, priorytety, razem 256 rodzajów |
-dzielenie i mnożenie liczb całkowitych
-tak
-tryby pracy
-rzeczywisty/chroniony
-praca z koprocesorem
-tak
-systemy wieloprocesorowe
-tak
+|                                        |                                                                                |
+| -------------------------------------- | ------------------------------------------------------------------------------ |
+| rok wprowadzenia do produkcji          | 1982                                                                           |
+| ilość tranzystorów                     | 134000                                                                         |
+| częstotliwość taktowania               | 8 MHz (cykl zegarowy:  0.125 μs)                                               |
+| najkrótszy cykl instrukcji             | 0.25 μs (2 cykle zegarowe)                                                     |
+| indeks prędkości                       | 4 MIPS                                                                         |
+| dodawanie 64-bitowe                    | 81633 / s                                                                      |
+| efektywność architektury               | 609                                                                            |
+| typ architektury                       | 16-bitowa, CISC                                                                |
+| kolejność bajtów                       | little-endian                                                                  |
+| licznik programu                       | 16-bit seg. kodu : 16-bit offset                                               |
+| stos                                   | 16-bit seg. stosu : 16-bit offset                                              |
+| rejestry ogólnego przeznaczenia        | 7 x 16-bit                                                                     |
+| rejestry segmentowe                    | 4 x 16-bit                                                                     |
+| ALU ogólnego przeznaczenia             | 16-bit                                                                         |
+| ALU do obliczania adresu               | tak                                                                            |
+| adresowanie pamięci                    | 16 MiB (24-bitowy adres), adresowanie segmentowane                             |
+| adresowanie portów                     | 64 KiB portów wejścia/wyjścia                                                  |
+| przerwania                             | sprzęt. (nie)maskowalne, programowe maskowalne, priorytety, razem 256 rodzajów |
+| dzielenie i mnożenie liczb całkowitych | tak                                                                            |
+| tryby pracy                            | rzeczywisty/chroniony                                                          |
+| praca z koprocesorem                   | tak                                                                            |
+| systemy wieloprocesorowe               | tak                                                                            |
 
 Rejestr znaczników:
 
-* `O` - przepełnienie                     
+* `O` - przepełnienie
 * `D` - kierunek dla operacji łańcuchowych
-* `I` - maska przerwań                    
-* `T` - pułapka przy pracy krokowej       
-* `S` - znak                              
-* `Z` - zero                              
-* `A` - przeniesienie pomocnicze          
-* `P` - parzystość                        
-* `C` - przeniesienie                     
+* `I` - maska przerwań
+* `T` - pułapka przy pracy krokowej
+* `S` - znak
+* `Z` - zero
+* `A` - przeniesienie pomocnicze
+* `P` - parzystość
+* `C` - przeniesienie
 * `IOPL` - priorytet operacji we/wy
-* `NT` - zadanie zagnieżdżone 
+* `NT` - zadanie zagnieżdżone
 
 Rejestr słowa stanu (MSW):
 
@@ -521,6 +535,7 @@ Tryby adresowania:
 * względne
 
 Kod naszego standardowego benchmarku jest identyczny jak ten dla procesora Intel 8086, zmianie uległy natomiast czasy wykonania. Wskutek przebudowy i optymalizacji mikroarchitektury, szczególnie przez dodanie dedykowanej jednostki arytmetycznej do obliczania adresów i zastosowania pipeliningu, widać tutaj bardzo istotną poprawę.
+
 ```
 ; Intel 80286 (iAPX 286)
 ; dodawanie dwóch liczb 64-bitowych
@@ -539,6 +554,7 @@ NST:
   STOSW                   ; (3) zapisz blokowo AX do kolejnego słowa ARG1
   LOOP NST                ; (8) kontynuuj dla następnego słowa
 ```
+
 Sumując czasy wykonania, dostajemy: 10 + 4 x 23 - 4 (ostatni skok warunkowy nie zachodzi, więc zajmuje mniej cykli) = 98 cykli zegara. Czas wykonania wynosi więc 12.25  μs, co daje 81633 dodawań na sekundę. Liczba dodawań jest najwyższa z wszystkich opisanych mikroprocesorów, jednak wielkość współczynnika efektywności architektury może rozczarowywać. Jest to spowodowane tym, że tak prosta procedura, jak dodawanie wielobajtowe, nie wymaga rozbudowanych jednostek zarządzania pamięcią czy mechanizmu przełączania zadań. Do każdego pracy należy dobrać odpowiednie narzędzie i w tym przypadku widać to bardzo wyraźnie. Prowadzi to nieuchronnie do pytania, czy w każdym przypadku potrzebny jest wielozadaniowy system operacyjny oparty o wyrafinowany procesor ze sprzętową ochroną pamięci i wirtualizacją? Odpowiedź pozostawiam czytelnikowi, a kolejna omawiana konstrukcja zaprezentuje zupełnie odmienne podejście.
 
 ## WDC 65C816
@@ -559,9 +575,11 @@ W celu rozszerzenia przestrzeni adresowej do 16 MiB, czyli do 24-bitowego adresu
 Specjalne znaczenie ma obszar 0x000000 - 0x00FFFF, czyli tzw. bank 0. Stos oraz obszar tzw. adresowania bezpośredniego są ograniczone właśnie do tego banku. Tryb adresowania bezpośredniego stanowi uogólnienie i rozszerzenie koncepcji „strony zerowej” znanej z MOS 6502. W tym trybie wartość 16-bitowego rejestru D (ang. *direct* - bezpośredni) dodawana jest do 8-bitowego przesunięcia, wynik jest „obcinany” do 16-bitów i stanowi adres efektywny.
 
 Pomimo oczywistych wad wykorzystanie banków daje taką zaletę, że adres wewnątrz banku może być krótszy, więc jako operand zajmuje mniej miejsca w pamięci. Reasumując, następująca instrukcja:
+
 ```
-	 LDA $2000
+  LDA $2000
 ```
+
 w zależności od wartości bitu M załaduje do akumulatora bajt albo 16-bitowe słowo w formacie little-endian, spod adresu DBR|0x2000 do 16-bitowego akumulatora. W trybie 8-bitowym bardziej znaczący bajt akumulatora jest zerowany. Analogicznie funkcjonują rejestry indeksowe w zależności od wartości bitu X.
 
 W celu ułatwienia stosowania mikroprocesora w systemach wieloprocesorowych wyprowadzono na zewnątrz sygnały ułatwiające koordynację dostępu do zasobów, arbitrażu magistrali czy stosowania pamięci podręcznej (ang. *cache*). Dostępne są następujące sygnały modułu kontroli systemowej (ang. *system control*) służące do koordynacji pracy w większych systemach:
@@ -599,7 +617,6 @@ Projektanci, a w zasadzie główny projektant Bill Mensch, dołożyli starań, b
 | tryby pracy                            | emulacja 6502 / natywny 16-bit                   |
 | praca z koprocesorem                   | tak                                              |
 | systemy wieloprocesorowe               | tak                                              |
-|                                        |                                                  |
 
 Tryby adresowania:
 
@@ -639,6 +656,7 @@ Dostęp do dodatkowych funkcji i znaczników mikroprocesora realizuje 78 nowych 
 `JSL`, `RTL` - skocz do podprogramu i powróć z podprogramu wykorzystując „długi” adres, czyli odkładając na stos i odtwarzając z niego 16-bitowe przesunięcie wraz z 8-bitowym segmentem.
 
 Zostały dodane również instrukcje transferu obsługujące nowe rejestry oraz nowe znaczniki. Kod standardowego benchmarku dla WDC 65C816 przedstawiony jest poniżej.
+
 ```
 ; Western Digital Center WDC65816
 ; dodawanie dwóch liczb 64-bitowych
@@ -662,6 +680,7 @@ NST:
   CPX   #4         ; (2) porównaj indeks słowa z długością argumentu
   BNE   NST        ; (3) kontynuuj jeśli nie wszystkie słowa dodano
 ```
+
 Sumując czasy wykonania, dostajemy: 7 + 4 x 24 - 1(ostatni skok warunkowy nie zachodzi więc zajmuje mniej cykli) = 102 cykle zegara. Czas wykonania wynosi więc 25.5  μs, co daje 39215 dodawań na sekundę.
 
 W chwili pisania tego artykułu mikroprocesor ten jest wciąż produkowany przez firmę Western Design Center i dostępny bezpośrednio w sklepie firmowym oraz w wielu znanych sieciach dystrybucyjnych.
@@ -673,17 +692,18 @@ Główny nurt rozwoju procesorów 16-bitowych to konstrukcje Intela wykorzystywa
 ## Źródła i bibliografia
 
 W powstaniu niniejszego artykułu wykorzystane zostały następujące publikacje i źródła:
-- 16-bit Microprocessor Systems ..., Flik & Liebig, Springer-Verlag 1985.
-- The 8086 Family User’s Manual, Intel Corporation 1978, 1979.
-- Z8000 CPU User’s Reference Manual, 1980-1982 Zilog Inc.
-- The Z8000 Microprocessor. A Design Handbook. Fawcett. Zilog Inc. 1982.
-- Design Philosophy Behind Motorola 68000, Starnes, Byte Magazine 1983.
-- Motorola M68000 Family Programmer’s Reference Manual, Motorola Inc. 1992.
-- Intel Microprocessors, Architecture, Programming, Interfacing… (wyd. 8) , Brey, Pearson Education,1987-2009.
-- Intel iAPX 286 Programmer’s Reference Manual, Intel Inc. 1985.
-- Intel 80286 High Performance Microprocessor Datasheet, Intel Corp. 1988.
-- Programming the 65816, Including the 6502…, The Western Design Center Inc.  2007.
-- 65xx W65C816S 8/16-bit Microprocessor, The Western Design Center Inc. 1981-2018.
-- [Defuse](https://defuse.ca/online-x86-assembler.htm)
-- [Wikipedia](https://en.wikipedia.org/wiki/Transistor_count)
-- [Wikichip](wikichip.org)
+
+* 16-bit Microprocessor Systems ..., Flik & Liebig, Springer-Verlag 1985.
+* The 8086 Family User’s Manual, Intel Corporation 1978, 1979.
+* Z8000 CPU User’s Reference Manual, 1980-1982 Zilog Inc.
+* The Z8000 Microprocessor. A Design Handbook. Fawcett. Zilog Inc. 1982.
+* Design Philosophy Behind Motorola 68000, Starnes, Byte Magazine 1983.
+* Motorola M68000 Family Programmer’s Reference Manual, Motorola Inc. 1992.
+* Intel Microprocessors, Architecture, Programming, Interfacing… (wyd. 8) , Brey, Pearson Education,1987-2009.
+* Intel iAPX 286 Programmer’s Reference Manual, Intel Inc. 1985.
+* Intel 80286 High Performance Microprocessor Datasheet, Intel Corp. 1988.
+* Programming the 65816, Including the 6502…, The Western Design Center Inc.  2007.
+* 65xx W65C816S 8/16-bit Microprocessor, The Western Design Center Inc. 1981-2018.
+* [Defuse](https://defuse.ca/online-x86-assembler.htm)
+* [Wikipedia](https://en.wikipedia.org/wiki/Transistor_count)
+* [Wikichip](wikichip.org)

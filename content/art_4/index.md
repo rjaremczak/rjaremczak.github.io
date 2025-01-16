@@ -80,7 +80,7 @@ Jak widać, mikroprocesor Intel 80386 jest nie tylko złożony pod względem zes
 | przerwania programowe           | maskowalne, priorytetowe, razem 256 (kodów)             |
 | praca z koprocesorem            | tak                                                     |
 | systemy wieloprocesorowe        | tak                                                     |
-|                                 |                                                         |
+
 Znaczniki:
 
 * `O` – przepełnienie
