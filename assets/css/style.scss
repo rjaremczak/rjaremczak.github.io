@@ -2,29 +2,3 @@
 ---
 
 @import "{{ site.theme }}";
-
-h1 {
-    display: inline;
-}
-
-h2 {
-    display: inline;
-}
-
-body {
-    font-family: 'JetBrains Mono', monospace;
-}
-
-.wrapper {
-    width:1024px;
-}
-
-section {
-    width:720px;
-    float:right;
-    padding-bottom:50px;
-}
-
-header {
-    width: 230;
-}

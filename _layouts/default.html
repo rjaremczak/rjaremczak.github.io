@@ -15,12 +15,18 @@
   <body>
     <div class="wrapper">
       <header>
-
+        <a href="{% link index.md %}">
         {% if site.logo %}
           <img src="{{site.logo | relative_url}}" alt="Logo" />
         {% endif %}
+        </a>
+        
+        <p>&nbsp;</p>
+        <hr>
 
-        <p><br>{{ site.description | default: site.github.project_tagline }}</p>
+        {% include header.html %}
+
+        <hr>
 
       </header>
       <section>
@@ -29,7 +35,7 @@
 
       </section>
       <footer>
-        <p><small>at GitHub Pages (<a href="https://github.com/orderedlist">orderedlist)</a></small></p>
+        <p><small>at GitHub Pages (<a href="https://github.com/orderedlist">orderedlist</a>)</small></p>
       </footer>
     </div>
     <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>

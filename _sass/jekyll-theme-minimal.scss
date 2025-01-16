@@ -4,9 +4,9 @@
 body {
   background-color: #fff;
   padding:50px;
-  font: 14px/1.5 "JetBrains Mono", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 15px/1.6 "JetBrains Mono", monospace;
   color:#727272;
-  font-weight:400;
+  font-weight:normal;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -24,10 +24,12 @@ h1, h2, h3 {
 
 h1 {
   font-size:28px;
+  display: inline;
 }
 
 h2 {
   color:#393939;
+  display: inline;
 }
 
 h3, h4, h5, h6 {
@@ -56,7 +58,7 @@ a:hover small {
 }
 
 .wrapper {
-  width:860px;
+  width:1024px;
   margin:0 auto;
 }
 
@@ -116,13 +118,6 @@ kbd {
   line-height: 10px;
   padding: 3px 5px;
   vertical-align: middle;
-}
-
-header {
-  width:270px;
-  float:left;
-  position:fixed;
-  -webkit-font-smoothing:subpixel-antialiased;
 }
 
 ul.downloads {
@@ -185,8 +180,16 @@ strong {
   color:#222;
 }
 
+header {
+  width:150px;
+  float:left;
+  position:fixed;
+  -webkit-font-smoothing:subpixel-antialiased;
+  text-align: center;
+}
+
 section {
-  width:500px;
+  width:850px;
   float:right;
   padding-bottom:50px;
 }
